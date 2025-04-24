@@ -1,0 +1,19 @@
+{# ruta: mantenimiento/templates/mantenimiento/vehiculo_form.html #}
+{% extends "core/base.html" %}
+{% block title %}Registrar Vehículo{% endblock %}
+
+{% block content %}
+  <h1>Registrar Vehículo</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset class="mb-3">
+      <legend>Datos del Vehículo</legend>
+      {{ vehiculo_form.as_p }}
+    </fieldset>
+    <fieldset class="mb-3">
+      <legend>Próximo Mantenimiento</legend>
+      {{ proximomantenimiento_form.as_p }}
+    </fieldset>
+    <button type="submit" class="btn btn-primary">Guardar Vehículo</button>
+  </form>
+{% endblock %}

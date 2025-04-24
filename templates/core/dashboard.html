@@ -1,0 +1,23 @@
+{% extends "core/base.html" %}
+{% block content %}
+<h1>Panel de Control</h1>
+<div class="dashboard-cards">
+    <div class="card">
+        <h2>Gestión de Vehículos</h2>
+        <p>Registrar y listar vehículos del taller.</p>
+        <a href="{% url 'mantenimiento:vehiculo_list' %}" class="btn btn-primary">Ver Vehículos</a>
+        <a href="{% url 'mantenimiento:vehiculo_nuevo' %}" class="btn btn-outline-secondary">Nuevo Vehículo</a>
+    </div>
+    <div class="card">
+        <h2>Gestión de Mantenimientos</h2>
+        <p>Registrar y consultar mantenimientos realizados.</p>
+        <a href="{% url 'mantenimiento:mantenimiento_list' %}" class="btn btn-primary">Ver Mantenimientos</a>
+        <a href="{% url 'mantenimiento:mantenimiento_nuevo' %}" class="btn btn-outline-secondary">Nuevo Mantenimiento</a>
+    </div>
+    <div class="card">
+        <h2>Búsqueda de Repuestos</h2>
+        <p>Buscar repuestos disponibles en empresas registradas.</p>
+        <a href="{% url 'repuestos:buscar_repuestos' %}" class="btn btn-primary">Buscar Repuestos</a>
+    </div>
+</div>
+{% endblock %}

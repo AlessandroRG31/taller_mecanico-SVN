@@ -1,0 +1,101 @@
+/* core/static/core/css/home.css */
+
+/* 1. Contenedor principal */
+.home-hero {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #121214;   /* fondo sólido oscuro */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  border: none !important;      /* elimina cualquier borde residual */
+}
+/* 2. Cruce de líneas finas para darle textura */
+.home-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      135deg,
+      rgba(255,255,255,0.04) 0,
+      rgba(255,255,255,0.04) 2px,
+      transparent 2px,
+      transparent 14px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255,255,255,0.03) 0,
+      rgba(255,255,255,0.03) 1px,
+      transparent 1px,
+      transparent 12px
+    );
+  pointer-events: none;
+}
+
+/* 3. Círculos concéntricos más pronunciados */
+.home-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at center, rgba(255,255,255,0.06) 0%, transparent 55%),
+    radial-gradient(circle at center, rgba(255,255,255,0.03) 0%, transparent 80%);
+  pointer-events: none;
+}
+
+/* 4. Zona de contenido */
+.home-hero .content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 700px;
+  padding: 1rem;
+}
+
+/* 5. Tipografía y botones */
+.home-hero h1 {
+  color: #fff;
+  font-size: 3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.home-hero p.lead {
+  color: rgba(255,255,255,0.8);
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+.home-hero .btn-primary {
+  background-color: #1f6feb;
+  border: none;
+}
+.home-hero .btn-primary:hover {
+  background-color: #1662d1;
+}
+.home-hero .btn-outline-light {
+  color: #efefef;
+  border-color: #555;
+}
+.home-hero .btn-outline-light:hover {
+  background-color: rgba(255,255,255,0.05);
+}
+
+/* 6. Ajustes responsivos */
+@media (max-width: 576px) {
+  .home-hero h1 {
+    font-size: 2rem;
+  }
+  .home-hero p.lead {
+    font-size: 1rem;
+  }
+}
+
+/* ajusta tamaño y centrado del logo */
+.home-logo {
+  /* mínimo 150px, ideal 15vw, máximo 300px */
+  width: clamp(150px, 15vw, 300px);
+  height: auto;
+  display: block;
+  margin: 0 auto 1.5rem; /* espacio abajo */
+}

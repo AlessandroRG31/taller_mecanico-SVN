@@ -1,0 +1,27 @@
+# —— Entorno virtual de Python ———————————————————————
+venv/
+
+# —— Archivos compilados de Python ———————————————————— 
+__pycache__/
+*.py[cod]
+
+# —— Bases de datos locales (Django) —————————————— 
+db.sqlite3
+
+# —— Carpeta de subidas (media) ————————————————
+media/
+
+# —— Node.js y Tailwind (si aplica) ——————————————
+node_modules/
+public/
+dist/
+
+# —— Logs y temporales ——————————————————————————
+*.log
+*.tmp
+
+# —— Archivos de sistema / IDE ————————————————
+.DS_Store
+*.swp
+.vscode/
+.idea/

@@ -1,0 +1,105 @@
+/* Fuente y reset */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Montserrat', sans-serif;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+  position: relative;
+}
+
+/* Onda de fondo personalizada */
+/* core/static/core/css/login.css */
+
+.wave {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;     /* ancho total */
+    height: 100%;    /* alto total del viewport */
+    background: url("../img/mi-fondo.png") no-repeat center center;
+    background-size: cover;  /* cubre toda el área */
+    opacity: 0.25;
+    z-index: 0;
+  }
+  
+/* Tarjeta central */
+.card {
+  position: relative;
+  z-index: 1;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(20, 20, 20, 0.9);
+  padding: 40px;
+  width: 320px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  color: #fff;
+  text-align: center;
+}
+
+/* Título */
+.card h2 {
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* Mensaje de error */
+.error {
+  color: #f66;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+/* Campos */
+.field {
+  margin-bottom: 15px;
+  text-align: left;
+}
+.field label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #ddd;
+}
+.field input {
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 25px;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 14px;
+}
+.field input::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+/* Botón */
+.btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 25px;
+  background: #444;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 10px;
+}
+.btn:hover {
+  background: #555;
+}
+
+/* Enlaces */
+.link {
+  display: block;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #ccc;
+  text-decoration: underline;
+}
+.link:hover {
+  color: #fff;
+}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+{% endblock %}
+
+{% block title %}Bienvenido – Taller Mecánico{% endblock %}
+
+{% block content %}
+<div class="home-hero d-flex align-items-center justify-content-center">
+  <div class="text-center px-3">
+    <img src="{% static 'core/assets/logo.svg' %}" alt="Logo" class="home-logo mb-4">
+
+    <h1 class="display-4 text-white">Bienvenido al Taller Mecánico</h1>
+    <p class="lead text-secondary mb-4">
+      Gestiona vehículos, mantenimientos y repuestos desde un solo lugar.
+    </p>
+
+    {% if user.is_authenticated %}
+      <a href="{% url 'dashboard' %}" class="btn btn-lg btn-primary me-2">Ir al Panel</a>
+      <a href="{% url 'logout' %}"    class="btn btn-lg btn-outline-light">Cerrar sesión</a>
+    {% else %}
+      <a href="{% url 'login' %}"    class="btn btn-lg btn-primary me-2">Iniciar sesión</a>
+      <a href="{% url 'register' %}" class="btn btn-lg btn-outline-light">Crear cuenta</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+<img src="{% static 'core/assets/logo.svg' %}"
+     alt="Logo"
+     class="home-logo mb-4 mx-auto d-block">

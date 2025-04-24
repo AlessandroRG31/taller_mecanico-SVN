@@ -1,0 +1,41 @@
+{# core/templates/core/register.html #}
+{% extends "base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'core/css/login.css' %}">
+{% endblock %}
+
+{% block title %}Crear cuenta{% endblock %}
+{% block content %}
+<div class="wave"></div>
+<div class="card">
+  <h2>Crear cuenta</h2>
+  {% if error %}<p class="error">{{ error }}</p>{% endif %}
+  <form method="post">
+    {% csrf_token %}
+    <div class="field">
+      {{ form.username.label_tag }}<br>
+      {{ form.username }} 
+      <small>{{ form.username.help_text }}</small>
+      {{ form.username.errors }}
+    </div>
+    <div class="field">
+      {{ form.password1.label_tag }}<br>
+      {{ form.password1 }} 
+      <small>{{ form.password1.help_text }}</small>
+      {{ form.password1.errors }}
+    </div>
+    <div class="field">
+      {{ form.password2.label_tag }}<br>
+      {{ form.password2 }} 
+      <small>{{ form.password2.help_text }}</small>
+      {{ form.password2.errors }}
+    </div>
+    <button type="submit" class="btn">Registrarse</button>
+  </form>
+  <a href="{% url 'login' %}" class="link">¿Ya tienes cuenta? Entra</a>
+</div>
+{% endblock %}
