@@ -1,16 +1,23 @@
-# Ruta: mantenimiento/views.py
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Vehiculo, Mantenimiento
+from .models import Vehiculo, Mantenimiento, ProximoMantenimiento
 from .forms import VehiculoForm, ProximoMantenimientoForm, MantenimientoForm
 
 @login_required
 def listar_vehiculos(request):
     vehiculos = Vehiculo.objects.all().order_by('placa')
-    return render(request, 'mantenimiento/vehiculo_list.html', {
-        'vehiculos': vehiculos
+    return render(request, 'mantenimiento/vehiculo_list.html', {'vehiculos': vehiculos})
+
+@login_required
+def detalle_vehiculo(request, pk):
+    veh = get_object_or_404(Vehiculo, pk=pk)
+    # Tomamos el primer próximo mantenimiento, si lo hay
+    prox = veh.proximos.order_by('fecha_programada').first()
+    return render(request, 'mantenimiento/vehiculo_detail.html', {
+        'vehiculo': veh,
+        'proximo': prox,
     })
+
 
 @login_required
 def crear_vehiculo(request):
