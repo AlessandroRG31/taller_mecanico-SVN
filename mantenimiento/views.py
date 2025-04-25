@@ -1,3 +1,5 @@
+# mantenimiento/views.py
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
@@ -8,6 +10,39 @@ from .forms import (
     MantenimientoForm,
     RepuestoMantenimientoFormSet,
 )
+
+@login_required
+def listar_vehiculos(request):
+    vehiculos = Vehiculo.objects.all().order_by('placa')
+    return render(request, 'mantenimiento/vehiculo_list.html', {'vehiculos': vehiculos})
+
+@login_required
+def detalle_vehiculo(request, pk):
+    veh = get_object_or_404(Vehiculo, pk=pk)
+    prox = veh.proximos.order_by('fecha_programada').first()
+    return render(request, 'mantenimiento/vehiculo_detail.html', {
+        'vehiculo': veh,
+        'proximo': prox,
+    })
+
+@login_required
+def crear_vehiculo(request):
+    if request.method == 'POST':
+        veh_form = VehiculoForm(request.POST, request.FILES)
+        prox_form = ProximoMantenimientoForm(request.POST)
+        if veh_form.is_valid() and prox_form.is_valid():
+            veh = veh_form.save()
+            prox = prox_form.save(commit=False)
+            prox.vehiculo = veh
+            prox.save()
+            return redirect('mantenimiento:vehiculo_list')
+    else:
+        veh_form = VehiculoForm()
+        prox_form = ProximoMantenimientoForm()
+    return render(request, 'mantenimiento/vehiculo_form.html', {
+        'vehiculo_form': veh_form,
+        'proximomantenimiento_form': prox_form
+    })
 
 @login_required
 def listar_mantenimientos(request):
@@ -28,7 +63,6 @@ def crear_mantenimiento(request, vehiculo_id=None):
             if vehiculo:
                 mant.vehiculo = vehiculo
             mant.save()
-            # ahora instanciamos el formset sobre la instancia guardada
             formset = RepuestoMantenimientoFormSet(request.POST, instance=mant)
             if formset.is_valid():
                 formset.save()
@@ -36,7 +70,6 @@ def crear_mantenimiento(request, vehiculo_id=None):
         else:
             formset = RepuestoMantenimientoFormSet(request.POST)
     else:
-        # GET: formularios vacíos
         initial = {'vehiculo': vehiculo.id} if vehiculo else {}
         form = MantenimientoForm(initial=initial)
         formset = RepuestoMantenimientoFormSet()
