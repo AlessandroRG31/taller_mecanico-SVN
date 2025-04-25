@@ -1,20 +1,40 @@
 {% extends "core/base.html" %}
-{% block title %}Registrar Mantenimiento{% endblock %}
+
+{% block title %}
+  {% if vehiculo %}Registrar mantenimiento para {{ vehiculo.placa }}{% else %}Registrar mantenimiento{% endif %}
+{% endblock %}
 
 {% block content %}
-  <h1 class="mb-4">
-    Registrar Mantenimiento
-    {% if vehiculo %}para {{ vehiculo.placa }}{% endif %}
+  <h1>
+    {% if vehiculo %}Registrar mantenimiento para {{ vehiculo.placa }}{% else %}Registrar mantenimiento{% endif %}
   </h1>
 
   <form method="post">
     {% csrf_token %}
+    {{ form.as_p }}
 
-    <fieldset class="mb-4">
-      <legend>Datos del Mantenimiento</legend>
-      {{ form.as_p }}
-    </fieldset>
+    <h3>Repuestos utilizados</h3>
+    {{ formset.management_form }}
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Repuesto</th>
+          <th>Cantidad</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for fs in formset %}
+        <tr>
+          <td>{{ fs.repuesto }}</td>
+          <td>{{ fs.cantidad }}</td>
+          <td>{{ fs.DELETE }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 
-    <button type="submit" class="btn btn-primary">Guardar Mantenimiento</button>
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a href="{% url 'mantenimiento:mantenimiento_list' %}" class="btn btn-secondary">Cancelar</a>
   </form>
 {% endblock %}
