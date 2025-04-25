@@ -1,8 +1,8 @@
 {% extends "core/base.html" %}
-{% block title %}Confirmar eliminación{% endblock %}
+{% block title %}Eliminar Repuesto{% endblock %}
 {% block content %}
 <h1>Eliminar Repuesto</h1>
-<p>¿Seguro que deseas eliminar \"{{ object.nombre }}\"?</p>
+<p>¿Eliminar “{{ object.nombre }}”?</p>
 <form method="post">{% csrf_token %}
   <button type="submit" class="btn btn-danger">Eliminar</button>
   <a href="{% url 'repuestos:repuesto_list' %}" class="btn btn-secondary">Cancelar</a>

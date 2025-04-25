@@ -1,5 +1,5 @@
 {% extends "core/base.html" %}
-{% block title %}{{ view.object|yesno:"Editar,Nuevo" }} Repuesto{% endblock %}
+{% block title %}{{ view.object|default_if_none:"Nuevo" }} Repuesto{% endblock %}
 {% block content %}
 <h1>{{ view.object|yesno:"Editar,Nuevo" }} Repuesto</h1>
 <form method="post">{% csrf_token %}
