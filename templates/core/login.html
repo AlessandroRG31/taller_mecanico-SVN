@@ -1,14 +1,13 @@
 {# Ruta: templates/core/login.html #}
 {% extends "core/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
 
 {% block extra_head %}
 <link rel="stylesheet" href="{% static 'core/css/login.css' %}">
 {% endblock %}
 
 {% block title %}Iniciar sesión{% endblock %}
+
 {% block content %}
 <div class="wave"></div>
 <div class="card">
@@ -26,6 +25,7 @@
     </div>
     <button type="submit" class="btn">Entrar</button>
   </form>
-  <a href="{% url 'register' %}" class="link">¿No tienes cuenta? Regístrate</a>
+  <a href="{% url 'core:register' %}" class="link">¿No tienes cuenta? Regístrate</a>
 </div>
 {% endblock %}
+
