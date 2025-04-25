@@ -1,10 +1,12 @@
 from django.urls import path
-from .views import landing, login_view, register_view, dashboard, logout_view
+from . import views
+
+app_name = 'core'
 
 urlpatterns = [
-    path('',           landing,       name='landing'),   # GET  /
-    path('login/',     login_view,    name='login'),     # GET/POST /login/
-    path('register/',  register_view, name='register'),  # GET/POST /register/
-    path('dashboard/', dashboard,     name='dashboard'), # GET  /dashboard/
-    path('logout/',    logout_view,   name='logout'),    # GET  /logout/
+    path('',            views.landing,     name='landing'),
+    path('register/',   views.register_view, name='register'),
+    path('login/',      views.login_view,  name='login'),
+    path('dashboard/',  views.dashboard,   name='dashboard'),
+    path('logout/',     views.logout_view, name='logout'),
 ]
