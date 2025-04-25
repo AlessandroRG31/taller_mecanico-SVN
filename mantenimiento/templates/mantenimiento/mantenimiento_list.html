@@ -2,32 +2,47 @@
 {% block title %}Mantenimientos realizados{% endblock %}
 
 {% block content %}
-<h1>Mantenimientos realizados</h1>
-<p>
-  <a href="{% url 'mantenimiento:mantenimiento_list' %}" class="btn btn-primary">Ver Mantenimientos</a>
-  <a href="{% url 'mantenimiento:mantenimiento_nuevo' %}" class="btn btn-success">Nuevo Mantenimiento</a>
-</p>
+  <h1 class="mb-4">Mantenimientos realizados</h1>
 
-<table class="table table-striped bg-light text-dark">
-  <thead>
-    <tr>
-      <th>Vehículo</th>
-      <th>Tipo</th>
-      <th>Fecha</th>
-      <th>Costo</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for m in mantenimientos %}
-    <tr>
-      <td>{{ m.vehiculo.placa }} – {{ m.vehiculo.cliente }}</td>
-      <td>{{ m.get_tipo_mantenimiento_display }}</td>
-      <td>{{ m.fecha_mantenimiento }}</td>
-      <td>{{ m.costo }}</td>
-    </tr>
-    {% empty %}
-    <tr><td colspan="4">No hay mantenimientos registrados.</td></tr>
-    {% endfor %}
-  </tbody>
-</table>
+  <p>
+    <a href="{% url 'mantenimiento:mantenimiento_nuevo' %}" class="btn btn-success">Nuevo Mantenimiento</a>
+    <a href="{% url 'mantenimiento:vehiculo_list' %}" class="btn btn-primary">Ver Vehículos</a>
+  </p>
+
+  <table class="table table-striped bg-light text-dark">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Vehículo</th>
+        <th>Tipo</th>
+        <th>Costo</th>
+        <th>Repuestos</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for mant in mantenimientos %}
+        <tr>
+          <td>{{ mant.fecha_mantenimiento }}</td>
+          <td>{{ mant.vehiculo.placa }}</td>
+          <td>{{ mant.tipo_mantenimiento }}</td>
+          <td>{{ mant.costo }}</td>
+          <td>
+            {% for rep in mant.repuestos.all %}
+              {{ rep.nombre }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+              —
+            {% endfor %}
+          </td>
+          <td>
+            {# Aquí puedes añadir botones de editar/eliminar si los tienes definidos #}
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6" class="text-center">No hay registros de mantenimiento.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}

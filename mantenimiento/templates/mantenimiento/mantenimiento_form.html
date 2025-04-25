@@ -2,13 +2,19 @@
 {% block title %}Registrar Mantenimiento{% endblock %}
 
 {% block content %}
-<h1>Registrar Mantenimiento{% if vehiculo %} para {{ vehiculo.placa }}{% endif %}</h1>
-<form method="post">
-  {% csrf_token %}
-  <fieldset class="mb-3">
-    <legend>Datos del Mantenimiento</legend>
-    {{ form.as_p }}
-  </fieldset>
-  <button type="submit" class="btn btn-primary">Guardar Mantenimiento</button>
-</form>
+  <h1 class="mb-4">
+    Registrar Mantenimiento
+    {% if vehiculo %}para {{ vehiculo.placa }}{% endif %}
+  </h1>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <fieldset class="mb-4">
+      <legend>Datos del Mantenimiento</legend>
+      {{ form.as_p }}
+    </fieldset>
+
+    <button type="submit" class="btn btn-primary">Guardar Mantenimiento</button>
+  </form>
 {% endblock %}
