@@ -1,4 +1,4 @@
-# mantenimiento/forms.py
+# Ruta: mantenimiento/forms.py
 
 from django import forms
 from django.core.exceptions import ValidationError
@@ -13,6 +13,15 @@ class VehiculoForm(forms.ModelForm):
             'marca', 'modelo', 'anio', 'tipo', 'costo',
             'foto_frente', 'foto_trasera', 'foto_lateral1', 'foto_lateral2',
         ]
+        widgets = {
+            'anio': forms.NumberInput(attrs={'min': 1900, 'max': date.today().year}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Hacer obligatorios los campos de imagen
+        for campo in ['foto_placa', 'foto_frente', 'foto_trasera', 'foto_lateral1', 'foto_lateral2']:
+            self.fields[campo].required = True
 
     def clean_costo(self):
         costo = self.cleaned_data.get('costo')
