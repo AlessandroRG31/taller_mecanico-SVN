@@ -1,6 +1,7 @@
 # taller_mecanico/taller_mecanico/settings.py
 
 from pathlib import Path
+import environ
 
 # 1) Base dir
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -55,17 +56,25 @@ TEMPLATES = [
 ]
 
 # 7) Base de datos (PostgreSQL)
+import os
+from pathlib import Path
+import environ
+
+env = environ.Env(DEBUG=(bool, False))
+environ.Env.read_env()  # carga .env
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 DATABASES = {
     'default': {
         'ENGINE':   'django.db.backends.postgresql',
-        'NAME':     'tallerdb',
-        'USER':     'alessandro',
-        'PASSWORD': '1221',
-        'HOST':     'localhost',
-        'PORT':     '5432',
+        'NAME':     env('POSTGRES_DB'),
+        'USER':     env('POSTGRES_USER'),
+        'PASSWORD': env('POSTGRES_PASSWORD'),
+        'HOST':     env('POSTGRES_HOST'),
+        'PORT':     env('POSTGRES_PORT'),
     }
 }
-
 # 8) Validación de contraseñas
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
