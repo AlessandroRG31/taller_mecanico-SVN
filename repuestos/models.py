@@ -16,9 +16,13 @@ class Empresa(models.Model):
 class Repuesto(models.Model):
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, related_name="repuestos")
     nombre  = models.CharField("Nombre del repuesto", max_length=100)
-    precio  = models.DecimalField("Precio (S/.)", max_digits=10, decimal_places=2,
-                                  validators=[MinValueValidator(0.01)])
-    stock   = models.PositiveIntegerField("Stock disponible", validators=[MinValueValidator(0)])
+    precio  = models.DecimalField(
+        "Precio (S/.)", max_digits=10, decimal_places=2,
+        validators=[MinValueValidator(0.01)]
+    )
+    stock   = models.PositiveIntegerField(
+        "Stock disponible", validators=[MinValueValidator(0)]
+    )
 
     class Meta:
         unique_together = [["empresa", "nombre"]]
