@@ -1,55 +1,39 @@
 {% extends "core/base.html" %}
-{% block title %}Búsqueda de Repuestos{% endblock %}
+{% load static %}
+
+{% block title %}Buscar repuestos{% endblock %}
+
 {% block content %}
-<div class="container py-4">
-  <h1>Búsqueda de Repuestos</h1>
-  <form method="get" class="row g-2 mb-4">
-    <div class="col-md-5">
-      <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Nombre del repuesto…">
-    </div>
-    <div class="col-md-3">
-      <select name="orden" class="form-select">
-        <option value="precio"  {% if orden=='precio'  %}selected{% endif %}>Precio ascendente</option>
-        <option value="-precio" {% if orden=='-precio' %}selected{% endif %}>Precio descendente</option>
-      </select>
-    </div>
-    <div class="col-md-2">
-      <button class="btn btn-primary w-100">Buscar</button>
-    </div>
-  </form>
-  {% if page_obj %}
-    <ul class="list-group">
-      {% for rep in page_obj %}
-      <li class="list-group-item d-flex justify-content-between">
-        <div>
-          <strong>{{ rep.nombre }}</strong><br>
-          <small>{{ rep.empresa.nombre }}</small>
-        </div>
-        <span class="badge bg-success fs-6">S/{{ rep.precio }}</span>
-      </li>
-      {% empty %}
-      <li class="list-group-item">No se encontraron repuestos.</li>
-      {% endfor %}
-    </ul>
-    <nav class="mt-4"><ul class="pagination justify-content-center">
-      {% if page_obj.has_previous %}
-        <li class="page-item">
-          <a class="page-link" href="?q={{ q }}&orden={{ orden }}&page={{ page_obj.previous_page_number }}">Anterior</a>
-        </li>
-      {% else %}
-        <li class="page-item disabled"><span class="page-link">Anterior</span></li>
-      {% endif %}
-      <li class="page-item disabled">
-        <span class="page-link">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
-      </li>
-      {% if page_obj.has_next %}
-        <li class="page-item">
-          <a class="page-link" href="?q={{ q }}&orden={{ orden }}&page={{ page_obj.next_page_number }}">Siguiente</a>
-        </li>
-      {% else %}
-        <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
-      {% endif %}
-    </ul></nav>
-  {% endif %}
-</div>
+<h1>Buscar repuestos</h1>
+<form method="get" class="mb-4">
+  <input type="text" name="q" class="form-control mb-2" placeholder="Nombre del repuesto..." value="{{ request.GET.q }}">
+  <label for="orden">Ordenar por:</label>
+  <select name="orden" id="orden" class="form-select mb-2">
+    <option value="precio" {% if orden == 'precio' %}selected{% endif %}>Precio ascendente</option>
+    <option value="-precio" {% if orden == '-precio' %}selected{% endif %}>Precio descendente</option>
+    <option value="stock" {% if orden == 'stock' %}selected{% endif %}>Stock ascendente</option>
+    <option value="-stock" {% if orden == '-stock' %}selected{% endif %}>Stock descendente</option>
+    <option value="nombre" {% if orden == 'nombre' %}selected{% endif %}>Nombre A–Z</option>
+    <option value="-nombre" {% if orden == '-nombre' %}selected{% endif %}>Nombre Z–A</option>
+  </select>
+  <button type="submit" class="btn btn-primary">Buscar</button>
+</form>
+
+<table class="table table-striped">
+  <thead>
+    <tr><th>Empresa</th><th>Nombre</th><th>Precio</th><th>Stock</th></tr>
+  </thead>
+  <tbody>
+    {% for repuesto in repuestos %}
+    <tr>
+      <td>{{ repuesto.empresa.nombre }}</td>
+      <td>{{ repuesto.nombre }}</td>
+      <td>{{ repuesto.precio }}</td>
+      <td>{{ repuesto.stock }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">No se encontraron repuestos.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}
