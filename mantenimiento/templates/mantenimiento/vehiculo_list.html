@@ -1,32 +1,44 @@
-{# ruta: mantenimiento/templates/mantenimiento/vehiculo_list.html #}
 {% extends "core/base.html" %}
-{% block title %}Vehículos registrados{% endblock %}
+{% block title %}Lista de Vehículos{% endblock %}
 
 {% block content %}
-  <h1>Vehículos registrados</h1>
+  <h1 class="mb-4">Lista de Vehículos</h1>
 
+  <!-- Botón Nuevo Vehículo -->
   <p>
-    <a href="{% url 'mantenimiento:vehiculo_list' %}" class="btn btn-primary">Ver Vehículos</a>
-    <a href="{% url 'mantenimiento:vehiculo_nuevo' %}" class="btn btn-success">Nuevo Vehículo</a>
+    <a href="{% url 'mantenimiento:vehiculo_nuevo' %}"
+       class="btn btn-success">
+      + Nuevo Vehículo
+    </a>
   </p>
 
-  <table class="table table-striped bg-light text-dark">
+  <table class="table table-striped">
     <thead>
       <tr>
-        <th>Placa</th><th>Cliente</th><th>Marca</th><th>Modelo</th><th>Año</th>
+        <th>Placa</th>
+        <th>Marca y Modelo</th>
+        <th>Año</th>
+        <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
       {% for v in vehiculos %}
-        <tr>
-          <td>{{ v.placa }}</td>
-          <td>{{ v.cliente }}</td>
-          <td>{{ v.marca }}</td>
-          <td>{{ v.modelo }}</td>
-          <td>{{ v.anio }}</td>
-        </tr>
+      <tr>
+        <td>{{ v.placa }}</td>
+        <td>{{ v.marca }} {{ v.modelo }}</td>
+        <td>{{ v.anio }}</td>
+        <td>
+          <!-- Enlace para crear mantenimiento pasando el ID del vehículo -->
+          <a href="{% url 'mantenimiento:mantenimiento_nuevo_con_vehiculo' v.id %}"
+             class="btn btn-sm btn-primary">
+            Registrar Mantenimiento
+          </a>
+        </td>
+      </tr>
       {% empty %}
-        <tr><td colspan="5">No hay vehículos aún.</td></tr>
+      <tr>
+        <td colspan="4" class="text-center">No hay vehículos registrados.</td>
+      </tr>
       {% endfor %}
     </tbody>
   </table>
