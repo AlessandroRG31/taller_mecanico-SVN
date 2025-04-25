@@ -1,33 +1,33 @@
-{# ruta: mantenimiento/templates/mantenimiento/vehiculo_list.html #}
 {% extends "core/base.html" %}
-{% block title %}Vehículos registrados{% endblock %}
+{% block title %}Mantenimientos realizados{% endblock %}
 
 {% block content %}
-  <h1>Vehículos registrados</h1>
+<h1>Mantenimientos realizados</h1>
+<p>
+  <a href="{% url 'mantenimiento:mantenimiento_list' %}" class="btn btn-primary">Ver Mantenimientos</a>
+  <a href="{% url 'mantenimiento:mantenimiento_nuevo' %}" class="btn btn-success">Nuevo Mantenimiento</a>
+</p>
 
-  <p>
-    <a href="{% url 'mantenimiento:vehiculo_list' %}" class="btn btn-primary">Ver Vehículos</a>
-    <a href="{% url 'mantenimiento:vehiculo_nuevo' %}" class="btn btn-success">Nuevo Vehículo</a>
-  </p>
-
-  <table class="table table-striped bg-light text-dark">
-    <thead>
-      <tr>
-        <th>Placa</th><th>Cliente</th><th>Marca</th><th>Modelo</th><th>Año</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for v in vehiculos %}
-        <tr>
-          <td>{{ v.placa }}</td>
-          <td>{{ v.cliente }}</td>
-          <td>{{ v.marca }}</td>
-          <td>{{ v.modelo }}</td>
-          <td>{{ v.anio }}</td>
-        </tr>
-      {% empty %}
-        <tr><td colspan="5">No hay vehículos aún.</td></tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<table class="table table-striped bg-light text-dark">
+  <thead>
+    <tr>
+      <th>Vehículo</th>
+      <th>Tipo</th>
+      <th>Fecha</th>
+      <th>Costo</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for m in mantenimientos %}
+    <tr>
+      <td>{{ m.vehiculo.placa }} – {{ m.vehiculo.cliente }}</td>
+      <td>{{ m.get_tipo_mantenimiento_display }}</td>
+      <td>{{ m.fecha_mantenimiento }}</td>
+      <td>{{ m.costo }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">No hay mantenimientos registrados.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}
