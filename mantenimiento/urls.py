@@ -11,3 +11,5 @@ urlpatterns = [
     path('mantenimientos/nuevo/', views.crear_mantenimiento, name='mantenimiento_nuevo'),
     path('mantenimientos/nuevo/<int:vehiculo_id>/', views.crear_mantenimiento, name='mantenimiento_nuevo_con_vehiculo'),
 ]
+
+
