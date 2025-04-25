@@ -1,6 +1,7 @@
 {# Ruta: templates/core/home.html #}
 {% extends "core/base.html" %}
 {% load static %}
+
 {% block extra_head %}
   <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
 {% endblock %}
@@ -9,11 +10,11 @@
 
 {% block content %}
 <div class="home-hero d-flex align-items-center justify-content-center">
-  <div class="text-center px-3">
-    <img src="{% static 'core/assets/logo.svg' %}" alt="Logo" class="home-logo mb-4">
+  <div class="content">
+    <img src="{% static 'core/assets/logo.svg' %}" alt="Logo Taller" class="mb-4" style="max-width: 200px;">
 
     <h1 class="display-4 text-white">Bienvenido al Taller Mecánico</h1>
-    <p class="lead text-secondary mb-4">
+    <p class="lead text-white mb-4">
       Gestiona vehículos, mantenimientos y repuestos desde un solo lugar.
     </p>
 
@@ -27,7 +28,3 @@
   </div>
 </div>
 {% endblock %}
-
-<img src="{% static 'core/assets/logo.svg' %}"
-     alt="Logo"
-     class="home-logo mb-4 mx-auto d-block">
