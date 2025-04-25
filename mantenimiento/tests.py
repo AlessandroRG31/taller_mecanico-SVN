@@ -1,5 +1,3 @@
-# mantenimiento/tests.py
-
 from django.test import TestCase
 from django.urls import reverse
 from .models import Vehiculo, ProximoMantenimiento, Mantenimiento
@@ -15,6 +13,7 @@ class VehiculoTestCase(TestCase):
         self.assertEqual(str(self.vehiculo), 'ABC123 – Juan Pérez')
 
     def test_placa_unica(self):
+        # Crear otro con la misma placa debe fallar
         with self.assertRaises(Exception):
             Vehiculo.objects.create(cliente='Otro', placa='ABC123', costo=500)
 
@@ -39,4 +38,5 @@ class MantenimientoTestCase(TestCase):
             fecha_mantenimiento=datetime.date.today(),
             costo=200
         )
+        # Debe incluirse en el set de mantenimientos del vehículo
         self.assertIn(mant, self.vehiculo.mantenimientos.all())
