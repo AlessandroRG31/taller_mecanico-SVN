@@ -1,0 +1,25 @@
+{% extends "core/base.html" %}
+{% block title %}Empresas{% endblock %}
+{% block content %}
+<h1>Empresas</h1>
+<a href="{% url 'repuestos:empresa_nuevo' %}" class="btn btn-primary mb-3">Nueva Empresa</a>
+<table class="table table-striped">
+  <thead>
+    <tr><th>Nombre</th><th>Teléfono</th><th>Acciones</th></tr>
+  </thead>
+  <tbody>
+    {% for empresa in empresas %}
+    <tr>
+      <td>{{ empresa.nombre }}</td>
+      <td>{{ empresa.telefono }}</td>
+      <td>
+        <a href="{% url 'repuestos:empresa_editar' empresa.pk %}">Editar</a> |
+        <a href="{% url 'repuestos:empresa_eliminar' empresa.pk %}">Eliminar</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="3">No hay empresas registradas.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
