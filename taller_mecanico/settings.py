@@ -1,7 +1,11 @@
 # taller_mecanico/taller_mecanico/settings.py
 
 from pathlib import Path
+import os
 import environ
+
+env = environ.Env(DEBUG=(bool, False))
+environ.Env.read_env()  # lee .env
 
 # 1) Base dir
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -56,15 +60,6 @@ TEMPLATES = [
 ]
 
 # 7) Base de datos (PostgreSQL)
-import os
-from pathlib import Path
-import environ
-
-env = environ.Env(DEBUG=(bool, False))
-environ.Env.read_env()  # carga .env
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
 DATABASES = {
     'default': {
         'ENGINE':   'django.db.backends.postgresql',
