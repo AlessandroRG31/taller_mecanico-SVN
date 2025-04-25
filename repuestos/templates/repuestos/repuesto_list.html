@@ -1,4 +1,3 @@
-{# repuestos/templates/repuestos/repuesto_search.html #}
 {% extends "core/base.html" %}
 {% block title %}Búsqueda de Repuestos{% endblock %}
 
@@ -16,7 +15,7 @@
       </select>
     </div>
     <div class="col-md-2">
-      <button type="submit" class="btn btn-primary w-100">Buscar</button>
+      <button class="btn btn-primary w-100">Buscar</button>
     </div>
   </form>
 
@@ -39,7 +38,9 @@
       <ul class="pagination justify-content-center">
         {% if page_obj.has_previous %}
           <li class="page-item">
-            <a class="page-link" href="?q={{ q }}&orden={{ orden }}&page={{ page_obj.previous_page_number }}">Anterior</a>
+            <a class="page-link"
+               href="?q={{ q }}&orden={{ orden }}&page={{ page_obj.previous_page_number }}">
+            Anterior</a>
           </li>
         {% else %}
           <li class="page-item disabled"><span class="page-link">Anterior</span></li>
@@ -53,7 +54,9 @@
 
         {% if page_obj.has_next %}
           <li class="page-item">
-            <a class="page-link" href="?q={{ q }}&orden={{ orden }}&page={{ page_obj.next_page_number }}">Siguiente</a>
+            <a class="page-link"
+               href="?q={{ q }}&orden={{ orden }}&page={{ page_obj.next_page_number }}">
+            Siguiente</a>
           </li>
         {% else %}
           <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
