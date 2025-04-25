@@ -1,11 +1,10 @@
-{# repuestos/templates/repuestos/repuesto_list.html #}
+{# repuestos/templates/repuestos/repuesto_search.html #}
 {% extends "core/base.html" %}
-{% load static %}
 {% block title %}Búsqueda de Repuestos{% endblock %}
 
 {% block content %}
 <div class="container py-4">
-  <h1>Buscar Repuestos</h1>
+  <h1>Búsqueda de Repuestos</h1>
   <form method="get" class="row g-2 mb-4">
     <div class="col-md-5">
       <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Nombre del repuesto…">
@@ -17,7 +16,7 @@
       </select>
     </div>
     <div class="col-md-2">
-      <button class="btn btn-primary w-100">Buscar</button>
+      <button type="submit" class="btn btn-primary w-100">Buscar</button>
     </div>
   </form>
 
@@ -45,9 +44,13 @@
         {% else %}
           <li class="page-item disabled"><span class="page-link">Anterior</span></li>
         {% endif %}
-        <li class="page-item disabled"><span class="page-link">
-          Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
-        </span></li>
+
+        <li class="page-item disabled">
+          <span class="page-link">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+          </span>
+        </li>
+
         {% if page_obj.has_next %}
           <li class="page-item">
             <a class="page-link" href="?q={{ q }}&orden={{ orden }}&page={{ page_obj.next_page_number }}">Siguiente</a>
