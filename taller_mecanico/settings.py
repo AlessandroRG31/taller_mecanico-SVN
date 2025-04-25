@@ -1,20 +1,22 @@
-# taller_mecanico/taller_mecanico/settings.py
-import os
 from pathlib import Path
-import environ   # <- asegurarte de tener django-environ instalado
+import environ
 
-# Inicializa django-environ
-env = environ.Env(DEBUG=(bool, False))
-environ.Env.read_env()   # lee el .env en la raíz
-
+# 1) Base dir
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# 2) Seguridad
-SECRET_KEY = 'django-insecure-68%89)pg4w*effl+b*0gyif&gwu*vh7r2p50zfk-($)%99*g%b'
-DEBUG = True
-ALLOWED_HOSTS = []
+# 2) Cargar variables de entorno
+env = environ.Env(
+    DEBUG=(bool, False)
+)
+# lee el archivo .env en BASE_DIR
+environ.Env.read_env(env_file=BASE_DIR / '.env')
 
-# 3) Apps
+# 3) Seguridad
+SECRET_KEY = env('SECRET_KEY')
+DEBUG = env('DEBUG')
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+
+# 4) Apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -27,7 +29,7 @@ INSTALLED_APPS = [
     'core',
 ]
 
-# 4) Middleware
+# 5) Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -38,11 +40,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# 5) URLs & WSGI
+# 6) URLs & WSGI
 ROOT_URLCONF = 'taller_mecanico.urls'
 WSGI_APPLICATION = 'taller_mecanico.wsgi.application'
 
-# 6) Templates
+# 7) Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -58,19 +60,19 @@ TEMPLATES = [
     },
 ]
 
-# 7) Base de datos (PostgreSQL)
+# 8) Base de datos (PostgreSQL via django-environ)
 DATABASES = {
     'default': {
-        'ENGINE':   'django.db.backends.postgresql',
-        'NAME':     env('POSTGRES_DB'),
-        'USER':     env('POSTGRES_USER'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('POSTGRES_DB'),
+        'USER': env('POSTGRES_USER'),
         'PASSWORD': env('POSTGRES_PASSWORD'),
-        'HOST':     env('POSTGRES_HOST'),
-        'PORT':     env('POSTGRES_PORT'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
     }
 }
 
-# 8) Validación de contraseñas
+# 9) Validación de contraseñas
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -78,24 +80,23 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# 9) Internacionalización
+# 10) Internacionalización
 LANGUAGE_CODE = 'es-ES'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# 10) Archivos estáticos
+# 11) Archivos estáticos
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [ BASE_DIR / "static" ]  # para tu carpeta global /static/
-# (Los static de cada app se sirven gracias a APP_DIRS=True)
+STATICFILES_DIRS = [ BASE_DIR / 'static' ]
 
-# 11) Archivos multimedia
+# 12) Archivos multimedia
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# 12) Autenticación
-LOGIN_URL = '/login/'      # <-- IMPORTANTE: redirige a tu login_view
-LOGIN_REDIRECT_URL = '/'   # después de login exitoso, a home
+# 13) Autenticación
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
 
-# 13) PK por defecto
+# 14) PK por defecto
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
