@@ -1,6 +1,7 @@
 {# ruta: mantenimiento/templates/mantenimiento/vehiculo_list.html #}
 
 {% extends "core/base.html" %}
+
 {% block title %}Lista de Vehículos{% endblock %}
 
 {% block content %}
@@ -8,8 +9,7 @@
 
   <!-- Botón Nuevo Vehículo -->
   <p>
-    <a href="{% url 'mantenimiento:vehiculo_nuevo' %}"
-       class="btn btn-success">
+    <a href="{% url 'mantenimiento:vehiculo_nuevo' %}" class="btn btn-success">
       + Nuevo Vehículo
     </a>
   </p>
@@ -22,28 +22,29 @@
         <th>Marca</th>
         <th>Modelo</th>
         <th>Año</th>
+        <th>Próximo mantenimiento</th>
         <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
       {% for v in vehiculos %}
-      <tr>
-        <td>{{ v.placa }}</td>
-        <td>{{ v.cliente }}</td>
-        <td>{{ v.marca }}</td>
-        <td>{{ v.modelo }}</td>
-        <td>{{ v.anio }}</td>
-        <td>
-          <a href="{% url 'mantenimiento:mantenimiento_nuevo_con_vehiculo' v.id %}"
-             class="btn btn-sm btn-primary">
-            Registrar Mantenimiento
-          </a>
-        </td>
-      </tr>
+        <tr>
+          <td>{{ v.placa }}</td>
+          <td>{{ v.cliente }}</td>
+          <td>{{ v.marca }}</td>
+          <td>{{ v.modelo }}</td>
+          <td>{{ v.anio }}</td>
+          <td>{{ v.proximos.first.fecha_programada|default:"–" }}</td>
+          <td>
+            <a href="{% url 'mantenimiento:mantenimiento_nuevo_con_vehiculo' v.id %}" class="btn btn-sm btn-primary">
+              Registrar Mantenimiento
+            </a>
+          </td>
+        </tr>
       {% empty %}
-      <tr>
-        <td colspan="6" class="text-center">No hay vehículos registrados.</td>
-      </tr>
+        <tr>
+          <td colspan="7" class="text-center">No hay vehículos registrados.</td>
+        </tr>
       {% endfor %}
     </tbody>
   </table>
