@@ -1,3 +1,5 @@
+# mantenimiento/forms.py
+
 from django import forms
 from django.core.exceptions import ValidationError
 from datetime import date
@@ -12,13 +14,17 @@ class VehiculoForm(forms.ModelForm):
             'foto_frente', 'foto_trasera', 'foto_lateral1', 'foto_lateral2',
         ]
 
+    def clean_costo(self):
+        costo = self.cleaned_data.get('costo')
+        if costo is not None and costo <= 0:
+            raise ValidationError("El costo debe ser mayor que 0.")
+        return costo
+
 class ProximoMantenimientoForm(forms.ModelForm):
     class Meta:
         model = ProximoMantenimiento
         fields = ['fecha_programada']
-        widgets = {
-            'fecha_programada': forms.DateInput(attrs={'type': 'date'}),
-        }
+        widgets = {'fecha_programada': forms.DateInput(attrs={'type': 'date'})}
 
     def clean_fecha_programada(self):
         fecha = self.cleaned_data.get('fecha_programada')
@@ -34,3 +40,9 @@ class MantenimientoForm(forms.ModelForm):
             'fecha_mantenimiento': forms.DateInput(attrs={'type': 'date'}),
             'repuestos': forms.CheckboxSelectMultiple(),
         }
+
+    def clean_costo(self):
+        costo = self.cleaned_data.get('costo')
+        if costo <= 0:
+            raise ValidationError("El costo del mantenimiento debe ser mayor que 0.")
+        return costo

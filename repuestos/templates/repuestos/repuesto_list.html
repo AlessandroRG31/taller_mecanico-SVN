@@ -1,0 +1,62 @@
+{# repuestos/templates/repuestos/repuesto_list.html #}
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Búsqueda de Repuestos{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <h1>Buscar Repuestos</h1>
+  <form method="get" class="row g-2 mb-4">
+    <div class="col-md-5">
+      <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Nombre del repuesto…">
+    </div>
+    <div class="col-md-3">
+      <select name="orden" class="form-select">
+        <option value="precio" {% if orden=='precio' %}selected{% endif %}>Precio ascendente</option>
+        <option value="-precio" {% if orden=='-precio' %}selected{% endif %}>Precio descendente</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary w-100">Buscar</button>
+    </div>
+  </form>
+
+  {% if page_obj %}
+    <ul class="list-group">
+      {% for rep in page_obj %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <strong>{{ rep.nombre }}</strong><br>
+          <small>{{ rep.empresa.nombre }}</small>
+        </div>
+        <span class="badge bg-success fs-6">S/{{ rep.precio }}</span>
+      </li>
+      {% empty %}
+      <li class="list-group-item">No se encontraron repuestos.</li>
+      {% endfor %}
+    </ul>
+
+    <nav class="mt-4">
+      <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?q={{ q }}&orden={{ orden }}&page={{ page_obj.previous_page_number }}">Anterior</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">Anterior</span></li>
+        {% endif %}
+        <li class="page-item disabled"><span class="page-link">
+          Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+        </span></li>
+        {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?q={{ q }}&orden={{ orden }}&page={{ page_obj.next_page_number }}">Siguiente</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+</div>
+{% endblock %}
