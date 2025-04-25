@@ -1,3 +1,5 @@
+{# ruta: mantenimiento/templates/mantenimiento/vehiculo_list.html #}
+
 {% extends "core/base.html" %}
 {% block title %}Lista de Vehículos{% endblock %}
 
@@ -16,7 +18,9 @@
     <thead>
       <tr>
         <th>Placa</th>
-        <th>Marca y Modelo</th>
+        <th>Cliente</th>
+        <th>Marca</th>
+        <th>Modelo</th>
         <th>Año</th>
         <th>Acciones</th>
       </tr>
@@ -25,10 +29,11 @@
       {% for v in vehiculos %}
       <tr>
         <td>{{ v.placa }}</td>
-        <td>{{ v.marca }} {{ v.modelo }}</td>
+        <td>{{ v.cliente }}</td>
+        <td>{{ v.marca }}</td>
+        <td>{{ v.modelo }}</td>
         <td>{{ v.anio }}</td>
         <td>
-          <!-- Enlace para crear mantenimiento pasando el ID del vehículo -->
           <a href="{% url 'mantenimiento:mantenimiento_nuevo_con_vehiculo' v.id %}"
              class="btn btn-sm btn-primary">
             Registrar Mantenimiento
@@ -37,7 +42,7 @@
       </tr>
       {% empty %}
       <tr>
-        <td colspan="4" class="text-center">No hay vehículos registrados.</td>
+        <td colspan="6" class="text-center">No hay vehículos registrados.</td>
       </tr>
       {% endfor %}
     </tbody>
