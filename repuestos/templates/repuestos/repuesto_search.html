@@ -1,7 +1,5 @@
-{# repuestos/templates/repuestos/repuesto_search.html #}
 {% extends "core/base.html" %}
 {% block title %}Búsqueda de Repuestos{% endblock %}
-
 {% block content %}
 <div class="container py-4">
   <h1>Búsqueda de Repuestos</h1>
@@ -19,11 +17,10 @@
       <button class="btn btn-primary w-100">Buscar</button>
     </div>
   </form>
-
   {% if page_obj %}
     <ul class="list-group">
       {% for rep in page_obj %}
-      <li class="list-group-item d-flex justify-content-between align-items-center">
+      <li class="list-group-item d-flex justify-content-between">
         <div>
           <strong>{{ rep.nombre }}</strong><br>
           <small>{{ rep.empresa.nombre }}</small>
@@ -34,36 +31,25 @@
       <li class="list-group-item">No se encontraron repuestos.</li>
       {% endfor %}
     </ul>
-
-    <nav class="mt-4">
-      <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-          <li class="page-item">
-            <a class="page-link"
-               href="?q={{ q }}&orden={{ orden }}&page={{ page_obj.previous_page_number }}">
-              Anterior
-            </a>
-          </li>
-        {% else %}
-          <li class="page-item disabled"><span class="page-link">Anterior</span></li>
-        {% endif %}
-        <li class="page-item disabled">
-          <span class="page-link">
-            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
-          </span>
+    <nav class="mt-4"><ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?q={{ q }}&orden={{ orden }}&page={{ page_obj.previous_page_number }}">Anterior</a>
         </li>
-        {% if page_obj.has_next %}
-          <li class="page-item">
-            <a class="page-link"
-               href="?q={{ q }}&orden={{ orden }}&page={{ page_obj.next_page_number }}">
-              Siguiente
-            </a>
-          </li>
-        {% else %}
-          <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
-        {% endif %}
-      </ul>
-    </nav>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">Anterior</span></li>
+      {% endif %}
+      <li class="page-item disabled">
+        <span class="page-link">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+      </li>
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?q={{ q }}&orden={{ orden }}&page={{ page_obj.next_page_number }}">Siguiente</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
+      {% endif %}
+    </ul></nav>
   {% endif %}
 </div>
 {% endblock %}
