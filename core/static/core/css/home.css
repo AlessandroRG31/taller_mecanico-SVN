@@ -1,16 +1,26 @@
 /* core/static/core/css/home.css */
 
+/* 0. Reset de márgenes/paddings globales y fondo */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #121214 !important; /* mismo color de home-hero */
+}
+
 /* 1. Contenedor principal */
 .home-hero {
+  position: relative; /* para que los ::before/::after se posicionen dentro */
   width: 100%;
-  min-height: 100vh;
-  background-color: #121214;   /* fondo sólido oscuro */
+  height: 100vh;      /* altura exacta de la ventana */
+  background-color: #121214;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
-  border: none !important;      /* elimina cualquier borde residual */
+  padding: 0;         /* sin padding para que cubra TODO */
+  border: none !important;
+  overflow: hidden;
 }
+
 /* 2. Cruce de líneas finas para darle textura */
 .home-hero::before {
   content: "";
@@ -51,7 +61,7 @@
   z-index: 1;
   text-align: center;
   max-width: 700px;
-  padding: 1rem;
+  padding: 2rem;       /* espacio interno para el texto */
 }
 
 /* 5. Tipografía y botones */
@@ -64,8 +74,10 @@
 .home-hero p.lead {
   color: rgba(255,255,255,0.8);
   font-size: 1.25rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
+
+/* Botones */
 .home-hero .btn-primary {
   background-color: #1f6feb;
   border: none;
@@ -75,13 +87,20 @@
 }
 .home-hero .btn-outline-light {
   color: #efefef;
-  border-color: #555;
+  border: 1px solid #efefef;
 }
 .home-hero .btn-outline-light:hover {
-  background-color: rgba(255,255,255,0.05);
+  background-color: rgba(255,255,255,0.1);
 }
 
-/* 6. Ajustes responsivos */
+/* Logo centrado */
+.home-hero .home-logo {
+  width: clamp(150px, 15vw, 300px);
+  height: auto;
+  margin-bottom: 2rem;
+}
+
+/* Responsive */
 @media (max-width: 576px) {
   .home-hero h1 {
     font-size: 2rem;
@@ -89,13 +108,4 @@
   .home-hero p.lead {
     font-size: 1rem;
   }
-}
-
-/* ajusta tamaño y centrado del logo */
-.home-logo {
-  /* mínimo 150px, ideal 15vw, máximo 300px */
-  width: clamp(150px, 15vw, 300px);
-  height: auto;
-  display: block;
-  margin: 0 auto 1.5rem; /* espacio abajo */
 }
