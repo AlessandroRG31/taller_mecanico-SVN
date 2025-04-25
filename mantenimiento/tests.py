@@ -18,7 +18,7 @@ class VehiculoTestCase(TestCase):
         with self.assertRaises(Exception):
             Vehiculo.objects.create(cliente='Otro', placa='ABC123', costo=500)
 
-class MantenimientoTestCase(TestCase):
+class ProximoMantenimientoTestCase(TestCase):
     def setUp(self):
         self.vehiculo = Vehiculo.objects.create(
             cliente='Test', placa='XYZ789', costo=500
@@ -29,7 +29,14 @@ class MantenimientoTestCase(TestCase):
         )
 
     def test_proximo_str(self):
-        self.assertIn(self.vehiculo.placa, str(self.prox))
+        texto = str(self.prox)
+        self.assertIn(self.vehiculo.placa, texto)
+
+class MantenimientoTestCase(TestCase):
+    def setUp(self):
+        self.vehiculo = Vehiculo.objects.create(
+            cliente='Test2', placa='LMN456', costo=800
+        )
 
     def test_mantenimiento_create(self):
         mant = Mantenimiento.objects.create(
