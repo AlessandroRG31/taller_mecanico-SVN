@@ -1,13 +1,12 @@
 # taller_mecanico/taller_mecanico/settings.py
-
-from pathlib import Path
 import os
-import environ
+from pathlib import Path
+import environ   # <- asegurarte de tener django-environ instalado
 
+# Inicializa django-environ
 env = environ.Env(DEBUG=(bool, False))
-environ.Env.read_env()  # lee .env
+environ.Env.read_env()   # lee el .env en la raíz
 
-# 1) Base dir
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # 2) Seguridad
@@ -70,6 +69,7 @@ DATABASES = {
         'PORT':     env('POSTGRES_PORT'),
     }
 }
+
 # 8) Validación de contraseñas
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
