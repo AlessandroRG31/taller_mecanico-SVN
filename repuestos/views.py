@@ -22,8 +22,8 @@ def buscar_repuestos(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'repuestos/repuesto_list.html', {
-        'page_obj': page_obj,
-        'q': q,
-        'orden': orden,
-    })
+    return render(request, 'repuestos/repuesto_search.html', {
+    'resultados': qs,
+    'query': query,
+})
+
