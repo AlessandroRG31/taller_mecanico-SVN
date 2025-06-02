@@ -1,25 +1,21 @@
+{# templates/repuestos/empresa_form.html #}
 {% extends "core/base.html" %}
-{% block title %}Repuestos{% endblock %}
+
+{% block title %}Crear / Editar Empresa{% endblock %}
+
 {% block content %}
-<h1>Repuestos</h1>
-<a href="{% url 'repuestos:repuesto_nuevo' %}" class="btn btn-primary mb-3">Nuevo Repuesto</a>
-<table class="table table-striped">
-  <thead><tr><th>Empresa</th><th>Nombre</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr></thead>
-  <tbody>
-    {% for repuesto in repuestos %}
-    <tr>
-      <td>{{ repuesto.empresa.nombre }}</td>
-      <td>{{ repuesto.nombre }}</td>
-      <td>{{ repuesto.precio }}</td>
-      <td>{{ repuesto.stock }}</td>
-      <td>
-        <a href="{% url 'repuestos:repuesto_editar' repuesto.pk %}">Editar</a> |
-        <a href="{% url 'repuestos:repuesto_eliminar' repuesto.pk %}">Eliminar</a>
-      </td>
-    </tr>
-    {% empty %}
-    <tr><td colspan="5">No hay repuestos registrados.</td></tr>
-    {% endfor %}
-  </tbody>
-</table>
+  {% if view.object %}
+    <h1>Editar Empresa</h1>
+  {% else %}
+    <h1>Crear nueva Empresa</h1>
+  {% endif %}
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">
+      {% if view.object %}Guardar cambios{% else %}Crear empresa{% endif %}
+    </button>
+    <a href="{% url 'repuestos:empresa_list' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
 {% endblock %}
