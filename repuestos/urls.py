@@ -7,11 +7,11 @@ urlpatterns = [
     # Búsqueda pública
     path('', views.buscar_repuestos, name='buscar_repuestos'),
 
-    # CRUD Empresa
+    # CRUD Empresa (ajustado con rutas consistentes)
     path('empresas/', views.EmpresaListView.as_view(), name='empresa_list'),
-    path('empresa/nuevo/', views.EmpresaCreateView.as_view(), name='empresa_nuevo'),
-    path('empresa/<int:pk>/editar/', views.EmpresaUpdateView.as_view(), name='empresa_editar'),
-    path('empresa/<int:pk>/eliminar/', views.EmpresaDeleteView.as_view(), name='empresa_eliminar'),
+    path('empresas/nueva/', views.EmpresaCreateView.as_view(), name='empresa_nuevo'),
+    path('empresas/<int:pk>/editar/', views.EmpresaUpdateView.as_view(), name='empresa_editar'),
+    path('empresas/<int:pk>/eliminar/', views.EmpresaDeleteView.as_view(), name='empresa_eliminar'),
 
     # CRUD Repuesto
     path('repuestos/', views.RepuestoListView.as_view(), name='repuesto_list'),
