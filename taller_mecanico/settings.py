@@ -60,15 +60,18 @@ TEMPLATES = [
     },
 ]
 
-# 8) Base de datos (PostgreSQL via django-environ)
+# 8) BASE DE DATOS: MariaDB/MySQL
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('POSTGRES_DB'),
-        'USER': env('POSTGRES_USER'),
-        'PASSWORD': env('POSTGRES_PASSWORD'),
-        'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'taller_meco_dj',
+        'USER': 'djuser',
+        'PASSWORD': '1221',
+        'HOST': 'localhost',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
 
