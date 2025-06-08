@@ -1,6 +1,8 @@
+from .models import Vehiculo
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory
+from dal import autocomplete
 from datetime import date
 
 from .models import Vehiculo, ProximoMantenimiento, Mantenimiento, RepuestoMantenimiento
@@ -9,10 +11,24 @@ class VehiculoForm(forms.ModelForm):
     class Meta:
         model = Vehiculo
         fields = [
-            'cliente', 'placa', 'foto_placa',
-            'marca', 'modelo', 'anio', 'tipo', 'costo',
-            'foto_frente', 'foto_trasera', 'foto_lateral1', 'foto_lateral2',
+            'cliente',
+            'placa',
+            'marca',
+            'modelo',
+            'anio',
+            'tipo',
+            'costo',
+            'foto_placa',
+            'foto_frente',
+            'foto_trasera',
+            'foto_lateral1',
+            'foto_lateral2',
         ]
+        widgets = {
+            'cliente': autocomplete.ModelSelect2(
+                url='clientes:cliente-autocomplete'
+            ),
+        }
 
     def clean_costo(self):
         costo = self.cleaned_data.get('costo')
