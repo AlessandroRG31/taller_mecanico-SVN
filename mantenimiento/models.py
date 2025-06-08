@@ -35,7 +35,11 @@ class Vehiculo(models.Model):
         "Foto lateral 2", upload_to='vehiculos/lateral2/',
         blank=True, null=True
     )
-    fecha_registro = models.DateField(auto_now_add=True)
+    fecha_registro = models.DateField(
+        auto_now_add=True,
+        blank=True,
+        null=True
+    )
     fecha_proxima_revision = models.DateField(blank=True, null=True)
 
     def calcular_fecha_proxima(self, dias_intervalo=180):
