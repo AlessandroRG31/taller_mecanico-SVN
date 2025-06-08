@@ -8,7 +8,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env(
     DEBUG=(bool, False)
 )
-# lee el archivo .env en BASE_DIR
 environ.Env.read_env(env_file=BASE_DIR / '.env')
 
 # 3) Seguridad
@@ -66,15 +65,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'taller_mecanico.wsgi.application'
 
-# 6) Base de datos
+# 6) Base de datos – usando MariaDB/MySQL
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': env('DB_NAME'),
         'USER': env('DB_USER'),
         'PASSWORD': env('DB_PASSWORD'),
         'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT', default='5432'),
+        'PORT': env('DB_PORT', default='3306'),
     }
 }
 
