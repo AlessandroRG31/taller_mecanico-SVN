@@ -24,7 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # django-autocomplete-light
+    # Autocomplete
     'dal',
     'dal_select2',
 
@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'mantenimiento',
     'repuestos',
     'core',
+    'clientes',  # ← agregada
 ]
 
 # 5) Middleware
@@ -65,7 +66,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'taller_mecanico.wsgi.application'
 
-# 6) Base de datos – usando MariaDB/MySQL
+# 6) Base de datos – MariaDB
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
