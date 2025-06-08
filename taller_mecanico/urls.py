@@ -8,11 +8,8 @@ urlpatterns = [
     path('', include(('core.urls', 'core'), namespace='core')),
     path('mantenimientos/', include(('mantenimiento.urls', 'mantenimiento'), namespace='mantenimiento')),
     path('repuestos/', include(('repuestos.urls', 'repuestos'), namespace='repuestos')),
-    # Se remueven rutas genéricas de DAL para evitar ModuleNotFoundError:
-    # path('autocomplete/', include('dal.urls')),
-    # path('autocomplete/', include('dal_select2.urls')),
+    path('clientes/', include(('clientes.urls', 'clientes'), namespace='clientes')),
 ]
 
-# Servir archivos multimedia en desarrollo
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
