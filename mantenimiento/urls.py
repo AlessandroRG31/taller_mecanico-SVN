@@ -1,20 +1,29 @@
 from django.urls import path
-from . import views
+from .views import (
+    VehiculoListView,
+    VehiculoDetailView,
+    VehiculoCreateView,
+    VehiculoUpdateView,
+    VehiculoDeleteView,
+    MantenimientoListView,
+    MantenimientoCreateView,
+    MantenimientoUpdateView,
+    MantenimientoDeleteView,
+)
 
 app_name = 'mantenimiento'
 
 urlpatterns = [
-    # Listado de vehículos
-    path('vehiculos/', views.listar_vehiculos, name='vehiculo_list'),
-    # Detalle de vehículo
-    path('vehiculos/<int:pk>/', views.detalle_vehiculo, name='vehiculo_detail'),
-    # Nuevo vehículo
-    path('vehiculos/nuevo/', views.crear_vehiculo, name='vehiculo_nuevo'),
+    # Vehículos
+    path('vehiculos/', VehiculoListView.as_view(), name='vehiculo-list'),
+    path('vehiculos/nuevo/', VehiculoCreateView.as_view(), name='vehiculo-create'),
+    path('vehiculos/<int:pk>/', VehiculoDetailView.as_view(), name='vehiculo-detail'),
+    path('vehiculos/<int:pk>/editar/', VehiculoUpdateView.as_view(), name='vehiculo-update'),
+    path('vehiculos/<int:pk>/eliminar/', VehiculoDeleteView.as_view(), name='vehiculo-delete'),
 
-    # Listado de mantenimientos
-    path('', views.listar_mantenimientos, name='mantenimiento_list'),
-    # Crear mantenimiento general
-    path('nuevo/', views.crear_mantenimiento, name='mantenimiento_nuevo'),
-    # Crear mantenimiento desde vehículo
-    path('nuevo/<int:vehiculo_id>/', views.crear_mantenimiento, name='mantenimiento_nuevo_con_vehiculo'),
+    # Mantenimientos
+    path('mantenimientos/', MantenimientoListView.as_view(), name='mantenimiento-list'),
+    path('mantenimientos/nuevo/', MantenimientoCreateView.as_view(), name='mantenimiento-create'),
+    path('mantenimientos/<int:pk>/editar/', MantenimientoUpdateView.as_view(), name='mantenimiento-update'),
+    path('mantenimientos/<int:pk>/eliminar/', MantenimientoDeleteView.as_view(), name='mantenimiento-delete'),
 ]
