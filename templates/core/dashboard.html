@@ -20,6 +20,14 @@
   </div>
 
   <div class="card col-md-4 p-3">
+    <h2>Búsqueda de Repuestos</h2>
+    <p>Buscar repuestos disponibles en empresas registradas.</p>
+    <a href="{% url 'repuestos:buscar_repuestos' %}" class="btn btn-info">Buscar repuesto</a>
+    <a href="{% url 'repuestos:empresa_list' %}" class="btn btn-secondary me-2">Empresas</a>
+    <a href="{% url 'repuestos:repuesto_list' %}" class="btn btn-secondary me-2">Repuestos</a>
+  </div>
+
+  <div class="card col-md-4 p-3">
     <h2>Gestión de Clientes</h2>
     <p>Registrar y listar clientes.</p>
     <a href="{% url 'clientes:list' %}" class="btn btn-primary me-2">Ver Clientes</a>
