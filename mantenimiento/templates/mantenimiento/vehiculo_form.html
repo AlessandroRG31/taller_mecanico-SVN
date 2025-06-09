@@ -1,32 +1,21 @@
-{% extends "core/base.html" %}
+{% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Registrar o Editar Vehículo{% endblock %}
-
 {% block content %}
-  <h1 class="mb-4">
-    {% if vehiculo_form.instance.pk %}
+  <h2>
+    {% if view.object.pk %}
       Editar Vehículo
     {% else %}
-      Registrar Vehículo
+      Nuevo Vehículo
     {% endif %}
-  </h1>
+  </h2>
 
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ vehiculo_form.non_field_errors }}
-    {{ proximomantenimiento_form.non_field_errors }}
-
-    <fieldset class="mb-4">
-      <legend>Datos del Vehículo</legend>
-      {{ vehiculo_form.as_p }}
-    </fieldset>
-
-    <fieldset class="mb-4">
-      <legend>Próximo Mantenimiento</legend>
-      {{ proximomantenimiento_form.as_p }}
-    </fieldset>
-
-    <button type="submit" class="btn btn-primary">Guardar</button>
+    {{ form.non_field_errors }}
+    <table>
+      {{ form.as_table }}
+    </table>
+    <button type="submit">Guardar</button>
   </form>
 {% endblock %}
