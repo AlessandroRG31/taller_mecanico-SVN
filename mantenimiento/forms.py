@@ -1,4 +1,3 @@
-from .models import Vehiculo
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory
@@ -40,7 +39,9 @@ class ProximoMantenimientoForm(forms.ModelForm):
     class Meta:
         model = ProximoMantenimiento
         fields = ['fecha_programada']
-        widgets = {'fecha_programada': forms.DateInput(attrs={'type': 'date'})}
+        widgets = {
+            'fecha_programada': forms.DateInput(attrs={'type': 'date'})
+        }
 
     def clean_fecha_programada(self):
         fecha = self.cleaned_data.get('fecha_programada')
@@ -51,8 +52,12 @@ class ProximoMantenimientoForm(forms.ModelForm):
 class MantenimientoForm(forms.ModelForm):
     class Meta:
         model = Mantenimiento
-        # Eliminamos 'repuestos' de aquí; lo manejamos con formset
-        fields = ['vehiculo', 'tipo_mantenimiento', 'fecha_mantenimiento', 'costo']
+        fields = [
+            'vehiculo',
+            'tipo_mantenimiento',
+            'fecha_mantenimiento',
+            'costo'
+        ]
         widgets = {
             'fecha_mantenimiento': forms.DateInput(attrs={'type': 'date'}),
         }
@@ -63,14 +68,11 @@ class MantenimientoForm(forms.ModelForm):
             raise ValidationError("El costo del mantenimiento debe ser mayor que 0.")
         return costo
 
-# Formset para cantidades de repuestos en cada mantenimiento
 RepuestoMantenimientoFormSet = inlineformset_factory(
     Mantenimiento,
     RepuestoMantenimiento,
     fields=('repuesto', 'cantidad'),
     extra=1,
     can_delete=True,
-    widgets={
-        'cantidad': forms.NumberInput(attrs={'min': 1}),
-    }
+    widgets={'cantidad': forms.NumberInput(attrs={'min': 1})},
 )
