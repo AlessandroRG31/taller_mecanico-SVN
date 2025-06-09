@@ -1,81 +1,95 @@
-# mantenimiento/views.py
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.shortcuts import redirect
+from .models import Vehiculo, Mantenimiento
+from .forms import VehiculoForm, MantenimientoForm, RepuestoMantenimientoFormSet
 
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+# —— Vistas de Vehículo ——
+class VehiculoListView(ListView):
+    model = Vehiculo
+    template_name = 'mantenimiento/vehiculo_list.html'
+    context_object_name = 'vehiculos'
+    paginate_by = 10
 
-from .models import Vehiculo, Mantenimiento, ProximoMantenimiento
-from .forms import (
-    VehiculoForm,
-    ProximoMantenimientoForm,
-    MantenimientoForm,
-    RepuestoMantenimientoFormSet,
-)
+class VehiculoDetailView(DetailView):
+    model = Vehiculo
+    template_name = 'mantenimiento/vehiculo_detail.html'
+    context_object_name = 'vehiculo'
 
-@login_required
-def listar_vehiculos(request):
-    vehiculos = Vehiculo.objects.all().order_by('placa')
-    return render(request, 'mantenimiento/vehiculo_list.html', {'vehiculos': vehiculos})
+class VehiculoCreateView(CreateView):
+    model = Vehiculo
+    form_class = VehiculoForm
+    template_name = 'mantenimiento/vehiculo_form.html'
+    success_url = reverse_lazy('mantenimiento:vehiculo-list')
 
-@login_required
-def detalle_vehiculo(request, pk):
-    veh = get_object_or_404(Vehiculo, pk=pk)
-    prox = veh.proximos.order_by('fecha_programada').first()
-    return render(request, 'mantenimiento/vehiculo_detail.html', {
-        'vehiculo': veh,
-        'proximo': prox,
-    })
+class VehiculoUpdateView(UpdateView):
+    model = Vehiculo
+    form_class = VehiculoForm
+    template_name = 'mantenimiento/vehiculo_form.html'
+    success_url = reverse_lazy('mantenimiento:vehiculo-list')
 
-@login_required
-def crear_vehiculo(request):
-    if request.method == 'POST':
-        veh_form = VehiculoForm(request.POST, request.FILES)
-        prox_form = ProximoMantenimientoForm(request.POST)
-        if veh_form.is_valid() and prox_form.is_valid():
-            veh = veh_form.save()
-            prox = prox_form.save(commit=False)
-            prox.vehiculo = veh
-            prox.save()
-            return redirect('mantenimiento:vehiculo_list')
-    else:
-        veh_form = VehiculoForm()
-        prox_form = ProximoMantenimientoForm()
-    return render(request, 'mantenimiento/vehiculo_form.html', {
-        'vehiculo_form': veh_form,
-        'proximomantenimiento_form': prox_form
-    })
+class VehiculoDeleteView(DeleteView):
+    model = Vehiculo
+    template_name = 'mantenimiento/vehiculo_confirm_delete.html'
+    success_url = reverse_lazy('mantenimiento:vehiculo-list')
 
-@login_required
-def listar_mantenimientos(request):
-    mantenimientos = Mantenimiento.objects.select_related('vehiculo') \
-        .all().order_by('-fecha_mantenimiento')
-    return render(request, 'mantenimiento/mantenimiento_list.html', {
-        'mantenimientos': mantenimientos
-    })
 
-@login_required
-def crear_mantenimiento(request, vehiculo_id=None):
-    vehiculo = get_object_or_404(Vehiculo, id=vehiculo_id) if vehiculo_id else None
+# —— Vistas de Mantenimiento con formset de repuestos ——
+class MantenimientoListView(ListView):
+    model = Mantenimiento
+    template_name = 'mantenimiento/mantenimiento_list.html'
+    context_object_name = 'mantenimientos'
+    paginate_by = 10
 
-    if request.method == 'POST':
-        form = MantenimientoForm(request.POST)
-        if form.is_valid():
-            mant = form.save(commit=False)
-            if vehiculo:
-                mant.vehiculo = vehiculo
-            mant.save()
-            formset = RepuestoMantenimientoFormSet(request.POST, instance=mant)
-            if formset.is_valid():
-                formset.save()
-                return redirect('mantenimiento:mantenimiento_list')
+class MantenimientoCreateView(CreateView):
+    model = Mantenimiento
+    form_class = MantenimientoForm
+    template_name = 'mantenimiento/mantenimiento_form.html'
+    success_url = reverse_lazy('mantenimiento:mantenimiento-list')
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        if self.request.POST:
+            data['repuesto_formset'] = RepuestoMantenimientoFormSet(self.request.POST)
         else:
-            formset = RepuestoMantenimientoFormSet(request.POST)
-    else:
-        initial = {'vehiculo': vehiculo.id} if vehiculo else {}
-        form = MantenimientoForm(initial=initial)
-        formset = RepuestoMantenimientoFormSet()
+            data['repuesto_formset'] = RepuestoMantenimientoFormSet()
+        return data
 
-    return render(request, 'mantenimiento/mantenimiento_form.html', {
-        'form': form,
-        'formset': formset,
-        'vehiculo': vehiculo
-    })
+    def form_valid(self, form):
+        context = self.get_context_data()
+        repuesto_formset = context['repuesto_formset']
+        if repuesto_formset.is_valid():
+            self.object = form.save()
+            repuesto_formset.instance = self.object
+            repuesto_formset.save()
+            return redirect(self.success_url)
+        return self.render_to_response(self.get_context_data(form=form))
+
+class MantenimientoUpdateView(UpdateView):
+    model = Mantenimiento
+    form_class = MantenimientoForm
+    template_name = 'mantenimiento/mantenimiento_form.html'
+    success_url = reverse_lazy('mantenimiento:mantenimiento-list')
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        if self.request.POST:
+            data['repuesto_formset'] = RepuestoMantenimientoFormSet(self.request.POST, instance=self.object)
+        else:
+            data['repuesto_formset'] = RepuestoMantenimientoFormSet(instance=self.object)
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        repuesto_formset = context['repuesto_formset']
+        if repuesto_formset.is_valid():
+            self.object = form.save()
+            repuesto_formset.instance = self.object
+            repuesto_formset.save()
+            return redirect(self.success_url)
+        return self.render_to_response(self.get_context_data(form=form))
+
+class MantenimientoDeleteView(DeleteView):
+    model = Mantenimiento
+    template_name = 'mantenimiento/mantenimiento_confirm_delete.html'
+    success_url = reverse_lazy('mantenimiento:mantenimiento-list')
