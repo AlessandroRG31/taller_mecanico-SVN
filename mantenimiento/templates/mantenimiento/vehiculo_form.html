@@ -1,11 +1,21 @@
 {% extends "core/base.html" %}
-{% block title %}Registrar Vehículo{% endblock %}
+{% load static %}
+
+{% block title %}Registrar o Editar Vehículo{% endblock %}
 
 {% block content %}
-  <h1 class="mb-4">Registrar Vehículo</h1>
+  <h1 class="mb-4">
+    {% if vehiculo_form.instance.pk %}
+      Editar Vehículo
+    {% else %}
+      Registrar Vehículo
+    {% endif %}
+  </h1>
 
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
+    {{ vehiculo_form.non_field_errors }}
+    {{ proximomantenimiento_form.non_field_errors }}
 
     <fieldset class="mb-4">
       <legend>Datos del Vehículo</legend>
@@ -17,6 +27,6 @@
       {{ proximomantenimiento_form.as_p }}
     </fieldset>
 
-    <button type="submit" class="btn btn-primary">Guardar Vehículo</button>
+    <button type="submit" class="btn btn-primary">Guardar</button>
   </form>
 {% endblock %}

@@ -1,38 +1,57 @@
 {% extends "core/base.html" %}
 
 {% block title %}
-  {% if vehiculo %}Registrar mantenimiento para {{ vehiculo.placa }}{% else %}Registrar mantenimiento{% endif %}
+  {% if vehiculo %}Registrar mantenimiento para {{ vehiculo.placa }}{% else %}Nuevo Mantenimiento{% endif %}
 {% endblock %}
 
 {% block content %}
-  <h1>
-    {% if vehiculo %}Registrar mantenimiento para {{ vehiculo.placa }}{% else %}Registrar mantenimiento{% endif %}
+  <h1 class="mb-4">
+    {% if view.object.pk %}Editar Mantenimiento{% else %}Registrar Mantenimiento{% endif %}
+    {% if vehiculo %}para {{ vehiculo.placa }}{% endif %}
   </h1>
 
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form.non_field_errors }}
 
-    <h3>Repuestos utilizados</h3>
-    {{ formset.management_form }}
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Repuesto</th>
-          <th>Cantidad</th>
-          <th>Eliminar</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for fs in formset %}
-        <tr>
-          <td>{{ fs.repuesto }}</td>
-          <td>{{ fs.cantidad }}</td>
-          <td>{{ fs.DELETE }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <fieldset class="mb-4">
+      <legend>Datos del mantenimiento</legend>
+      {{ form.as_p }}
+    </fieldset>
+
+    <fieldset class="mb-4">
+      <legend>Repuestos utilizados</legend>
+      {{ repuesto_formset.management_form }}
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Repuesto</th>
+            <th>Cantidad</th>
+            <th>Eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for f in repuesto_formset %}
+          <tr>
+            <td>{{ f.repuesto }}</td>
+            <td>{{ f.cantidad }}</td>
+            <td>{{ f.DELETE }}</td>
+          </tr>
+          {% if f.non_field_errors %}
+            <tr>
+              <td colspan="3">
+                <ul class="errorlist">
+                  {% for error in f.non_field_errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              </td>
+            </tr>
+          {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </fieldset>
 
     <button type="submit" class="btn btn-success">Guardar</button>
     <a href="{% url 'mantenimiento:mantenimiento_list' %}" class="btn btn-secondary">Cancelar</a>
