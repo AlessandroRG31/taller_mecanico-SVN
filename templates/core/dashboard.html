@@ -1,5 +1,3 @@
-{# Ruta: templates/core/dashboard.html #}
-
 {% extends "core/base.html" %}
 {% block title %}Panel de Control{% endblock %}
 
@@ -10,30 +8,23 @@
   <div class="card col-md-4 p-3">
     <h2>Gestión de Vehículos</h2>
     <p>Registrar y listar vehículos del taller.</p>
-    <a href="{% url 'mantenimiento:vehiculo_list' %}" class="btn btn-primary me-2">Ver Vehículos</a>
-    <a href="{% url 'mantenimiento:vehiculo_nuevo' %}" class="btn btn-outline-secondary">Nuevo Vehículo</a>
+    <a href="{% url 'mantenimiento:vehiculo-list' %}" class="btn btn-primary me-2">Ver Vehículos</a>
+    <a href="{% url 'mantenimiento:vehiculo-create' %}" class="btn btn-outline-secondary">Nuevo Vehículo</a>
   </div>
 
   <div class="card col-md-4 p-3">
     <h2>Gestión de Mantenimientos</h2>
     <p>Registrar y consultar mantenimientos realizados.</p>
-    {# Apunta ahora a /mantenimientos/ y /mantenimientos/nuevo/ #}
-    <a href="{% url 'mantenimiento:mantenimiento_list' %}" class="btn btn-primary me-2">Ver Mantenimientos</a>
-    <a href="{% url 'mantenimiento:mantenimiento_nuevo' %}" class="btn btn-outline-secondary">Nuevo Mantenimiento</a>
+    <a href="{% url 'mantenimiento:mantenimiento-list' %}" class="btn btn-primary me-2">Ver Mantenimientos</a>
+    <a href="{% url 'mantenimiento:mantenimiento-create' %}" class="btn btn-outline-secondary">Nuevo Mantenimiento</a>
   </div>
 
   <div class="card col-md-4 p-3">
-    <h2>Búsqueda de Repuestos</h2>
-    <p>Buscar repuestos disponibles en empresas registradas.</p>
-    <a href="{% url 'repuestos:buscar_repuestos' %}" class="btn btn-info">Buscar repuesto</a>
-    <a href="{% url 'repuestos:empresa_list' %}" class="btn btn-secondary me-2">Empresas</a>
-    <a href="{% url 'repuestos:repuesto_list' %}" class="btn btn-secondary me-2">Repuestos</a>
+    <h2>Gestión de Clientes</h2>
+    <p>Registrar y listar clientes.</p>
+    <a href="{% url 'clientes:list' %}" class="btn btn-primary me-2">Ver Clientes</a>
+    <a href="{% url 'clientes:create' %}" class="btn btn-outline-secondary">Nuevo Cliente</a>
   </div>
 
 </div>
 {% endblock %}
-
-
-  
-
-  
