@@ -7,11 +7,12 @@ from datetime import timedelta
 
 class Vehiculo(models.Model):
     cliente = models.ForeignKey(
-        Cliente,
-        verbose_name="Cliente",
-        on_delete=models.CASCADE,
-        related_name="vehiculos"
-    )
+    Cliente,
+    on_delete=models.CASCADE,
+    related_name="vehiculos",
+    verbose_name="Cliente"
+)
+
     placa = models.CharField("Placa", max_length=20, unique=True)
     marca = models.CharField("Marca", max_length=50, blank=True, default='')
     modelo = models.CharField("Modelo", max_length=50, blank=True, default='')
@@ -45,15 +46,16 @@ class Vehiculo(models.Model):
     fecha_proxima_revision = models.DateField(blank=True, null=True)
 
     def calcular_fecha_proxima(self, dias_intervalo=180):
-        base = self.fecha_proxima_revision or self.fecha_registro or timezone.now().date()
+        base = self.fecha_proxima_revision or self.fecha_registro
+        if base is None:
+            base = timezone.now().date()
         self.fecha_proxima_revision = base + timedelta(days=dias_intervalo)
         return self.fecha_proxima_revision
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)  # Primero guarda para asegurar fecha_registro
         if not self.fecha_proxima_revision:
             self.calcular_fecha_proxima()
-            super().save(update_fields=["fecha_proxima_revision"])
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.placa} – {self.cliente}"
