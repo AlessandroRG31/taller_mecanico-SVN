@@ -3,17 +3,13 @@ from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory
 from dal import autocomplete
 from datetime import date
-
 from .models import Vehiculo, ProximoMantenimiento, Mantenimiento, RepuestoMantenimiento
 
 class VehiculoForm(forms.ModelForm):
     class Meta:
         model = Vehiculo
-
-        fields = '__all__'  # o explícitamente incluye 'cliente'
+        fields = '__all__'
         widgets = {
-            'cliente': forms.Select(attrs={'class': 'form-control'}),
-            'placa': forms.TextInput(attrs={'class': 'form-control'}),
             'fecha_proxima_revision': forms.DateInput(attrs={'type': 'date'}),
         }
 

@@ -1,23 +1,15 @@
 {% extends 'core/base.html' %}
 {% load static %}
 
+{% block title %}Nuevo Vehículo{% endblock %}
+
 {% block content %}
-  <h2>
-    {% if view.object.pk %}
-      Editar Vehículo
-    {% else %}
-      Nuevo Vehículo
-    {% endif %}
-  </h2>
+  <h1>Nuevo Vehículo</h1>
 
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.non_field_errors }}
-    <table>
-      {{ form.as_table }}
-    </table>
+    {{ form.as_p }}
+
     <button type="submit" class="btn btn-success">Guardar Vehículo</button>
   </form>
 {% endblock %}
-
-
