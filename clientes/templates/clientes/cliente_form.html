@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+{% block title %}Nuevo Cliente{% endblock %}
+
+{% block content %}
+  <h1>Registrar nuevo cliente</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="{% url 'clientes:list' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+{% endblock %}

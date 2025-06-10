@@ -1,3 +1,4 @@
+<!-- mantenimiento/templates/mantenimiento/mantenimiento_list.html -->
 {% extends "core/base.html" %}
 {% block title %}Mantenimientos realizados{% endblock %}
 
@@ -5,8 +6,8 @@
   <h1 class="mb-4">Mantenimientos realizados</h1>
 
   <p>
-    <a href="{% url 'mantenimiento:mantenimiento_nuevo' %}" class="btn btn-success">Nuevo Mantenimiento</a>
-    <a href="{% url 'mantenimiento:vehiculo_list' %}" class="btn btn-primary">Ver Vehículos</a>
+    <a href="{% url 'mantenimiento:mantenimiento-create' %}" class="btn btn-success">Nuevo Mantenimiento</a>
+    <a href="{% url 'mantenimiento:vehiculo-list' %}" class="btn btn-primary">Ver Vehículos</a>
   </p>
 
   <table class="table table-striped bg-light text-dark">
@@ -35,7 +36,7 @@
             {% endfor %}
           </td>
           <td>
-            {# Aquí puedes añadir botones de editar/eliminar si los tienes definidos #}
+            <!-- Aquí puedes añadir botones de editar/eliminar si los defines -->
           </td>
         </tr>
       {% empty %}

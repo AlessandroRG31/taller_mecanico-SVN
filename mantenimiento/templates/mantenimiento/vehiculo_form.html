@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'core/base.html' %}
 {% load static %}
 
 {% block content %}
@@ -16,6 +16,8 @@
     <table>
       {{ form.as_table }}
     </table>
-    <button type="submit">Guardar</button>
+    <button type="submit" class="btn btn-success">Guardar Vehículo</button>
   </form>
 {% endblock %}
+
+

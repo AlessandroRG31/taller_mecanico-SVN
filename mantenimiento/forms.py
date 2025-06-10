@@ -9,24 +9,12 @@ from .models import Vehiculo, ProximoMantenimiento, Mantenimiento, RepuestoMante
 class VehiculoForm(forms.ModelForm):
     class Meta:
         model = Vehiculo
-        fields = [
-            'cliente',
-            'placa',
-            'marca',
-            'modelo',
-            'anio',
-            'tipo',
-            'costo',
-            'foto_placa',
-            'foto_frente',
-            'foto_trasera',
-            'foto_lateral1',
-            'foto_lateral2',
-        ]
+
+        fields = '__all__'  # o explícitamente incluye 'cliente'
         widgets = {
-            'cliente': autocomplete.ModelSelect2(
-                url='clientes:cliente-autocomplete'
-            ),
+            'cliente': forms.Select(attrs={'class': 'form-control'}),
+            'placa': forms.TextInput(attrs={'class': 'form-control'}),
+            'fecha_proxima_revision': forms.DateInput(attrs={'type': 'date'}),
         }
 
     def clean_costo(self):

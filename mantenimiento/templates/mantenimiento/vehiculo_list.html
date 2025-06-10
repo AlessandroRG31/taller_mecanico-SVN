@@ -1,6 +1,5 @@
-{# ruta: mantenimiento/templates/mantenimiento/vehiculo_list.html #}
-
-{% extends "core/base.html" %}
+<!-- mantenimiento/templates/mantenimiento/vehiculo_list.html -->
+{% extends 'core/base.html' %}
 
 {% block title %}Lista de Vehículos{% endblock %}
 
@@ -9,9 +8,7 @@
 
   <!-- Botón Nuevo Vehículo -->
   <p>
-    <a href="{% url 'mantenimiento:vehiculo_nuevo' %}" class="btn btn-success">
-      + Nuevo Vehículo
-    </a>
+    <a href="{% url 'mantenimiento:vehiculo-create' %}" class="btn btn-success">+ Nuevo Vehículo</a>
   </p>
 
   <table class="table table-striped">

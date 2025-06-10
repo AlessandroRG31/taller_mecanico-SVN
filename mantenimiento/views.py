@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from .models import Vehiculo, Mantenimiento
 from .forms import VehiculoForm, MantenimientoForm, RepuestoMantenimientoFormSet
 
+
 # —— Vistas de Vehículo ——
 class VehiculoListView(ListView):
     model = Vehiculo
@@ -20,7 +21,7 @@ class VehiculoCreateView(CreateView):
     model = Vehiculo
     form_class = VehiculoForm
     template_name = 'mantenimiento/vehiculo_form.html'
-    success_url = reverse_lazy('mantenimiento:vehiculo-list')
+    success_url = reverse_lazy('mantenimiento:vehiculo_list')
 
 class VehiculoUpdateView(UpdateView):
     model = Vehiculo
