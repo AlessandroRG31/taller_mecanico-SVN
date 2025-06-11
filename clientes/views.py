@@ -1,6 +1,8 @@
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView
-from dal import autocomplete
+from django.views.generic import (
+    ListView, DetailView,
+    CreateView, UpdateView, DeleteView
+)
 from .models import Cliente
 from .forms import ClienteForm
 
@@ -9,16 +11,28 @@ class ClienteListView(ListView):
     template_name = 'clientes/cliente_list.html'
     context_object_name = 'clientes'
     paginate_by = 10
+    ordering = ['id']  # o cambia a ['nombre'] si prefieres
+
+class ClienteDetailView(DetailView):
+    model = Cliente
+    template_name = 'clientes/cliente_detail.html'
+    context_object_name = 'cliente'
 
 class ClienteCreateView(CreateView):
     model = Cliente
     form_class = ClienteForm
     template_name = 'clientes/cliente_form.html'
-    success_url = reverse_lazy('clientes:list')
+    success_url = reverse_lazy('clientes:cliente-list')
 
-class ClienteAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        qs = Cliente.objects.all()
-        if self.q:
-            qs = qs.filter(nombre__icontains=self.q) | qs.filter(apellido__icontains=self.q) | qs.filter(dui__icontains=self.q)
-        return qs
+    # No es necesario override de form_valid: Django guardará todos los campos correctamente
+
+class ClienteUpdateView(UpdateView):
+    model = Cliente
+    form_class = ClienteForm
+    template_name = 'clientes/cliente_form.html'
+    success_url = reverse_lazy('clientes:cliente-list')
+
+class ClienteDeleteView(DeleteView):
+    model = Cliente
+    template_name = 'clientes/cliente_confirm_delete.html'
+    success_url = reverse_lazy('clientes:cliente-list')
