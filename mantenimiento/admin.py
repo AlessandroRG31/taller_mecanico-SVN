@@ -3,7 +3,7 @@ from .models import Vehiculo, Mantenimiento, RepuestoMantenimiento
 
 class RepuestoMantenimientoInline(admin.TabularInline):
     model = RepuestoMantenimiento
-    extra = 1  # permite añadir repuestos
+    extra = 1
 
 @admin.register(Vehiculo)
 class VehiculoAdmin(admin.ModelAdmin):

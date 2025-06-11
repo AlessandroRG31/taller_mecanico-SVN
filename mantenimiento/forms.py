@@ -1,5 +1,3 @@
-# taller_mecanico-SVN-main/mantenimiento/forms.py
-
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory
@@ -15,13 +13,9 @@ class VehiculoForm(forms.ModelForm):
 
     class Meta:
         model = Vehiculo
-        fields = [
-            'cliente', 'placa', 'marca', 'modelo', 'anio', 'tipo',
-            'costo', 'foto_frente', 'foto_trasera', 'foto_lateral1', 'foto_lateral2',
-            'fecha_proxima_revision'
-        ]
+        fields = '__all__'
         widgets = {
-            'fecha_proxima_revision': forms.DateInput(attrs={'type': 'date'})
+            'fecha_proxima_revision': forms.DateInput(attrs={'type': 'date'}),
         }
 
     def clean_cliente(self):
@@ -32,7 +26,7 @@ class VehiculoForm(forms.ModelForm):
 
     def clean_costo(self):
         costo = self.cleaned_data.get('costo')
-        if costo is None or costo <= 0:
+        if costo is not None and costo <= 0:
             raise ValidationError("El costo debe ser mayor que cero.")
         return costo
 
@@ -41,7 +35,7 @@ class MantenimientoForm(forms.ModelForm):
         model = Mantenimiento
         fields = ['vehiculo', 'fecha_mantenimiento', 'costo']
         widgets = {
-            'fecha_mantenimiento': forms.DateInput(attrs={'type': 'date'})
+            'fecha_mantenimiento': forms.DateInput(attrs={'type': 'date'}),
         }
 
 RepuestoMantenimientoFormSet = inlineformset_factory(
@@ -50,5 +44,5 @@ RepuestoMantenimientoFormSet = inlineformset_factory(
     fields=('repuesto', 'cantidad'),
     extra=1,
     can_delete=True,
-    widgets={'cantidad': forms.NumberInput(attrs={'min': 1})}
+    widgets={'cantidad': forms.NumberInput(attrs={'min': 1})},
 )

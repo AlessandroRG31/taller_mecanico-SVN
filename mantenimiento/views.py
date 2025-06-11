@@ -1,5 +1,3 @@
-# taller_mecanico-SVN-main/mantenimiento/views.py
-
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Vehiculo, Mantenimiento
@@ -21,18 +19,18 @@ class VehiculoCreateView(CreateView):
     model = Vehiculo
     form_class = VehiculoForm
     template_name = 'mantenimiento/vehiculo_form.html'
-    success_url = reverse_lazy('mantenimiento:vehiculo_list')
+    success_url = reverse_lazy('mantenimiento:vehiculo-list')
 
 class VehiculoUpdateView(UpdateView):
     model = Vehiculo
     form_class = VehiculoForm
     template_name = 'mantenimiento/vehiculo_form.html'
-    success_url = reverse_lazy('mantenimiento:vehiculo_list')
+    success_url = reverse_lazy('mantenimiento:vehiculo-list')
 
 class VehiculoDeleteView(DeleteView):
     model = Vehiculo
     template_name = 'mantenimiento/vehiculo_confirm_delete.html'
-    success_url = reverse_lazy('mantenimiento:vehiculo_list')
+    success_url = reverse_lazy('mantenimiento:vehiculo-list')
 
 class MantenimientoListView(ListView):
     model = Mantenimiento
@@ -45,14 +43,11 @@ class MantenimientoCreateView(CreateView):
     model = Mantenimiento
     form_class = MantenimientoForm
     template_name = 'mantenimiento/mantenimiento_form.html'
-    success_url = reverse_lazy('mantenimiento:mantenimiento_list')
+    success_url = reverse_lazy('mantenimiento:mantenimiento-list')
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        if self.request.POST:
-            data['repuesto_formset'] = RepuestoMantenimientoFormSet(self.request.POST)
-        else:
-            data['repuesto_formset'] = RepuestoMantenimientoFormSet()
+        data['repuesto_formset'] = RepuestoMantenimientoFormSet(self.request.POST or None)
         return data
 
     def form_valid(self, form):
@@ -69,14 +64,11 @@ class MantenimientoUpdateView(UpdateView):
     model = Mantenimiento
     form_class = MantenimientoForm
     template_name = 'mantenimiento/mantenimiento_form.html'
-    success_url = reverse_lazy('mantenimiento:mantenimiento_list')
+    success_url = reverse_lazy('mantenimiento:mantenimiento-list')
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        if self.request.POST:
-            data['repuesto_formset'] = RepuestoMantenimientoFormSet(self.request.POST, instance=self.object)
-        else:
-            data['repuesto_formset'] = RepuestoMantenimientoFormSet(instance=self.object)
+        data['repuesto_formset'] = RepuestoMantenimientoFormSet(self.request.POST or None, instance=self.object)
         return data
 
     def form_valid(self, form):
@@ -92,5 +84,4 @@ class MantenimientoUpdateView(UpdateView):
 class MantenimientoDeleteView(DeleteView):
     model = Mantenimiento
     template_name = 'mantenimiento/mantenimiento_confirm_delete.html'
-    success_url = reverse_lazy('mantenimiento:mantenimiento_list')
-
+    success_url = reverse_lazy('mantenimiento:mantenimiento-list')
