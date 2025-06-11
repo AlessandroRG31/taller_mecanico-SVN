@@ -5,6 +5,7 @@ from .views import (
     ClienteCreateView,
     ClienteUpdateView,
     ClienteDeleteView,
+    VehiculoCreateView,  # <— Importamos la nueva vista
 )
 
 app_name = 'clientes'
@@ -15,4 +16,11 @@ urlpatterns = [
     path('<int:pk>/', ClienteDetailView.as_view(), name='cliente-detail'),
     path('<int:pk>/editar/', ClienteUpdateView.as_view(), name='cliente-update'),
     path('<int:pk>/eliminar/', ClienteDeleteView.as_view(), name='cliente-delete'),
+
+    # Ruta para “Nuevo Vehículo” recibirá cliente_id
+    path(
+        'vehiculos/nuevo/<int:cliente_id>/',
+        VehiculoCreateView.as_view(),
+        name='vehiculo-create'
+    ),
 ]
