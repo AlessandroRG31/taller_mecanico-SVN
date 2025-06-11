@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import inlineformset_factory
+
 from .models import Vehiculo, Mantenimiento, RepuestoMantenimiento
 from clientes.models import Cliente
 
@@ -22,7 +23,7 @@ class VehiculoForm(forms.ModelForm):
             'foto_lateral1', 'foto_lateral2',
             'fecha_proxima_revision',
         ]
-        # No hay widgets de JS de autocompletar aquí
+        # Sin widgets de autocompletar externos; usamos el select nativo
 
 class MantenimientoForm(forms.ModelForm):
     # Campo vehiculo como ModelChoiceField nativo

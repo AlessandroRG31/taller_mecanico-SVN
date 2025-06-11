@@ -1,17 +1,13 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Nuevo Mantenimiento{% endblock %}
+{% block title %}Nuevo Vehículo{% endblock %}
 
 {% block content %}
   <div class="container py-4">
-    <h2>Nuevo Mantenimiento</h2>
-    <form method="post">
+    <h2>Nuevo Vehículo</h2>
+    <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}
-      {{ repuesto_formset.management_form }}
-      {% for formset_form in repuesto_formset %}
-        {{ formset_form.as_p }}
-      {% endfor %}
       <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
   </div>
