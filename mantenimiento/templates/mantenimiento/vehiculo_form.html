@@ -4,11 +4,14 @@
 
 {% block content %}
   <div class="container py-4">
-    <h2>Nuevo Vehículo</h2>
+    <h2>Nuevo Vehículo para Cliente</h2>
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}
       <button type="submit" class="btn btn-primary">Guardar</button>
+      <a href="{% url 'clientes:cliente-detail' form.initial.cliente %}" class="btn btn-secondary">
+        Volver al Cliente
+      </a>
     </form>
   </div>
 {% endblock %}

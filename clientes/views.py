@@ -6,10 +6,7 @@ from django.views.generic import (
 from django.shortcuts import get_object_or_404
 from .models import Cliente
 from mantenimiento.models import Vehiculo
-from .forms import ClienteForm
-from mantenimiento.forms import VehiculoForm
-
-# ——— Clases existentes de Clientes ———
+from .forms import ClienteForm, VehiculoForm
 
 class ClienteListView(ListView):
     model = Cliente
@@ -40,17 +37,15 @@ class ClienteDeleteView(DeleteView):
     template_name = 'clientes/cliente_confirm_delete.html'
     success_url = reverse_lazy('clientes:cliente-list')
 
-# ——— Nueva clase para “Nuevo Vehículo” ———
-
 class VehiculoCreateView(CreateView):
     """
-    Igual que Nuevo Mantenimiento: preselecciona cliente_id
-    y salva commit=False para asegurar FK.
+    “Nuevo Vehículo” idéntico al flujo de “Nuevo Mantenimiento”:
+    preselecciona cliente_id y salva commit=False para evitar IntegrityError.
     """
     model = Vehiculo
     form_class = VehiculoForm
-    template_name = 'mantenimiento/vehiculo_form.html'
-    success_url = reverse_lazy('mantenimiento:vehiculo-list')
+    template_name = 'clientes/vehiculo_form.html'
+    success_url = reverse_lazy('clientes:cliente-list')
 
     def get_initial(self):
         initial = super().get_initial()
@@ -60,13 +55,9 @@ class VehiculoCreateView(CreateView):
         return initial
 
     def form_valid(self, form):
-        # 1) No salvamos todavía
         veh = form.save(commit=False)
-        # 2) Si vinimos con cliente_id, lo asignamos
         cliente_id = self.kwargs.get('cliente_id')
         if cliente_id:
             veh.cliente_id = cliente_id
-        # 3) Salvamos la instancia con cliente
         veh.save()
-        # 4) Continuamos con el flujo normal
         return super().form_valid(form)

@@ -1,11 +1,31 @@
 from django import forms
 from .models import Cliente
+from mantenimiento.models import Vehiculo
 
 class ClienteForm(forms.ModelForm):
-    """
-    Formulario de Cliente: incluye todos los campos del modelo
-    y usa el select nativo de Django para cualquier FK.
-    """
     class Meta:
         model = Cliente
         fields = '__all__'
+
+class VehiculoForm(forms.ModelForm):
+    """
+    Formulario para crear Vehículo desde la app Clientes.
+    Incluye FK a Cliente y el resto de campos básicos.
+    """
+    class Meta:
+        model = Vehiculo
+        fields = [
+            'cliente',
+            'placa',
+            'marca',
+            'modelo',
+            'anio',
+            'tipo',
+            'costo',
+            'foto_frente',
+            'foto_trasera',
+            'foto_lateral1',
+            'foto_lateral2',
+            'fecha_proxima_revision',
+        ]
+        # No usamos widgets JS de autocompletar: usamos selects nativos
