@@ -24,16 +24,6 @@ class VehiculoCreateView(CreateView):
     template_name = 'mantenimiento/vehiculo_form.html'
     success_url = reverse_lazy('mantenimiento:vehiculo-list')
 
-    def form_valid(self, form):
-        cliente = form.cleaned_data.get('cliente')
-        if not cliente:
-            form.add_error('cliente', 'Debe seleccionar un cliente.')
-            return self.form_invalid(form)
-        self.object = form.save(commit=False)
-        self.object.cliente = cliente
-        self.object.save()
-        return redirect(self.success_url)
-
 class VehiculoUpdateView(UpdateView):
     model = Vehiculo
     form_class = VehiculoForm
