@@ -1,13 +1,11 @@
-# taller_mecanico/mantenimiento/templates/mantenimiento/vehiculo_form.html
+# taller_mecanico-SVN-main/templates/mantenimiento/vehiculo_form.html
 
 {% extends 'core/base.html' %}
 {% load static %}
-
-{% block title %}{% if object %}Editar Vehículo{% else %}Nuevo Vehículo{% endif %}{% endblock %}
-
+{% block title %}Nuevo Vehículo{% endblock %}
 {% block content %}
-  <h2>{% if object %}Editar Vehículo{% else %}Nuevo Vehículo{% endif %}</h2>
-  <form method="post" enctype="multipart/form-data" novalidate>
+  <h2>Nuevo Vehículo</h2>
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.non_field_errors }}
     <div class="form-group">
@@ -15,18 +13,14 @@
       {{ form.cliente }}
       {{ form.cliente.errors }}
     </div>
-    <!-- Resto de campos -->
-    {{ form.placa }}
-    {{ form.modelo }}
-    {{ form.marca }}
-    {{ form.anio }}
-    {{ form.tipo }}
-    {{ form.costo }}
-    {{ form.foto_frente }}
-    {{ form.foto_trasera }}
-    {{ form.foto_lateral1 }}
-    {{ form.foto_lateral2 }}
-    {{ form.fecha_proxima_revision }}
+    <div class="form-group">{{ form.placa.label_tag }} {{ form.placa }} {{ form.placa.errors }}</div>
+    <div class="form-group">{{ form.marca.label_tag }} {{ form.marca }} {{ form.marca.errors }}</div>
+    <div class="form-group">{{ form.modelo.label_tag }} {{ form.modelo }} {{ form.modelo.errors }}</div>
+    <div class="form-group">{{ form.anio.label_tag }} {{ form.anio }} {{ form.anio.errors }}</div>
+    <div class="form-group">{{ form.tipo.label_tag }} {{ form.tipo }} {{ form.tipo.errors }}</div>
+    <div class="form-group">{{ form.costo.label_tag }} {{ form.costo }} {{ form.costo.errors }}</div>
+    {{ form.foto_frente }} {{ form.foto_trasera }} {{ form.foto_lateral1 }} {{ form.foto_lateral2 }}
+    <div class="form-group">{{ form.fecha_proxima_revision.label_tag }} {{ form.fecha_proxima_revision }} {{ form.fecha_proxima_revision.errors }}</div>
     <button type="submit" class="btn btn-primary">Guardar</button>
   </form>
 {% endblock %}
@@ -34,11 +28,7 @@
 {% block extra_js %}
 <script>
   $(document).ready(function() {
-    $('#id_cliente').select2({
-      placeholder: 'Seleccione un cliente',
-      allowClear: true,
-      width: '100%'
-    });
+    $('#id_cliente').select2({ placeholder: 'Seleccione un cliente', allowClear: true, width: '100%' });
   });
 </script>
 {% endblock %}

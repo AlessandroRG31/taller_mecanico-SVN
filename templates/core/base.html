@@ -1,4 +1,4 @@
-# taller_mecanico/templates/core/base.html
+# taller_mecanico-SVN-main/templates/core/base.html
 
 {% load static %}
 <!DOCTYPE html>
@@ -10,14 +10,10 @@
   <link rel="stylesheet" href="{% static 'core/css/dashboard.css' %}">
   <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
   {% block extra_css %}{% endblock %}
-
-  <!-- Select2 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
   {% block content %}{% endblock %}
-
-  <!-- jQuery and Select2 JS -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
   {% block extra_js %}{% endblock %}
