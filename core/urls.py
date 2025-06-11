@@ -1,14 +1,18 @@
-# ruta: taller_mecanico/core/urls.py
-
 from django.urls import path
-from . import views
+from .views import (
+    ClienteListView,
+    ClienteDetailView,
+    ClienteCreateView,
+    ClienteUpdateView,
+    ClienteDeleteView,
+)
 
-app_name = 'core'
+app_name = 'clientes'
 
 urlpatterns = [
-    path('',          views.landing,     name='landing'),
-    path('login/',    views.login_view,  name='login'),
-    path('register/', views.register_view, name='register'),
-    path('dashboard/',views.dashboard,   name='dashboard'),
-    path('logout/',   views.logout_view, name='logout'),
+    path('', ClienteListView.as_view(), name='cliente-list'),
+    path('nuevo/', ClienteCreateView.as_view(), name='cliente-create'),
+    path('<int:pk>/', ClienteDetailView.as_view(), name='cliente-detail'),
+    path('<int:pk>/editar/', ClienteUpdateView.as_view(), name='cliente-update'),
+    path('<int:pk>/eliminar/', ClienteDeleteView.as_view(), name='cliente-delete'),
 ]
