@@ -1,6 +1,8 @@
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.http import HttpResponseRedirect
+from django.views.generic import (
+    ListView, DetailView,
+    CreateView, UpdateView, DeleteView
+)
 from .models import Vehiculo, Mantenimiento
 from .forms import VehiculoForm, MantenimientoForm, RepuestoMantenimientoFormSet
 
@@ -21,13 +23,7 @@ class VehiculoCreateView(CreateView):
     form_class = VehiculoForm
     template_name = 'mantenimiento/vehiculo_form.html'
     success_url = reverse_lazy('mantenimiento:vehiculo-list')
-
-    def form_valid(self, form):
-        # Asignar explícitamente el cliente antes de guardar
-        self.object = form.save(commit=False)
-        self.object.cliente = form.cleaned_data.get('cliente')
-        self.object.save()
-        return HttpResponseRedirect(self.get_success_url())
+    # SIN override de form_valid: Django se encarga de guardar 'cliente'
 
 class VehiculoUpdateView(UpdateView):
     model = Vehiculo
@@ -53,6 +49,19 @@ class MantenimientoCreateView(CreateView):
     template_name = 'mantenimiento/mantenimiento_form.html'
     success_url = reverse_lazy('mantenimiento:mantenimiento-list')
 
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['repuesto_formset'] = RepuestoMantenimientoFormSet(self.request.POST or None)
+        return data
+
+    # Pre-selección de vehículo si viene en la URL
+    def get_initial(self):
+        initial = super().get_initial()
+        vehiculo_id = self.kwargs.get('vehiculo_id')
+        if vehiculo_id:
+            initial['vehiculo'] = vehiculo_id
+        return initial
+
     def form_valid(self, form):
         context = self.get_context_data()
         repuesto_formset = context['repuesto_formset']
@@ -63,16 +72,28 @@ class MantenimientoCreateView(CreateView):
             return super().form_valid(form)
         return self.render_to_response(self.get_context_data(form=form))
 
-class MantenimientoDetailView(DetailView):
-    model = Mantenimiento
-    template_name = 'mantenimiento/mantenimiento_detail.html'
-    context_object_name = 'mantenimiento'
-
 class MantenimientoUpdateView(UpdateView):
     model = Mantenimiento
     form_class = MantenimientoForm
     template_name = 'mantenimiento/mantenimiento_form.html'
     success_url = reverse_lazy('mantenimiento:mantenimiento-list')
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['repuesto_formset'] = RepuestoMantenimientoFormSet(
+            self.request.POST or None, instance=self.object
+        )
+        return data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        repuesto_formset = context['repuesto_formset']
+        if repuesto_formset.is_valid():
+            self.object = form.save()
+            repuesto_formset.instance = self.object
+            repuesto_formset.save()
+            return super().form_valid(form)
+        return self.render_to_response(self.get_context_data(form=form))
 
 class MantenimientoDeleteView(DeleteView):
     model = Mantenimiento
