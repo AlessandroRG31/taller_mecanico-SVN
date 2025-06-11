@@ -3,6 +3,7 @@ from django.views.generic import (
     ListView, DetailView,
     CreateView, UpdateView, DeleteView
 )
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from .models import Vehiculo, Mantenimiento
 from .forms import VehiculoForm, MantenimientoForm, RepuestoMantenimientoFormSet
@@ -26,13 +27,16 @@ class VehiculoCreateView(CreateView):
     success_url = reverse_lazy('mantenimiento:vehiculo-list')
 
     def form_valid(self, form):
-        # Creamos la instancia sin salvarla todavía
+        # 1) Creamos la instancia sin salvarla todavía
         instancia = form.save(commit=False)
-        # Asignamos el cliente elegido en el select nativo
+        # 2) Asignamos el cliente seleccionado en el formulario
         instancia.cliente = form.cleaned_data['cliente']
-        # Guardamos la instancia con cliente ya asignado
+        # 3) Salvamos la instancia ya completa
         instancia.save()
-        return super().form_valid(form)
+        # 4) Asignamos self.object para que CreateView lo reconozca
+        self.object = instancia
+        # 5) Redirigimos al listado
+        return HttpResponseRedirect(self.get_success_url())
 
 class VehiculoUpdateView(UpdateView):
     model = Vehiculo
@@ -77,7 +81,7 @@ class MantenimientoCreateView(CreateView):
             self.object = form.save()
             formset.instance = self.object
             formset.save()
-            return super().form_valid(form)
+            return HttpResponseRedirect(self.get_success_url())
         return self.render_to_response(self.get_context_data(form=form))
 
 class MantenimientoUpdateView(UpdateView):
@@ -101,7 +105,7 @@ class MantenimientoUpdateView(UpdateView):
             self.object = form.save()
             formset.instance = self.object
             formset.save()
-            return super().form_valid(form)
+            return HttpResponseRedirect(self.get_success_url())
         return self.render_to_response(self.get_context_data(form=form))
 
 class MantenimientoDeleteView(DeleteView):
