@@ -1,16 +1,44 @@
+# taller_mecanico/mantenimiento/templates/mantenimiento/vehiculo_form.html
+
 {% extends 'core/base.html' %}
 {% load static %}
 
-{% block title %}Nuevo Vehículo{% endblock %}
+{% block title %}{% if object %}Editar Vehículo{% else %}Nuevo Vehículo{% endif %}{% endblock %}
 
 {% block content %}
-  <h1>Nuevo Vehículo</h1>
-
-  <form method="post" enctype="multipart/form-data">
+  <h2>{% if object %}Editar Vehículo{% else %}Nuevo Vehículo{% endif %}</h2>
+  <form method="post" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
-    {{ form.as_p }}
-
-    <button type="submit" class="btn btn-success">Guardar Vehículo</button>
+    {{ form.non_field_errors }}
+    <div class="form-group">
+      {{ form.cliente.label_tag }}
+      {{ form.cliente }}
+      {{ form.cliente.errors }}
+    </div>
+    <!-- Resto de campos -->
+    {{ form.placa }}
+    {{ form.modelo }}
+    {{ form.marca }}
+    {{ form.anio }}
+    {{ form.tipo }}
+    {{ form.costo }}
+    {{ form.foto_frente }}
+    {{ form.foto_trasera }}
+    {{ form.foto_lateral1 }}
+    {{ form.foto_lateral2 }}
+    {{ form.fecha_proxima_revision }}
+    <button type="submit" class="btn btn-primary">Guardar</button>
   </form>
 {% endblock %}
 
+{% block extra_js %}
+<script>
+  $(document).ready(function() {
+    $('#id_cliente').select2({
+      placeholder: 'Seleccione un cliente',
+      allowClear: true,
+      width: '100%'
+    });
+  });
+</script>
+{% endblock %}

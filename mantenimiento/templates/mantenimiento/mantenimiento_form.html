@@ -1,43 +1,55 @@
-# taller_mecanico/mantenimiento/templates/mantenimiento/vehiculo_form.html
+# taller_mecanico/mantenimiento/templates/mantenimiento/mantenimiento_form.html
 
 {% extends 'core/base.html' %}
 {% load static %}
 
+{% block title %}{% if object %}Editar Mantenimiento{% else %}Nuevo Mantenimiento{% endif %}{% endblock %}
+
 {% block content %}
-  <h2>{% if object %}Editar Vehículo{% else %}Nuevo Vehículo{% endif %}</h2>
-  <form method="post" novalidate>
+  <h2>{% if object %}Editar Mantenimiento{% else %}Nuevo Mantenimiento{% endif %}</h2>
+  <form method="post" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
     {{ form.non_field_errors }}
     <div class="form-group">
-      {{ form.cliente.label_tag }}
-      {{ form.cliente }}
-      {{ form.cliente.errors }}
+      {{ form.vehiculo.label_tag }}
+      {{ form.vehiculo }}
+      {{ form.vehiculo.errors }}
     </div>
     <div class="form-group">
-      {{ form.placa.label_tag }}
-      {{ form.placa }}
-      {{ form.placa.errors }}
-    </div>
-    <div class="form-group">
-      {{ form.modelo.label_tag }}
-      {{ form.modelo }}
-      {{ form.modelo.errors }}
-    </div>
-    <div class="form-group">
-      {{ form.marca.label_tag }}
-      {{ form.marca }}
-      {{ form.marca.errors }}
-    </div>
-    <div class="form-group">
-      {{ form.fecha_proxima_revision.label_tag }}
-      {{ form.fecha_proxima_revision }}
-      {{ form.fecha_proxima_revision.errors }}
+      {{ form.fecha_mantenimiento.label_tag }}
+      {{ form.fecha_mantenimiento }}
+      {{ form.fecha_mantenimiento.errors }}
     </div>
     <div class="form-group">
       {{ form.costo.label_tag }}
       {{ form.costo }}
       {{ form.costo.errors }}
     </div>
+    {{ repuesto_formset.management_form }}
+    {% for formset in repuesto_formset.forms %}
+      <div class="form-group">
+        {{ formset.repuesto.label_tag }}
+        {{ formset.repuesto }}
+        {{ formset.cantidad.label_tag }}
+        {{ formset.cantidad }}
+        {{ formset.DELETE }}
+      </div>
+    {% endfor %}
     <button type="submit" class="btn btn-primary">Guardar</button>
   </form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  $(document).ready(function() {
+    $('#id_vehiculo').select2({
+      placeholder: 'Seleccione un vehículo',
+      allowClear: true,
+      width: '100%'
+    });
+    $('.form-group select').each(function() {
+      $(this).select2({ width: '100%' });
+    });
+  });
+</script>
 {% endblock %}
