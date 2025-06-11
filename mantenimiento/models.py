@@ -52,11 +52,12 @@ class Vehiculo(models.Model):
         self.fecha_proxima_revision = base + timedelta(days=dias_intervalo)
         return self.fecha_proxima_revision
 
-    def save(self, *args, **kwargs):
-        if not self.fecha_proxima_revision:
-            self.calcular_fecha_proxima()
-        super().save(*args, **kwargs)
-
+      # --- Comentamos o eliminamos este método ---
+    # def save(self, *args, **kwargs):
+    #     # Lógica de cálculo de fecha_proxima_revision o generación de próxima revisión
+    #     if not self.fecha_proxima_revision:
+    #         self.fecha_proxima_revision = timezone.now().date() + timedelta(days=180)
+    #     super().save(*args, **kwargs)
     def __str__(self):
         return f"{self.placa} – {self.cliente}"
 
