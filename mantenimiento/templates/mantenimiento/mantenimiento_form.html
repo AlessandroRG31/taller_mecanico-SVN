@@ -1,55 +1,18 @@
-# taller_mecanico/mantenimiento/templates/mantenimiento/mantenimiento_form.html
-
 {% extends 'core/base.html' %}
-{% load static %}
 
-{% block title %}{% if object %}Editar Mantenimiento{% else %}Nuevo Mantenimiento{% endif %}{% endblock %}
+{% block title %}Nuevo Mantenimiento{% endblock %}
 
 {% block content %}
-  <h2>{% if object %}Editar Mantenimiento{% else %}Nuevo Mantenimiento{% endif %}</h2>
-  <form method="post" enctype="multipart/form-data" novalidate>
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-    <div class="form-group">
-      {{ form.vehiculo.label_tag }}
-      {{ form.vehiculo }}
-      {{ form.vehiculo.errors }}
-    </div>
-    <div class="form-group">
-      {{ form.fecha_mantenimiento.label_tag }}
-      {{ form.fecha_mantenimiento }}
-      {{ form.fecha_mantenimiento.errors }}
-    </div>
-    <div class="form-group">
-      {{ form.costo.label_tag }}
-      {{ form.costo }}
-      {{ form.costo.errors }}
-    </div>
-    {{ repuesto_formset.management_form }}
-    {% for formset in repuesto_formset.forms %}
-      <div class="form-group">
-        {{ formset.repuesto.label_tag }}
-        {{ formset.repuesto }}
-        {{ formset.cantidad.label_tag }}
-        {{ formset.cantidad }}
-        {{ formset.DELETE }}
-      </div>
-    {% endfor %}
-    <button type="submit" class="btn btn-primary">Guardar</button>
-  </form>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-  $(document).ready(function() {
-    $('#id_vehiculo').select2({
-      placeholder: 'Seleccione un vehículo',
-      allowClear: true,
-      width: '100%'
-    });
-    $('.form-group select').each(function() {
-      $(this).select2({ width: '100%' });
-    });
-  });
-</script>
+  <div class="container py-4">
+    <h2>Nuevo Mantenimiento</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      {{ repuesto_formset.management_form }}
+      {% for formset_form in repuesto_formset %}
+        {{ formset_form.as_p }}
+      {% endfor %}
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+  </div>
 {% endblock %}

@@ -1,8 +1,17 @@
 from django import forms
-from .models import Vehiculo, Mantenimiento, RepuestoMantenimiento
 from django.forms import inlineformset_factory
+from .models import Vehiculo, Mantenimiento, RepuestoMantenimiento
+from clientes.models import Cliente
 
 class VehiculoForm(forms.ModelForm):
+    # Campo cliente como ModelChoiceField nativo
+    cliente = forms.ModelChoiceField(
+        queryset=Cliente.objects.all(),
+        empty_label="— Selecciona un cliente —",
+        label="Cliente",
+        error_messages={'required': 'Debe seleccionar un cliente.'}
+    )
+
     class Meta:
         model = Vehiculo
         fields = [
@@ -13,18 +22,29 @@ class VehiculoForm(forms.ModelForm):
             'foto_lateral1', 'foto_lateral2',
             'fecha_proxima_revision',
         ]
-        widgets = {
-            # dejamos el select por defecto de Django
-            # si quisieras, podrías personalizar attrs={'class': 'form-control'}, etc.
-        }
+        # No hay widgets de JS de autocompletar aquí
 
 class MantenimientoForm(forms.ModelForm):
+    # Campo vehiculo como ModelChoiceField nativo
+    vehiculo = forms.ModelChoiceField(
+        queryset=Vehiculo.objects.all(),
+        empty_label="— Selecciona un vehículo —",
+        label="Vehículo",
+        error_messages={'required': 'Debe seleccionar un vehículo.'}
+    )
+
     class Meta:
         model = Mantenimiento
         fields = ['vehiculo', 'fecha_mantenimiento', 'costo']
         widgets = {
             'fecha_mantenimiento': forms.DateInput(attrs={'type': 'date'}),
         }
+
+    def clean_costo(self):
+        costo = self.cleaned_data.get('costo')
+        if costo is not None and costo <= 0:
+            raise forms.ValidationError("El costo del mantenimiento debe ser mayor que 0.")
+        return costo
 
 RepuestoMantenimientoFormSet = inlineformset_factory(
     Mantenimiento,
