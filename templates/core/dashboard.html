@@ -22,8 +22,8 @@
   <div class="card col-md-4 p-3">
     <h2>Gestión de Clientes</h2>
     <p>Registrar y listar clientes.</p>
-    <a href="{% url 'clientes:list' %}" class="btn btn-primary me-2">Ver Clientes</a>
-    <a href="{% url 'clientes:create' %}" class="btn btn-outline-secondary">Nuevo Cliente</a>
+    <a href="{% url 'clientes:cliente-list' %}" class="btn btn-primary me-2">Ver Clientes</a>
+    <a href="{% url 'clientes:cliente-create' %}" class="btn btn-outline-secondary">Nuevo Cliente</a>
   </div>
 
   <div class="card col-md-4 p-3">
@@ -33,13 +33,12 @@
     <a href="{% url 'repuestos:repuesto_list' %}" class="btn btn-secondary me-2">Repuestos</a>
   </div>
 
-    <div class="card col-md-4 p-3">
+  <div class="card col-md-4 p-3">
     <h2>Gestión de Empresas</h2>
     <p>Registrar y listar Empresas</p>
     <a href="{% url 'repuestos:empresa_nuevo' %}" class="btn btn-outline-success mt-2">Nueva Empresa</a>
     <a href="{% url 'repuestos:empresa_list' %}" class="btn btn-secondary me-2">Empresas</a>
-     </div>
-
+  </div>
 
 </div>
 {% endblock %}
