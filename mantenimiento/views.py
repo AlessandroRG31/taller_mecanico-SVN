@@ -1,10 +1,11 @@
+# taller_mecanico/mantenimiento/views.py
+
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import redirect
 from .models import Vehiculo, Mantenimiento
 from .forms import VehiculoForm, MantenimientoForm, RepuestoMantenimientoFormSet
 
-# —— Vistas de Vehículo ——
 class VehiculoListView(ListView):
     model = Vehiculo
     template_name = 'mantenimiento/vehiculo_list.html'
@@ -24,11 +25,10 @@ class VehiculoCreateView(CreateView):
     success_url = reverse_lazy('mantenimiento:vehiculo-list')
 
     def form_valid(self, form):
-        cliente = form.cleaned_data.get("cliente")
+        cliente = form.cleaned_data.get('cliente')
         if not cliente:
-            form.add_error("cliente", "Debe seleccionar un cliente.")
+            form.add_error('cliente', 'Debe seleccionar un cliente.')
             return self.form_invalid(form)
-
         self.object = form.save(commit=False)
         self.object.cliente = cliente
         self.object.save()
@@ -45,8 +45,6 @@ class VehiculoDeleteView(DeleteView):
     template_name = 'mantenimiento/vehiculo_confirm_delete.html'
     success_url = reverse_lazy('mantenimiento:vehiculo-list')
 
-
-# —— Vistas de Mantenimiento con formset de repuestos ——
 class MantenimientoListView(ListView):
     model = Mantenimiento
     template_name = 'mantenimiento/mantenimiento_list.html'
