@@ -10,6 +10,7 @@ class VehiculoListView(ListView):
     template_name = 'mantenimiento/vehiculo_list.html'
     context_object_name = 'vehiculos'
     paginate_by = 10
+    ordering = ['placa']
 
 class VehiculoDetailView(DetailView):
     model = Vehiculo
@@ -23,10 +24,15 @@ class VehiculoCreateView(CreateView):
     success_url = reverse_lazy('mantenimiento:vehiculo-list')
 
     def form_valid(self, form):
-        if not form.cleaned_data.get("cliente"):
+        cliente = form.cleaned_data.get("cliente")
+        if not cliente:
             form.add_error("cliente", "Debe seleccionar un cliente.")
             return self.form_invalid(form)
-        return super().form_valid(form)
+
+        self.object = form.save(commit=False)
+        self.object.cliente = cliente
+        self.object.save()
+        return redirect(self.success_url)
 
 class VehiculoUpdateView(UpdateView):
     model = Vehiculo
@@ -46,6 +52,7 @@ class MantenimientoListView(ListView):
     template_name = 'mantenimiento/mantenimiento_list.html'
     context_object_name = 'mantenimientos'
     paginate_by = 10
+    ordering = ['-fecha_mantenimiento']
 
 class MantenimientoCreateView(CreateView):
     model = Mantenimiento
@@ -78,7 +85,7 @@ class MantenimientoUpdateView(UpdateView):
     success_url = reverse_lazy('mantenimiento:mantenimiento-list')
 
     def get_context_data(self, **kwargs):
-        data = super().get_context_data()
+        data = super().get_context_data(**kwargs)
         if self.request.POST:
             data['repuesto_formset'] = RepuestoMantenimientoFormSet(self.request.POST, instance=self.object)
         else:
