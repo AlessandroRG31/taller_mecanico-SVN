@@ -3,8 +3,6 @@ from django.views.generic import (
     ListView, DetailView,
     CreateView, UpdateView, DeleteView
 )
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
 from .models import Vehiculo, Mantenimiento
 from .forms import VehiculoForm, MantenimientoForm, RepuestoMantenimientoFormSet
 
@@ -25,18 +23,8 @@ class VehiculoCreateView(CreateView):
     form_class = VehiculoForm
     template_name = 'mantenimiento/vehiculo_form.html'
     success_url = reverse_lazy('mantenimiento:vehiculo-list')
-
-    def form_valid(self, form):
-        # 1) Creamos la instancia sin salvarla todavía
-        instancia = form.save(commit=False)
-        # 2) Asignamos el cliente seleccionado en el formulario
-        instancia.cliente = form.cleaned_data['cliente']
-        # 3) Salvamos la instancia ya completa
-        instancia.save()
-        # 4) Asignamos self.object para que CreateView lo reconozca
-        self.object = instancia
-        # 5) Redirigimos al listado
-        return HttpResponseRedirect(self.get_success_url())
+    # Eliminamos cualquier form_valid personalizado para usar el comportamiento por defecto:
+    # CreateView.form_valid() llama a form.save() incluyendo el campo 'cliente'.
 
 class VehiculoUpdateView(UpdateView):
     model = Vehiculo
@@ -81,7 +69,7 @@ class MantenimientoCreateView(CreateView):
             self.object = form.save()
             formset.instance = self.object
             formset.save()
-            return HttpResponseRedirect(self.get_success_url())
+            return super().form_valid(form)
         return self.render_to_response(self.get_context_data(form=form))
 
 class MantenimientoUpdateView(UpdateView):
@@ -105,7 +93,7 @@ class MantenimientoUpdateView(UpdateView):
             self.object = form.save()
             formset.instance = self.object
             formset.save()
-            return HttpResponseRedirect(self.get_success_url())
+            return super().form_valid(form)
         return self.render_to_response(self.get_context_data(form=form))
 
 class MantenimientoDeleteView(DeleteView):
