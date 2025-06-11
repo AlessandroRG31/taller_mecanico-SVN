@@ -1,100 +1,70 @@
+# taller_mecanico-SVN-main/mantenimiento/models.py
+
 from django.db import models
-from django.utils import timezone
 from django.core.validators import MinValueValidator
 from repuestos.models import Repuesto
 from clientes.models import Cliente
-from datetime import timedelta
 
 class Vehiculo(models.Model):
     cliente = models.ForeignKey(
-    Cliente,
-    on_delete=models.CASCADE,
-    related_name="vehiculos",
-    verbose_name="Cliente"
-)
-
-    placa = models.CharField("Placa", max_length=20, unique=True)
-    marca = models.CharField("Marca", max_length=50, blank=True, default='')
-    modelo = models.CharField("Modelo", max_length=50, blank=True, default='')
-    anio = models.PositiveSmallIntegerField("Año", default=timezone.now().year)
-    tipo = models.CharField("Tipo de vehículo", max_length=50, blank=True, default='')
-    costo = models.DecimalField(
-        "Costo (S/.)", max_digits=10, decimal_places=2,
-        validators=[MinValueValidator(0)], default=0.0
+        Cliente,
+        on_delete=models.CASCADE,
+        related_name="vehiculos",
+        verbose_name="Cliente"
     )
-    foto_placa = models.ImageField(
-        "Foto de la placa", upload_to='vehiculos/placas/',
-        blank=True, null=True
+    placa = models.CharField("Placa", max_length=20, unique=True)
+    marca = models.CharField("Marca", max_length=50)
+    modelo = models.CharField("Modelo", max_length=50)
+    anio = models.PositiveIntegerField(
+        "Año", validators=[MinValueValidator(1886)]
+    )
+    tipo = models.CharField("Tipo", max_length=30)
+    costo = models.DecimalField(
+        "Costo", max_digits=10, decimal_places=2
     )
     foto_frente = models.ImageField(
-        "Foto frontal", upload_to='vehiculos/frente/',
-        blank=True, null=True
+        "Foto frontal", upload_to="vehiculos/%Y/%m/%d/", blank=True, null=True
     )
     foto_trasera = models.ImageField(
-        "Foto trasera", upload_to='vehiculos/trasera/',
-        blank=True, null=True
+        "Foto trasera", upload_to="vehiculos/%Y/%m/%d/", blank=True, null=True
     )
     foto_lateral1 = models.ImageField(
-        "Foto lateral 1", upload_to='vehiculos/lateral1/',
-        blank=True, null=True
+        "Foto lateral 1", upload_to="vehiculos/%Y/%m/%d/", blank=True, null=True
     )
     foto_lateral2 = models.ImageField(
-        "Foto lateral 2", upload_to='vehiculos/lateral2/',
-        blank=True, null=True
+        "Foto lateral 2", upload_to="vehiculos/%Y/%m/%d/", blank=True, null=True
     )
-    fecha_registro = models.DateField(auto_now_add=True)
-    fecha_proxima_revision = models.DateField(blank=True, null=True)
-
-    def calcular_fecha_proxima(self, dias_intervalo=180):
-        base = self.fecha_proxima_revision or self.fecha_registro
-        if base is None:
-            base = timezone.now().date()
-        self.fecha_proxima_revision = base + timedelta(days=dias_intervalo)
-        return self.fecha_proxima_revision
-
-      # --- Comentamos o eliminamos este método ---
-    # def save(self, *args, **kwargs):
-    #     # Lógica de cálculo de fecha_proxima_revision o generación de próxima revisión
-    #     if not self.fecha_proxima_revision:
-    #         self.fecha_proxima_revision = timezone.now().date() + timedelta(days=180)
-    #     super().save(*args, **kwargs)
-    def __str__(self):
-        return f"{self.placa} – {self.cliente}"
-
-class ProximoMantenimiento(models.Model):
-    vehiculo = models.ForeignKey(
-        Vehiculo, on_delete=models.CASCADE, related_name='proximos'
+    fecha_proxima_revision = models.DateField(
+        "Próxima revisión", blank=True, null=True
     )
-    fecha_programada = models.DateField("Fecha programada")
 
     def __str__(self):
-        return f"Próximo mant. {self.vehiculo.placa} el {self.fecha_programada}"
+        return f"{self.placa} - {self.marca} {self.modelo}"
 
 class Mantenimiento(models.Model):
     vehiculo = models.ForeignKey(
-        Vehiculo, on_delete=models.CASCADE, related_name='mantenimientos'
+        Vehiculo,
+        on_delete=models.CASCADE,
+        related_name="mantenimientos"
     )
-    tipo_mantenimiento = models.CharField(
-        "Tipo de mantenimiento", max_length=100, blank=True, default=''
-    )
-    fecha_mantenimiento = models.DateField("Fecha", default=timezone.now)
-    repuestos = models.ManyToManyField(
-        Repuesto,
-        through='RepuestoMantenimiento',
-        blank=True,
-        related_name='mantenimientos'
-    )
+    fecha_mantenimiento = models.DateField("Fecha de mantenimiento")
     costo = models.DecimalField(
-        "Costo (S/.)", max_digits=10, decimal_places=2,
-        validators=[MinValueValidator(0)], default=0.0
+        "Costo", max_digits=10, decimal_places=2
     )
 
     def __str__(self):
-        return f"{self.tipo_mantenimiento} – {self.vehiculo.placa} ({self.fecha_mantenimiento})"
+        return f"Mantenimiento {self.id} - Vehículo {self.vehiculo.placa}"
 
 class RepuestoMantenimiento(models.Model):
-    mantenimiento = models.ForeignKey(Mantenimiento, on_delete=models.CASCADE)
-    repuesto = models.ForeignKey(Repuesto, on_delete=models.CASCADE)
+    mantenimiento = models.ForeignKey(
+        Mantenimiento,
+        on_delete=models.CASCADE,
+        related_name="repuestos"
+    )
+    repuesto = models.ForeignKey(
+        Repuesto,
+        on_delete=models.CASCADE
+    )
     cantidad = models.PositiveIntegerField(
         "Cantidad",
         validators=[MinValueValidator(1)],
@@ -102,4 +72,4 @@ class RepuestoMantenimiento(models.Model):
     )
 
     def __str__(self):
-        return f"{self.cantidad}× {self.repuesto.nombre} en mant. {self.mantenimiento.id}"
+        return f"{self.cantidad}× {self.repuesto.nombre} en Mantenimiento {self.mantenimiento.id}"
