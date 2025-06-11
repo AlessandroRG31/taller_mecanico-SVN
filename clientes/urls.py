@@ -1,10 +1,18 @@
 from django.urls import path
-from .views import ClienteListView, ClienteCreateView, ClienteAutocomplete
+from .views import (
+    ClienteListView,
+    ClienteDetailView,
+    ClienteCreateView,
+    ClienteUpdateView,
+    ClienteDeleteView,
+)
 
 app_name = 'clientes'
 
 urlpatterns = [
-    path('', ClienteListView.as_view(), name='list'),
-    path('nuevo/', ClienteCreateView.as_view(), name='create'),
-    path('autocomplete/', ClienteAutocomplete.as_view(), name='cliente-autocomplete'),
+    path('', ClienteListView.as_view(), name='cliente-list'),
+    path('nuevo/', ClienteCreateView.as_view(), name='cliente-create'),
+    path('<int:pk>/', ClienteDetailView.as_view(), name='cliente-detail'),
+    path('<int:pk>/editar/', ClienteUpdateView.as_view(), name='cliente-update'),
+    path('<int:pk>/eliminar/', ClienteDeleteView.as_view(), name='cliente-delete'),
 ]
