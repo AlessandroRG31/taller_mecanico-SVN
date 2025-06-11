@@ -23,8 +23,27 @@ class VehiculoCreateView(CreateView):
     form_class = VehiculoForm
     template_name = 'mantenimiento/vehiculo_form.html'
     success_url = reverse_lazy('mantenimiento:vehiculo-list')
-    # Eliminamos cualquier form_valid personalizado para usar el comportamiento por defecto:
-    # CreateView.form_valid() llama a form.save() incluyendo el campo 'cliente'.
+
+    def get_initial(self):
+        """
+        Si la URL incluye cliente_id, lo preselecciona en el form igual que
+        en MantenimientoCreateView con vehiculo.
+        """
+        initial = super().get_initial()
+        cliente_id = self.kwargs.get('cliente_id')
+        if cliente_id:
+            initial['cliente'] = cliente_id
+        return initial
+
+    def form_valid(self, form):
+        """
+        Guardado idéntico al de MantenimientoCreateView: 
+        form.save() en bloque y luego redirección.
+        """
+        # 1) Salvamos la instancia con todos los campos (incluido cliente)
+        self.object = form.save()
+        # 2) Redirigimos al success_url
+        return super().form_valid(form)
 
 class VehiculoUpdateView(UpdateView):
     model = Vehiculo
