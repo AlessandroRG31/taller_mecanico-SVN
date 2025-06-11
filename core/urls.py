@@ -1,15 +1,15 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from .views import landing, login_view, register_view, dashboard, logout_view
+
+app_name = 'core'
 
 urlpatterns = [
-    # URLs de la app core (landing, login, register, dashboard, logout)
-    path('', include(('core.urls', 'core'), namespace='core')),
-    # Sección de clientes
-    path('clientes/', include(('clientes.urls', 'clientes'), namespace='clientes')),
-    # Sección de mantenimientos
-    path('mantenimientos/', include(('mantenimiento.urls', 'mantenimiento'), namespace='mantenimiento')),
-    # Sección de repuestos (si existe)
-    path('repuestos/', include(('repuestos.urls', 'repuestos'), namespace='repuestos')),
-    # Admin de Django
-    path('admin/', admin.site.urls),
+    # Página de inicio
+    path('', landing, name='landing'),
+    # Login / Logout / Registro
+    path('login/', login_view, name='login'),
+    path('register/', register_view, name='register'),
+    path('logout/', logout_view, name='logout'),
+    # Dashboard (requiere login)
+    path('dashboard/', dashboard, name='dashboard'),
 ]
