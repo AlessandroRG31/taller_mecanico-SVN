@@ -1,8 +1,7 @@
+# Ruta: mantenimiento/views.py
 from django.urls import reverse_lazy
-from django.views.generic import (
-    ListView, DetailView,
-    CreateView, UpdateView, DeleteView
-)
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.http import HttpResponseRedirect
 from .models import Vehiculo, Mantenimiento
 from .forms import VehiculoForm, MantenimientoForm, RepuestoMantenimientoFormSet
 
@@ -25,11 +24,11 @@ class VehiculoCreateView(CreateView):
     success_url = reverse_lazy('mantenimiento:vehiculo-list')
 
     def form_valid(self, form):
-        # Guardar el cliente explícitamente para evitar el IntegrityError
+        # Asignar explícitamente el cliente antes de guardar
         self.object = form.save(commit=False)
-        self.object.cliente = form.cleaned_data['cliente']
+        self.object.cliente = form.cleaned_data.get('cliente')
         self.object.save()
-        return super().form_valid(form)
+        return HttpResponseRedirect(self.get_success_url())
 
 class VehiculoUpdateView(UpdateView):
     model = Vehiculo
