@@ -17,7 +17,7 @@ class MantenimientoForm(forms.ModelForm):
     class Meta:
         model = Mantenimiento
         fields = [
-            'vehiculo', 'tipo_mantenimiento', 'fecha_mantenimiento', 'costo', 'descripcion'
+            'vehiculo', 'tipo_mantenimiento', 'fecha_mantenimiento', 'costo'
         ]
         widgets = {
             'fecha_mantenimiento': forms.DateInput(attrs={'type': 'date'}),
