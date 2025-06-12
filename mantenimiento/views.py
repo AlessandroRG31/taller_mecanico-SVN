@@ -35,15 +35,21 @@ class VehiculoCreateView(CreateView):
             form.fields['cliente'].widget = forms.HiddenInput()
         return form
 
-    def form_valid(self, form):
-        cliente_id = self.kwargs.get('cliente_id')
-        if cliente_id:
-            form.instance.cliente_id = cliente_id
-        # Si el cliente no está definido (ni por URL ni por formulario), error
-        if not form.instance.cliente_id:
-            form.add_error('cliente', "Debes seleccionar un cliente.")
-            return self.form_invalid(form)
-        return super().form_valid(form)
+def form_valid(self, form):
+    cliente_id = self.kwargs.get('cliente_id')
+    if not form.instance.cliente_id and not cliente_id:
+        # Asigna el primer cliente (temporal) si no se eligió nada
+        from clientes.models import Cliente
+        primer_cliente = Cliente.objects.first()
+        if primer_cliente:
+            form.instance.cliente = primer_cliente
+    if cliente_id:
+        form.instance.cliente_id = cliente_id
+    if not form.instance.cliente_id:
+        form.add_error('cliente', "Debes seleccionar un cliente.")
+        return self.form_invalid(form)
+    return super().form_valid(form)
+
 
 class VehiculoUpdateView(UpdateView):
     model = Vehiculo
