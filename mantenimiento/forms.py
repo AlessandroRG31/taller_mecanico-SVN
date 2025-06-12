@@ -1,20 +1,22 @@
 from django import forms
-from .models import Vehiculo, Mantenimiento
-from clientes.models import Cliente
+from .models import Vehiculo, Mantenimiento, RepuestoMantenimiento
+from django.forms import inlineformset_factory
 
 class VehiculoForm(forms.ModelForm):
     class Meta:
         model = Vehiculo
         fields = '__all__'
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Asegura que siempre se muestren todos los clientes disponibles
-        self.fields['cliente'].queryset = Cliente.objects.all()
-        # El campo cliente debe ser obligatorio
-        self.fields['cliente'].required = True
-
 class MantenimientoForm(forms.ModelForm):
     class Meta:
         model = Mantenimiento
         fields = '__all__'
+
+# Este es el que te falta
+RepuestoMantenimientoFormSet = inlineformset_factory(
+    Mantenimiento,
+    RepuestoMantenimiento,
+    fields=('repuesto', 'cantidad'),
+    extra=1,
+    can_delete=True
+)
