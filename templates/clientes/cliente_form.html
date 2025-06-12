@@ -7,7 +7,6 @@
   {% csrf_token %}
   {{ form.as_p }}
   <button type="submit" class="btn btn-primary">Guardar</button>
-  <a href="{% url 'clientes:cliente-list' %}" class="btn btn-secondary">Cancelar</a>
   <a href="{% url 'clientes:cliente-list' %}" class="btn btn-secondary me-3">Volver ver Clientes</a>
 </form>
 {% endblock %}

@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
-from django.views.generic import DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 from .models import Cliente
 from .forms import ClienteForm
 
+# Vistas basadas en funciones
 
 @login_required
 def cliente_list(request):
@@ -36,6 +37,28 @@ def cliente_update(request, pk):
     else:
         form = ClienteForm(instance=cliente)
     return render(request, 'clientes/cliente_form.html', {'form': form})
+
+
+# Vistas basadas en clases (opcionalmente puedes usar estas en lugar de las funciones)
+
+class ClienteListView(ListView):
+    model = Cliente
+    template_name = 'clientes/cliente_list.html'
+    context_object_name = 'clientes'
+
+
+class ClienteCreateView(CreateView):
+    model = Cliente
+    fields = ['nombre', 'dui', 'telefono', 'email']
+    template_name = 'clientes/cliente_form.html'
+    success_url = reverse_lazy('clientes:cliente-list')
+
+
+class ClienteUpdateView(UpdateView):
+    model = Cliente
+    fields = ['nombre', 'dui', 'telefono', 'email']
+    template_name = 'clientes/cliente_form.html'
+    success_url = reverse_lazy('clientes:cliente-list')
 
 
 class ClienteDeleteView(DeleteView):
