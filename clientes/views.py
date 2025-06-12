@@ -1,12 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
+from django.views.generic import DeleteView
+
 from .models import Cliente
 from .forms import ClienteForm
+
 
 @login_required
 def cliente_list(request):
     clientes = Cliente.objects.all().order_by('nombre')
     return render(request, 'clientes/cliente_list.html', {'clientes': clientes})
+
 
 @login_required
 def cliente_create(request):
@@ -19,6 +24,7 @@ def cliente_create(request):
         form = ClienteForm()
     return render(request, 'clientes/cliente_form.html', {'form': form})
 
+
 @login_required
 def cliente_update(request, pk):
     cliente = get_object_or_404(Cliente, pk=pk)
@@ -30,3 +36,9 @@ def cliente_update(request, pk):
     else:
         form = ClienteForm(instance=cliente)
     return render(request, 'clientes/cliente_form.html', {'form': form})
+
+
+class ClienteDeleteView(DeleteView):
+    model = Cliente
+    template_name = 'clientes/cliente_confirm_delete.html'
+    success_url = reverse_lazy('clientes:cliente-list')
