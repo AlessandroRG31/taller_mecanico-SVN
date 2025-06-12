@@ -3,24 +3,60 @@
 {% block title %}Nuevo Mantenimiento{% endblock %}
 
 {% block content %}
-  <div class="container py-4">
-    <h2>Nuevo Mantenimiento</h2>
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ form.as_p }}
-      {% if repuestos %}
-        <h4>Repuestos utilizados</h4>
-        {{ repuestos.management_form }}
-        {% for formset_form in repuestos.forms %}
-          {{ formset_form.as_p }}
-        {% endfor %}
-      {% endif %}
-      <button type="submit" class="btn btn-primary">Guardar</button>
-      <a href="{% url 'mantenimiento:mantenimiento-list' %}" class="btn btn-secondary">Volver Ver Mantenimientos</a>
-    </form>
+<div class="container mt-5">
+  <div class="card shadow">
+    <div class="card-header bg-info text-white">
+      <h4 class="mb-0">Nuevo Mantenimiento</h4>
+    </div>
+    <div class="card-body">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            {{ form.vehiculo.label_tag }} {{ form.vehiculo }}
+          </div>
+          <div class="col-md-6 mb-3">
+            {{ form.tipo_mantenimiento.label_tag }} {{ form.tipo_mantenimiento }}
+          </div>
+          <div class="col-md-6 mb-3">
+            {{ form.fecha_mantenimiento.label_tag }} {{ form.fecha_mantenimiento }}
+          </div>
+          <div class="col-md-6 mb-3">
+            {{ form.costo.label_tag }} {{ form.costo }}
+          </div>
+        </div>
+
+        {% if repuestos %}
+        <div class="card mt-4 border">
+          <div class="card-header bg-secondary text-white">
+            <strong>Repuestos utilizados</strong>
+          </div>
+          <div class="card-body">
+            {{ repuestos.management_form }}
+            {% for formset_form in repuestos.forms %}
+              <div class="row mb-3 border-bottom pb-2">
+                <div class="col-md-6">
+                  {{ formset_form.repuesto.label_tag }} {{ formset_form.repuesto }}
+                </div>
+                <div class="col-md-3">
+                  {{ formset_form.cantidad.label_tag }} {{ formset_form.cantidad }}
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                  {{ formset_form.DELETE }} {{ formset_form.DELETE.label_tag }}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="mt-4">
+          <button type="submit" class="btn btn-success me-2">Guardar</button>
+          <a href="{% url 'mantenimiento:mantenimiento-list' %}" class="btn btn-secondary">Volver Ver Mantenimientos</a>
+        </div>
+      </form>
+    </div>
   </div>
+</div>
 {% endblock %}
-
-
-
-
