@@ -20,6 +20,8 @@ urlpatterns = [
     path('vehiculos/nuevo/', VehiculoCreateView.as_view(), name='vehiculo-create'),
     # Ruta para Nuevo Vehículo CON cliente_id (si venimos desde Detalle de Cliente)
     path('vehiculos/nuevo/<int:cliente_id>/', VehiculoCreateView.as_view(), name='vehiculo-create'),
+    path('vehiculos/editar/<int:pk>/', VehiculoUpdateView.as_view(), name='vehiculo-update'),
+    path('vehiculos/eliminar/<int:pk>/', VehiculoDeleteView.as_view(), name='vehiculo-delete'),
     path('vehiculos/<int:pk>/', VehiculoDetailView.as_view(), name='vehiculo-detail'),
     path('vehiculos/<int:pk>/editar/', VehiculoUpdateView.as_view(), name='vehiculo-update'),
     path('vehiculos/<int:pk>/eliminar/', VehiculoDeleteView.as_view(), name='vehiculo-delete'),
