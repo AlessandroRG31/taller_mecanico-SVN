@@ -25,34 +25,25 @@ class VehiculoCreateView(CreateView):
     success_url = reverse_lazy('mantenimiento:vehiculo-list')
 
     def get_initial(self):
-        """
-        Si la URL incluye cliente_id, lo preselecciona en el form igual que
-        en MantenimientoCreateView con vehiculo.
-        """
         initial = super().get_initial()
         cliente_id = self.kwargs.get('cliente_id')
         if cliente_id:
             initial['cliente'] = cliente_id
         return initial
 
-    def get_form(self, form_class=None):
-        form = super().get_form(form_class)
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
         cliente_id = self.kwargs.get('cliente_id')
         if cliente_id:
-            # Preselecciona y desactiva el campo cliente si viene por URL
-            form.fields['cliente'].initial = cliente_id
-            form.fields['cliente'].queryset = form.fields['cliente'].queryset.filter(id=cliente_id)
-            form.fields['cliente'].empty_label = None
-        return form
+            kwargs['initial'] = kwargs.get('initial', {})
+            kwargs['initial']['cliente'] = cliente_id
+        return kwargs
 
     def form_valid(self, form):
-        """
-        Guardado idéntico al de MantenimientoCreateView: 
-        form.save() en bloque y luego redirección.
-        """
-        # 1) Salvamos la instancia con todos los campos (incluido cliente)
-        self.object = form.save()
-        # 2) Redirigimos al success_url
+        # Asegúrate que el campo cliente SIEMPRE se guarde correctamente
+        cliente_id = self.kwargs.get('cliente_id')
+        if cliente_id:
+            form.instance.cliente_id = cliente_id
         return super().form_valid(form)
 
 class VehiculoUpdateView(UpdateView):

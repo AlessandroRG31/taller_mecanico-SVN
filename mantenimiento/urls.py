@@ -9,6 +9,7 @@ urlpatterns = [
     path('vehiculos/nuevo/', views.VehiculoCreateView.as_view(), name='vehiculo-create'),
     # Vista con cliente preseleccionado (pasa cliente_id en la URL)
     path('vehiculos/nuevo/<int:cliente_id>/', views.VehiculoCreateView.as_view(), name='vehiculo-create'),
+    
     path('vehiculos/<int:pk>/', views.VehiculoDetailView.as_view(), name='vehiculo-detail'),
     path('vehiculos/editar/<int:pk>/', views.VehiculoUpdateView.as_view(), name='vehiculo-update'),
     path('vehiculos/eliminar/<int:pk>/', views.VehiculoDeleteView.as_view(), name='vehiculo-delete'),
