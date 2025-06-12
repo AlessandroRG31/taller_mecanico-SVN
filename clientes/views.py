@@ -6,7 +6,10 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import Cliente
 from .forms import ClienteForm
 
+
+# ============================
 # Vistas basadas en funciones
+# ============================
 
 @login_required
 def cliente_list(request):
@@ -39,7 +42,9 @@ def cliente_update(request, pk):
     return render(request, 'clientes/cliente_form.html', {'form': form})
 
 
-# Vistas basadas en clases (opcionalmente puedes usar estas en lugar de las funciones)
+# ============================
+# Vistas basadas en clases
+# ============================
 
 class ClienteListView(ListView):
     model = Cliente
@@ -49,14 +54,14 @@ class ClienteListView(ListView):
 
 class ClienteCreateView(CreateView):
     model = Cliente
-    fields = ['nombre', 'dui', 'telefono', 'email']
+    form_class = ClienteForm
     template_name = 'clientes/cliente_form.html'
     success_url = reverse_lazy('clientes:cliente-list')
 
 
 class ClienteUpdateView(UpdateView):
     model = Cliente
-    fields = ['nombre', 'dui', 'telefono', 'email']
+    form_class = ClienteForm
     template_name = 'clientes/cliente_form.html'
     success_url = reverse_lazy('clientes:cliente-list')
 
