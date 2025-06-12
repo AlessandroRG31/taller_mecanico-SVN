@@ -28,4 +28,4 @@ class VehiculoForm(forms.ModelForm):
             'foto_lateral2',
             'fecha_proxima_revision',
         ]
-        # No usamos widgets JS de autocompletar: usamos selects nativos
+        # Sin widgets de Select2 ni JS de autocompletado

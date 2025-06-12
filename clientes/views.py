@@ -3,10 +3,9 @@ from django.views.generic import (
     ListView, DetailView,
     CreateView, UpdateView, DeleteView
 )
-from django.shortcuts import get_object_or_404
 from .models import Cliente
-from mantenimiento.models import Vehiculo
 from .forms import ClienteForm, VehiculoForm
+from mantenimiento.models import Vehiculo
 
 class ClienteListView(ListView):
     model = Cliente
@@ -39,8 +38,8 @@ class ClienteDeleteView(DeleteView):
 
 class VehiculoCreateView(CreateView):
     """
-    “Nuevo Vehículo” idéntico al flujo de “Nuevo Mantenimiento”:
-    preselecciona cliente_id y salva commit=False para evitar IntegrityError.
+    Nuevo Vehículo: preselecciona cliente_id y usa commit=False
+    para asignar cliente correctamente antes de guardar.
     """
     model = Vehiculo
     form_class = VehiculoForm
