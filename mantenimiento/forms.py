@@ -1,25 +1,20 @@
 from django import forms
 from .models import Vehiculo, Mantenimiento
+from clientes.models import Cliente
 
 class VehiculoForm(forms.ModelForm):
     class Meta:
         model = Vehiculo
-        fields = [
-            'cliente',
-            'placa', 'marca', 'modelo', 'anio', 'tipo', 'costo',
-            'foto_frente', 'foto_trasera', 'foto_lateral1', 'foto_lateral2',
-            'fecha_proxima_revision'
-        ]
-        widgets = {
-            'fecha_proxima_revision': forms.DateInput(attrs={'type': 'date'}),
-        }
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Asegura que siempre se muestren todos los clientes disponibles
+        self.fields['cliente'].queryset = Cliente.objects.all()
+        # El campo cliente debe ser obligatorio
+        self.fields['cliente'].required = True
 
 class MantenimientoForm(forms.ModelForm):
     class Meta:
         model = Mantenimiento
-        fields = [
-            'vehiculo', 'fecha_mantenimiento', 'costo'
-        ]
-        widgets = {
-            'fecha_mantenimiento': forms.DateInput(attrs={'type': 'date'}),
-        }
+        fields = '__all__'
