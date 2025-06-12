@@ -5,6 +5,7 @@ from django.views.generic import (
 )
 from .models import Vehiculo, Mantenimiento
 from .forms import VehiculoForm, MantenimientoForm, RepuestoMantenimientoFormSet
+from clientes.models import Cliente
 
 class VehiculoListView(ListView):
     model = Vehiculo
@@ -35,15 +36,23 @@ class VehiculoCreateView(CreateView):
         form = super().get_form(form_class)
         cliente_id = self.kwargs.get('cliente_id')
         if cliente_id:
-            # Forzar el valor en el form para evitar problemas
-            form.fields['cliente'].initial = cliente_id
+            try:
+                form.fields['cliente'].initial = int(cliente_id)
+                form.fields['cliente'].widget.attrs['readonly'] = True  # opcional: para evitar cambios
+            except:
+                pass
         return form
 
     def form_valid(self, form):
-        # Si se llama con cliente_id, fuerza el valor aunque el usuario no lo seleccione
+        # Asignar el cliente si vino por la URL y no está en cleaned_data
         cliente_id = self.kwargs.get('cliente_id')
-        if cliente_id:
-            form.instance.cliente_id = cliente_id
+        if cliente_id and not form.cleaned_data.get('cliente'):
+            try:
+                cliente_obj = Cliente.objects.get(pk=cliente_id)
+                form.instance.cliente = cliente_obj
+            except Cliente.DoesNotExist:
+                form.add_error('cliente', 'Cliente no válido.')
+                return self.form_invalid(form)
         return super().form_valid(form)
 
 class VehiculoUpdateView(UpdateView):

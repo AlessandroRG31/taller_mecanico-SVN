@@ -5,7 +5,6 @@ from .models import Vehiculo, Mantenimiento, RepuestoMantenimiento
 from clientes.models import Cliente
 
 class VehiculoForm(forms.ModelForm):
-    # Campo cliente como ModelChoiceField nativo
     cliente = forms.ModelChoiceField(
         queryset=Cliente.objects.all(),
         empty_label="— Selecciona un cliente —",
