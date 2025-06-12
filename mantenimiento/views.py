@@ -31,16 +31,16 @@ class VehiculoCreateView(CreateView):
             initial['cliente'] = cliente_id
         return initial
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
         cliente_id = self.kwargs.get('cliente_id')
         if cliente_id:
-            kwargs['initial'] = kwargs.get('initial', {})
-            kwargs['initial']['cliente'] = cliente_id
-        return kwargs
+            # Forzar el valor en el form para evitar problemas
+            form.fields['cliente'].initial = cliente_id
+        return form
 
     def form_valid(self, form):
-        # Asegúrate que el campo cliente SIEMPRE se guarde correctamente
+        # Si se llama con cliente_id, fuerza el valor aunque el usuario no lo seleccione
         cliente_id = self.kwargs.get('cliente_id')
         if cliente_id:
             form.instance.cliente_id = cliente_id
