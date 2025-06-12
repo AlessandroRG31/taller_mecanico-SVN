@@ -5,7 +5,7 @@ from django.views.generic import (
 )
 from .models import Vehiculo, Mantenimiento
 from .forms import VehiculoForm, MantenimientoForm, RepuestoMantenimientoFormSet
-from clientes.models import Cliente  # <- Asegúrate de importar Cliente
+from clientes.models import Cliente
 
 class VehiculoListView(ListView):
     model = Vehiculo
@@ -36,14 +36,14 @@ class VehiculoCreateView(CreateView):
         form = super().get_form(form_class)
         cliente_id = self.kwargs.get('cliente_id')
         if cliente_id:
-            # Si viene cliente_id por URL, selecciona ese cliente por defecto
             form.fields['cliente'].initial = cliente_id
-            # (Opcional) Si quieres que NO sea editable:
-            # form.fields['cliente'].disabled = True
+            # Para evitar que el usuario lo cambie si viene por URL (opcional)
+            form.fields['cliente'].widget.attrs['readonly'] = True
         return form
 
     def form_valid(self, form):
         cliente_id = self.kwargs.get('cliente_id')
+        # SIEMPRE forzar cliente si viene en la URL (aunque el usuario no cambie el select)
         if cliente_id:
             try:
                 cliente = Cliente.objects.get(pk=cliente_id)
@@ -51,6 +51,10 @@ class VehiculoCreateView(CreateView):
             except Cliente.DoesNotExist:
                 form.add_error('cliente', 'Cliente no válido')
                 return self.form_invalid(form)
+        elif not form.cleaned_data.get('cliente'):
+            # Si por alguna razón no viene cliente en POST, error
+            form.add_error('cliente', 'Debe seleccionar un cliente.')
+            return self.form_invalid(form)
         return super().form_valid(form)
 
 class VehiculoUpdateView(UpdateView):
