@@ -1,23 +1,38 @@
 {# templates/repuestos/empresa_form.html #}
 {% extends "core/base.html" %}
 
-{% block title %}Crear / Editar Empresa{% endblock %}
+{% block title %}{{ view.object|default_if_none:"Crear" }} Empresa{% endblock %}
 
 {% block content %}
-  {% if view.object %}
-    <h1>Editar Empresa</h1>
-  {% else %}
-    <h1>Crear nueva Empresa</h1>
-  {% endif %}
+<div class="container mt-5">
+  <div class="card shadow-lg">
+    <div class="card-header bg-dark text-white">
+      <h4 class="mb-0">
+        {% if view.object %}Editar Empresa{% else %}Crear nueva Empresa{% endif %}
+      </h4>
+    </div>
 
-  <form method="post" novalidate>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">
-      {% if view.object %}Guardar cambios{% else %}Crear empresa{% endif %}
-    </button>
-    <a href="{% url 'repuestos:empresa-list' %}" class="btn btn-secondary">Cancelar</a>
-    <a href="{% url 'repuestos:empresa-list' %}" class="btn btn-secondary me-2">Vovler ver Empresas</a>
-  </form>
+    <div class="card-body">
+      <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            {{ form.nombre.label_tag }} {{ form.nombre }}
+          </div>
+          <div class="col-md-6 mb-3">
+            {{ form.telefono.label_tag }} {{ form.telefono }}
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <button type="submit" class="btn btn-success me-2">
+            {% if view.object %}Guardar cambios{% else %}Crear empresa{% endif %}
+          </button>
+          <a href="{% url 'repuestos:empresa-list' %}" class="btn btn-secondary me-2">Cancelar</a>
+          <a href="{% url 'repuestos:empresa-list' %}" class="btn btn-outline-secondary">Volver ver Empresas</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
-
