@@ -1,41 +1,35 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory
+from datetime import date
 
 from .models import Vehiculo, Mantenimiento, RepuestoMantenimiento
 from clientes.models import Cliente
 
 class VehiculoForm(forms.ModelForm):
-    cliente = forms.ModelChoiceField(
-        queryset=Cliente.objects.all(),
-        empty_label="— Selecciona un cliente —",
-        label="Cliente",
-        error_messages={'required': 'Debe seleccionar un cliente.'}
-    )
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['cliente'].queryset = Cliente.objects.all()
+        self.fields['cliente'].label_from_instance = lambda obj: f"{obj.nombre} – {obj.dui}"
 
     class Meta:
         model = Vehiculo
         fields = [
-            'cliente',
-            'placa', 'marca', 'modelo', 'anio',
-            'tipo', 'costo',
-            'foto_frente', 'foto_trasera',
-            'foto_lateral1', 'foto_lateral2',
-            'fecha_proxima_revision',
+            'cliente', 'placa', 'foto_placa',
+            'marca', 'modelo', 'anio', 'tipo', 'costo',
+            'foto_frente', 'foto_trasera', 'foto_lateral1', 'foto_lateral2',
         ]
-        # Sin widgets de autocompletar externos; usamos el select nativo
+
+    def clean_costo(self):
+        costo = self.cleaned_data.get('costo')
+        if costo is not None and costo <= 0:
+            raise ValidationError("El costo debe ser mayor que 0.")
+        return costo
 
 class MantenimientoForm(forms.ModelForm):
-    # Campo vehiculo como ModelChoiceField nativo
-    vehiculo = forms.ModelChoiceField(
-        queryset=Vehiculo.objects.all(),
-        empty_label="— Selecciona un vehículo —",
-        label="Vehículo",
-        error_messages={'required': 'Debe seleccionar un vehículo.'}
-    )
-
     class Meta:
         model = Mantenimiento
-        fields = ['vehiculo', 'fecha_mantenimiento', 'costo']
+        fields = ['vehiculo', 'tipo_mantenimiento', 'fecha_mantenimiento', 'costo']
         widgets = {
             'fecha_mantenimiento': forms.DateInput(attrs={'type': 'date'}),
         }
@@ -43,7 +37,7 @@ class MantenimientoForm(forms.ModelForm):
     def clean_costo(self):
         costo = self.cleaned_data.get('costo')
         if costo is not None and costo <= 0:
-            raise forms.ValidationError("El costo del mantenimiento debe ser mayor que 0.")
+            raise ValidationError("El costo del mantenimiento debe ser mayor que 0.")
         return costo
 
 RepuestoMantenimientoFormSet = inlineformset_factory(

@@ -29,16 +29,17 @@
   <div class="card col-md-4 p-3">
     <h2>Búsqueda de Repuestos</h2>
     <p>Buscar repuestos disponibles en empresas registradas.</p>
-    <a href="{% url 'repuestos:buscar_repuestos' %}" class="btn btn-info me-2">Buscar repuesto</a>
-    <a href="{% url 'repuestos:repuesto_list' %}" class="btn btn-secondary">Repuestos</a>
+    <a href="{% url 'repuestos:buscar_repuestos' %}" class="btn btn-info">Buscar repuesto</a>
+    <a href="{% url 'repuestos:repuesto_list' %}" class="btn btn-secondary me-2">Ver Repuestos</a>
+    <a href="{% url 'repuestos:repuesto_nuevo' %}" class="btn btn-secondary me-2">Nuevo Repuesto</a>
   </div>
 
-  <div class="card col-md-4 p-3">
-    <h2>Gestión de Empresas</h2>
-    <p>Registrar y listar empresas proveedoras.</p>
-    <a href="{% url 'repuestos:empresa_nuevo' %}" class="btn btn-outline-success me-2">Nueva Empresa</a>
-    <a href="{% url 'repuestos:empresa_list' %}" class="btn btn-secondary">Empresas</a>
-  </div>
+<div class="card col-md-4 p-3">
+  <h2>Gestión de Empresas</h2>
+  <p>Registrar y listar Empresas</p>
+  <a href="{% url 'repuestos:empresa-create' %}" class="btn btn-outline-success mt-2">Nueva Empresa</a>
+  <a href="{% url 'repuestos:empresa-list' %}" class="btn btn-secondary me-2">Ver Empresas</a>
+</div>
 
 </div>
 {% endblock %}

@@ -1,48 +1,58 @@
-<!-- mantenimiento/templates/mantenimiento/vehiculo_list.html -->
 {% extends 'core/base.html' %}
 
 {% block title %}Lista de Vehículos{% endblock %}
 
 {% block content %}
-  <h1 class="mb-4">Lista de Vehículos</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <a href="{% url 'core:dashboard' %}" class="btn btn btn-secondary">← Volver al Dashboard</a>
+  <a href="{% url 'mantenimiento:vehiculo-create' %}" class="btn btn-success">Registrar Nuevo Vehículo</a>
+</div>
 
-  <!-- Botón Nuevo Vehículo -->
-  <p>
-    <a href="{% url 'mantenimiento:vehiculo-create' %}" class="btn btn-success">+ Nuevo Vehículo</a>
-  </p>
+<h1 class="mb-4">Lista de Vehículos</h1>
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Placa</th>
-        <th>Cliente</th>
-        <th>Marca</th>
-        <th>Modelo</th>
-        <th>Año</th>
-        <th>Próximo mantenimiento</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for v in vehiculos %}
-        <tr>
-          <td>{{ v.placa }}</td>
-          <td>{{ v.cliente }}</td>
-          <td>{{ v.marca }}</td>
-          <td>{{ v.modelo }}</td>
-          <td>{{ v.anio }}</td>
-          <td>{{ v.proximos.first.fecha_programada|default:"–" }}</td>
-          <td>
-            <a href="{% url 'mantenimiento:mantenimiento_nuevo_con_vehiculo' v.id %}" class="btn btn-sm btn-primary">
-              Registrar Mantenimiento
-            </a>
-          </td>
-        </tr>
-      {% empty %}
-        <tr>
-          <td colspan="7" class="text-center">No hay vehículos registrados.</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<table class="table table-bordered table-dark table-striped">
+  <thead>
+    <tr>
+      <th>Placa</th>
+      <th>Cliente</th>
+      <th>Marca</th>
+      <th>Modelo</th>
+      <th>Año</th>
+      <th>Tipo</th>
+      <th>Costo</th>
+      <th>Foto</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for v in vehiculos %}
+    <tr>
+      <td>{{ v.placa }}</td>
+      <td>{{ v.cliente }}</td>
+      <td>{{ v.marca }}</td>
+      <td>{{ v.modelo }}</td>
+      <td>{{ v.anio }}</td>
+      <td>{{ v.tipo }}</td>
+      <td>${{ v.costo }}</td>
+      <td>
+        {% if v.foto_frontal %}
+          <a href="{{ v.foto_frontal.url }}" target="_blank">Ver</a>
+        {% else %}
+          Sin foto
+        {% endif %}
+      </td>
+      <td>
+        <a href="{% url 'mantenimiento:vehiculo-update' v.pk %}" class="btn btn-sm btn-warning">Editar</a>
+        <a href="{% url 'mantenimiento:vehiculo-delete' v.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+        <a href="{% url 'mantenimiento:mantenimiento-create-with-vehiculo' v.pk %}" class="btn btn-sm btn-primary">Registrar Mantenimiento</a>
+        <a href="{% url 'mantenimiento:vehiculo-detail' v.pk %}" class="btn btn-sm btn-info">Detalles</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="9">No hay vehículos registrados.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

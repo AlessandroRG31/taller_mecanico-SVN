@@ -1,23 +1,25 @@
-# repuestos/urls.py
-
 from django.urls import path
-from . import views
+from .views import (
+    EmpresaListView, EmpresaCreateView, EmpresaUpdateView, EmpresaDeleteView,
+    RepuestoListView, RepuestoCreateView, RepuestoUpdateView, RepuestoDeleteView,
+    buscar_repuestos
+)
 
 app_name = 'repuestos'
 
 urlpatterns = [
-    # 1) Búsqueda pública (homepage de “repuestos/”)
-    path('', views.buscar_repuestos, name='buscar_repuestos'),
+    # EMPRESAS
+    path('empresas/', EmpresaListView.as_view(), name='empresa-list'),
+    path('empresas/nueva/', EmpresaCreateView.as_view(), name='empresa-create'),
+    path('empresas/editar/<int:pk>/', EmpresaUpdateView.as_view(), name='empresa-update'),
+    path('empresas/eliminar/<int:pk>/', EmpresaDeleteView.as_view(), name='empresa-delete'),
 
-    # 2) CRUD de Empresa
-    path('empresas/',                  views.EmpresaListView.as_view(),   name='empresa_list'),
-    path('empresas/nueva/',            views.EmpresaCreateView.as_view(), name='empresa_nuevo'),
-    path('empresas/<int:pk>/editar/',  views.EmpresaUpdateView.as_view(), name='empresa_editar'),
-    path('empresas/<int:pk>/eliminar/',views.EmpresaDeleteView.as_view(), name='empresa_eliminar'),
+    # REPUESTOS
+    path('', RepuestoListView.as_view(), name='repuesto_list'),
+    path('nuevo/', RepuestoCreateView.as_view(), name='repuesto_nuevo'),
+    path('editar/<int:pk>/', RepuestoUpdateView.as_view(), name='repuesto_editar'),
+    path('eliminar/<int:pk>/', RepuestoDeleteView.as_view(), name='repuesto_eliminar'),
 
-    # 3) CRUD de Repuesto
-    path('repuestos/',                 views.RepuestoListView.as_view(),  name='repuesto_list'),
-    path('repuesto/nuevo/',            views.RepuestoCreateView.as_view(),name='repuesto_nuevo'),
-    path('repuesto/<int:pk>/editar/',  views.RepuestoUpdateView.as_view(),name='repuesto_editar'),
-    path('repuesto/<int:pk>/eliminar/',views.RepuestoDeleteView.as_view(),name='repuesto_eliminar'),
+    # Búsqueda
+    path('buscar/', buscar_repuestos, name='buscar_repuestos'),
 ]

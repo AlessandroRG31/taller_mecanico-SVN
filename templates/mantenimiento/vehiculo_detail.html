@@ -2,20 +2,49 @@
 {% extends "core/base.html" %}
 
 {% block title %}Detalle de {{ vehiculo.placa }}{% endblock %}
+
 {% block content %}
-  <h1>Vehículo {{ vehiculo.placa }}</h1>
-  <div class="row mb-4">
-    <div class="col-md-4"><img src="{{ vehiculo.foto_placa.url }}" class="img-fluid" alt="Placa"></div>
-    <div class="col-md-4"><img src="{{ vehiculo.foto_frente.url }}" class="img-fluid" alt="Frente"></div>
-    <div class="col-md-4"><img src="{{ vehiculo.foto_trasera.url }}" class="img-fluid" alt="Trasera"></div>
+<div class="container py-4">
+  <h1 class="mb-4 text-center">Vehículo {{ vehiculo.placa }}</h1>
+
+  <div class="card mb-4">
+    <div class="card-header bg-primary text-white">Fotografías del vehículo</div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <img src="{{ vehiculo.foto_placa.url }}" class="img-fluid rounded border" alt="Placa">
+        </div>
+        <div class="col-md-4">
+          <img src="{{ vehiculo.foto_frente.url }}" class="img-fluid rounded border" alt="Frente">
+        </div>
+        <div class="col-md-4">
+          <img src="{{ vehiculo.foto_frontal.url }}" class="img-fluid rounded border" alt="Frontal">
+        </div>
+        <div class="col-md-4">
+          <img src="{{ vehiculo.foto_trasera.url }}" class="img-fluid rounded border" alt="Trasera">
+        </div>
+        <div class="col-md-6">
+          <img src="{{ vehiculo.foto_lateral1.url }}" class="img-fluid rounded border" alt="Lateral 1">
+        </div>
+        <div class="col-md-6">
+          <img src="{{ vehiculo.foto_lateral2.url }}" class="img-fluid rounded border" alt="Lateral 2">
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="row mb-4">
-    <div class="col-md-6"><img src="{{ vehiculo.foto_lateral1.url }}" class="img-fluid" alt="Lateral 1"></div>
-    <div class="col-md-6"><img src="{{ vehiculo.foto_lateral2.url }}" class="img-fluid" alt="Lateral 2"></div>
+
+  <div class="card mb-4">
+    <div class="card-header bg-secondary text-white">Información del Vehículo</div>
+    <div class="card-body">
+      <p><strong>Cliente:</strong> {{ vehiculo.cliente }}</p>
+      <p><strong>Marca / Modelo / Año:</strong> {{ vehiculo.marca }} / {{ vehiculo.modelo }} / {{ vehiculo.anio }}</p>
+      <p><strong>Próximo mantenimiento:</strong> {% if proximo %}{{ proximo.fecha_programada }}{% else %}&ndash;{% endif %}</p>
+    </div>
   </div>
-  <p><strong>Cliente:</strong> {{ vehiculo.cliente }}</p>
-  <p><strong>Marca / Modelo / Año:</strong> {{ vehiculo.marca }} / {{ vehiculo.modelo }} / {{ vehiculo.anio }}</p>
-  <p><strong>Próximo mantenimiento:</strong> {% if proximo %}{{ proximo.fecha_programada }}{% else %}&ndash;{% endif %}</p>
-  <a href="{% url 'mantenimiento:mantenimiento_nuevo_con_vehiculo' vehiculo.id %}" class="btn btn-primary">Registrar mantenimiento</a>
-  <a href="{% url 'mantenimiento:vehiculo_list' %}" class="btn btn-secondary">Volver a la lista</a>
+
+  <div class="text-center">
+    <a href="{% url 'mantenimiento:mantenimiento_nuevo_con_vehiculo' vehiculo.id %}" class="btn btn-success me-2">Registrar mantenimiento</a>
+    <a href="{% url 'mantenimiento:vehiculo-list' %}" class="btn btn-outline-secondary">Volver a la lista</a>
+  </div>
+</div>
 {% endblock %}

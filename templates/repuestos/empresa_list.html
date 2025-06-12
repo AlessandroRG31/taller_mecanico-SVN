@@ -7,8 +7,8 @@
   <h1 class="mb-3">Empresas</h1>
 
   {# Botón que lleva a /repuestos/empresas/nueva/ #}
-  <a href="{% url 'repuestos:empresa_nuevo' %}" class="btn btn-primary mb-3">
-    Nueva Empresa
+  <a href="{% url 'core:dashboard' %}" class="btn btn-outline-success mb-3">Regresar</a>
+  <a href="{% url 'repuestos:empresa-create' %}" class="btn btn-primary mb-3">Nueva Empresa
   </a>
 
   <table class="table table-striped">
@@ -25,11 +25,11 @@
           <td>{{ empresa.nombre }}</td>
           <td>{{ empresa.telefono }}</td>
           <td>
-            <a href="{% url 'repuestos:empresa_editar' empresa.pk %}" class="btn btn-sm btn-warning">
+            <a href="{% url 'repuestos:empresa-update' empresa.pk %}" class="btn btn-sm btn-warning">
               Editar
             </a>
             &nbsp;|&nbsp;
-            <a href="{% url 'repuestos:empresa_eliminar' empresa.pk %}" class="btn btn-sm btn-danger">
+            <a href="{% url 'repuestos:empresa-delete' empresa.pk %}" class="btn btn-sm btn-danger">
               Eliminar
             </a>
           </td>
@@ -42,3 +42,4 @@
     </tbody>
   </table>
 {% endblock %}
+

@@ -1,0 +1,13 @@
+{% extends "core/base.html" %}
+{% block title %}Formulario de Cliente{% endblock %}
+
+{% block content %}
+<h1>{{ form.instance.pk|yesno:"Editar Cliente,Nuevo Cliente" }}</h1>
+<form method="post" class="bg-dark p-4 rounded">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">Guardar</button>
+  <a href="{% url 'clientes:cliente-list' %}" class="btn btn-secondary">Cancelar</a>
+  <a href="{% url 'clientes:cliente-list' %}" class="btn btn-secondary me-3">Volver ver Clientes</a>
+</form>
+{% endblock %}

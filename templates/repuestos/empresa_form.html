@@ -16,6 +16,8 @@
     <button type="submit" class="btn btn-success">
       {% if view.object %}Guardar cambios{% else %}Crear empresa{% endif %}
     </button>
-    <a href="{% url 'repuestos:empresa_list' %}" class="btn btn-secondary">Cancelar</a>
+    <a href="{% url 'repuestos:empresa-list' %}" class="btn btn-secondary">Cancelar</a>
+    <a href="{% url 'repuestos:empresa-list' %}" class="btn btn-secondary me-2">Vovler ver Empresas</a>
   </form>
 {% endblock %}
+

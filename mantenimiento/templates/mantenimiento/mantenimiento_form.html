@@ -1,14 +1,26 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Nuevo Vehículo{% endblock %}
+{% block title %}Nuevo Mantenimiento{% endblock %}
 
 {% block content %}
   <div class="container py-4">
-    <h2>Nuevo Vehículo</h2>
+    <h2>Nuevo Mantenimiento</h2>
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}
+      {% if repuestos %}
+        <h4>Repuestos utilizados</h4>
+        {{ repuestos.management_form }}
+        {% for formset_form in repuestos.forms %}
+          {{ formset_form.as_p }}
+        {% endfor %}
+      {% endif %}
       <button type="submit" class="btn btn-primary">Guardar</button>
+      <a href="{% url 'mantenimiento:mantenimiento-list' %}" class="btn btn-secondary">Volver Ver Mantenimientos</a>
     </form>
   </div>
 {% endblock %}
+
+
+
+
