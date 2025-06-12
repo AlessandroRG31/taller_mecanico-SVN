@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator
 from repuestos.models import Repuesto
 from clientes.models import Cliente
 
+
 class Vehiculo(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     placa = models.CharField("Placa", max_length=20, unique=True)
@@ -17,12 +18,14 @@ class Vehiculo(models.Model):
         validators=[MinValueValidator(0)], default=0.0
     )
     foto_frente = models.ImageField("Foto frontal", upload_to='vehiculos/frente/', blank=True, default='')
+    foto_frontal = models.ImageField("Foto frontal (alternativa)", upload_to='vehiculos/', blank=True, null=True)
     foto_trasera = models.ImageField("Foto trasera", upload_to='vehiculos/trasera/', blank=True, default='')
     foto_lateral1 = models.ImageField("Foto lateral 1", upload_to='vehiculos/lateral1/', blank=True, default='')
     foto_lateral2 = models.ImageField("Foto lateral 2", upload_to='vehiculos/lateral2/', blank=True, default='')
 
     def __str__(self):
         return f"{self.placa} – {self.cliente}"
+
 
 class Mantenimiento(models.Model):
     vehiculo = models.ForeignKey(Vehiculo, on_delete=models.CASCADE, related_name='mantenimientos')
@@ -41,6 +44,7 @@ class Mantenimiento(models.Model):
 
     def __str__(self):
         return f"{self.tipo_mantenimiento} – {self.vehiculo.placa} ({self.fecha_mantenimiento})"
+
 
 class RepuestoMantenimiento(models.Model):
     mantenimiento = models.ForeignKey(Mantenimiento, on_delete=models.CASCADE)

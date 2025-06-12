@@ -25,6 +25,7 @@ class VehiculoForm(forms.ModelForm):
             'tipo': forms.TextInput(attrs={'class': 'form-control'}),
             'costo': forms.NumberInput(attrs={'class': 'form-control'}),
             'foto_placa': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'foto_frente': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'foto_frontal': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'foto_trasera': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'foto_lateral1': forms.ClearableFileInput(attrs={'class': 'form-control'}),
