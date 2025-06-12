@@ -1,34 +1,18 @@
 from django.urls import path
-from .views import (
-    VehiculoListView,
-    VehiculoDetailView,
-    VehiculoCreateView,
-    VehiculoUpdateView,
-    VehiculoDeleteView,
-    MantenimientoListView,
-    MantenimientoCreateView,
-    MantenimientoUpdateView,
-    MantenimientoDeleteView,
-)
+from . import views
 
 app_name = 'mantenimiento'
 
 urlpatterns = [
-    # Vehículos
-    path('vehiculos/', VehiculoListView.as_view(), name='vehiculo-list'),
-    # Ruta para Nuevo Vehículo SIN cliente_id (para el Dashboard)
-    path('vehiculos/nuevo/', VehiculoCreateView.as_view(), name='vehiculo-create'),
-    # Ruta para Nuevo Vehículo CON cliente_id (si venimos desde Detalle de Cliente)
-    path('vehiculos/nuevo/<int:cliente_id>/', VehiculoCreateView.as_view(), name='vehiculo-create'),
-    path('vehiculos/editar/<int:pk>/', VehiculoUpdateView.as_view(), name='vehiculo-update'),
-    path('vehiculos/eliminar/<int:pk>/', VehiculoDeleteView.as_view(), name='vehiculo-delete'),
-    path('vehiculos/<int:pk>/', VehiculoDetailView.as_view(), name='vehiculo-detail'),
-    path('vehiculos/<int:pk>/editar/', VehiculoUpdateView.as_view(), name='vehiculo-update'),
-    path('vehiculos/<int:pk>/eliminar/', VehiculoDeleteView.as_view(), name='vehiculo-delete'),
-
-    # Mantenimientos
-    path('mantenimientos/', MantenimientoListView.as_view(), name='mantenimiento-list'),
-    path('mantenimientos/nuevo/<int:vehiculo_id>/', MantenimientoCreateView.as_view(), name='mantenimiento-create'),
-    path('mantenimientos/<int:pk>/editar/', MantenimientoUpdateView.as_view(), name='mantenimiento-update'),
-    path('mantenimientos/<int:pk>/eliminar/', MantenimientoDeleteView.as_view(), name='mantenimiento-delete'),
+    path('vehiculos/', views.VehiculoListView.as_view(), name='vehiculo-list'),
+    # Vista sin cliente preseleccionado
+    path('vehiculos/nuevo/', views.VehiculoCreateView.as_view(), name='vehiculo-create'),
+    # Vista con cliente preseleccionado (pasa cliente_id en la URL)
+    path('vehiculos/nuevo/<int:cliente_id>/', views.VehiculoCreateView.as_view(), name='vehiculo-create'),
+    
+    path('mantenimientos/', views.MantenimientoListView.as_view(), name='mantenimiento-list'),
+    # Vista sin vehículo preseleccionado
+    path('mantenimientos/nuevo/', views.MantenimientoCreateView.as_view(), name='mantenimiento-create'),
+    # Vista con vehículo preseleccionado (pasa vehiculo_id en la URL)
+    path('mantenimientos/nuevo/<int:vehiculo_id>/', views.MantenimientoCreateView.as_view(), name='mantenimiento-create'),
 ]
