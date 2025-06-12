@@ -11,20 +11,51 @@
     <div class="card-body">
       <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
+
         <div class="row">
-          {% for field in form.visible_fields %}
-            <div class="mb-3 col-md-{% if field.name == 'foto_lateral1' or field.name == 'foto_lateral2' %}12{% else %}6{% endif %}">
-              <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-              {{ field }}
-              {% if field.help_text %}
-                <div class="form-text text-muted">{{ field.help_text }}</div>
-              {% endif %}
-              {% for error in field.errors %}
-                <div class="text-danger small">{{ error }}</div>
-              {% endfor %}
-            </div>
-          {% endfor %}
+          <div class="col-md-6 mb-3">
+            {{ form.cliente.label_tag }} {{ form.cliente }}
+          </div>
+          <div class="col-md-6 mb-3">
+            {{ form.placa.label_tag }} {{ form.placa }}
+          </div>
+
+          <div class="col-md-6 mb-3">
+            {{ form.foto_placa.label_tag }} {{ form.foto_placa }}
+          </div>
+          <div class="col-md-6 mb-3">
+            {{ form.marca.label_tag }} {{ form.marca }}
+          </div>
+
+          <div class="col-md-6 mb-3">
+            {{ form.modelo.label_tag }} {{ form.modelo }}
+          </div>
+          <div class="col-md-6 mb-3">
+            {{ form.anio.label_tag }} {{ form.anio }}
+          </div>
+
+          <div class="col-md-6 mb-3">
+            {{ form.tipo.label_tag }} {{ form.tipo }}
+          </div>
+          <div class="col-md-6 mb-3">
+            {{ form.costo.label_tag }} {{ form.costo }}
+          </div>
+
+          <div class="col-md-6 mb-3">
+            {{ form.foto_frontal.label_tag }} {{ form.foto_frontal }}
+          </div>
+          <div class="col-md-6 mb-3">
+            {{ form.foto_trasera.label_tag }} {{ form.foto_trasera }}
+          </div>
+
+          <div class="col-md-6 mb-3">
+            {{ form.foto_lateral1.label_tag }} {{ form.foto_lateral1 }}
+          </div>
+          <div class="col-md-6 mb-3">
+            {{ form.foto_lateral2.label_tag }} {{ form.foto_lateral2 }}
+          </div>
         </div>
+
         <div class="mt-4">
           <button type="submit" class="btn btn-success me-2">Guardar</button>
           <a href="{% url 'mantenimiento:vehiculo-list' %}" class="btn btn-secondary">Volver ver Vehículos</a>
