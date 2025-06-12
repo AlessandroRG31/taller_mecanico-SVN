@@ -5,7 +5,6 @@ class VehiculoForm(forms.ModelForm):
     class Meta:
         model = Vehiculo
         fields = ['cliente', 'placa', 'modelo', 'anio']
-        # Sin widgets externos: dejamos el select nativo de ModelChoiceField
 
 class MantenimientoForm(forms.ModelForm):
     class Meta:

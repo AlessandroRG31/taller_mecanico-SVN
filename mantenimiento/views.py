@@ -22,7 +22,6 @@ class VehiculoCreateView(CreateView):
         return initial
 
     def form_valid(self, form):
-        # Detener el save automático para inyectar FK
         cliente_id = self.kwargs.get('cliente_id')
         veh = form.save(commit=False)
         if cliente_id:
