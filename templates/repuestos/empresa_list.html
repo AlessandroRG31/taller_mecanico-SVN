@@ -1,45 +1,50 @@
 {# templates/repuestos/empresa_list.html #}
 {% extends "core/base.html" %}
 
-{% block title %}Empresas{% endblock %}
+{% block title %}Empresas Registradas{% endblock %}
 
 {% block content %}
-  <h1 class="mb-3">Empresas</h1>
+<div class="container mt-5">
+  <div class="card shadow-lg">
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+      <h4 class="mb-0">Empresas Registradas</h4>
+      <div>
+        <a href="{% url 'core:dashboard' %}" class="btn btn-outline-light me-2">🏠 Regresar</a>
+        <a href="{% url 'repuestos:empresa-create' %}" class="btn btn-success">➕ Nueva Empresa</a>
+      </div>
+    </div>
 
-  {# Botón que lleva a /repuestos/empresas/nueva/ #}
-  <a href="{% url 'core:dashboard' %}" class="btn btn-outline-success mb-3">Regresar</a>
-  <a href="{% url 'repuestos:empresa-create' %}" class="btn btn-primary mb-3">Nueva Empresa
-  </a>
-
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Teléfono</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for empresa in empresas %}
-        <tr>
-          <td>{{ empresa.nombre }}</td>
-          <td>{{ empresa.telefono }}</td>
-          <td>
-            <a href="{% url 'repuestos:empresa-update' empresa.pk %}" class="btn btn-sm btn-warning">
-              Editar
-            </a>
-            &nbsp;|&nbsp;
-            <a href="{% url 'repuestos:empresa-delete' empresa.pk %}" class="btn btn-sm btn-danger">
-              Eliminar
-            </a>
-          </td>
-        </tr>
-      {% empty %}
-        <tr>
-          <td colspan="3">No hay empresas registradas.</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    <div class="card-body p-0">
+      <table class="table table-hover table-bordered mb-0">
+        <thead class="table-secondary text-center">
+          <tr>
+            <th scope="col">📛 Nombre</th>
+            <th scope="col">📞 Teléfono</th>
+            <th scope="col">⚙️ Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for empresa in empresas %}
+          <tr class="align-middle text-center">
+            <td>{{ empresa.nombre }}</td>
+            <td>{{ empresa.telefono }}</td>
+            <td>
+              <a href="{% url 'repuestos:empresa-update' empresa.pk %}" class="btn btn-sm btn-warning me-1">
+                ✏️ Editar
+              </a>
+              <a href="{% url 'repuestos:empresa-delete' empresa.pk %}" class="btn btn-sm btn-danger">
+                🗑️ Eliminar
+              </a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr class="text-center">
+            <td colspan="3" class="text-muted">No hay empresas registradas.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 {% endblock %}
-
