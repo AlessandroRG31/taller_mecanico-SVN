@@ -31,8 +31,18 @@ class VehiculoCreateView(CreateView):
         return initial
 
     def form_valid(self, form):
+        # Creamos la instancia sin guardar todavía
+        veh = form.save(commit=False)
+
+        # Si la URL trae cliente_id, lo asignamos; sino, usamos el valor del formulario
         if cliente_id := self.kwargs.get('cliente_id'):
-            form.instance.cliente_id = cliente_id
+            veh.cliente_id = cliente_id
+        else:
+            veh.cliente = form.cleaned_data.get('cliente')
+
+        # Guardamos la instancia con cliente siempre asignado
+        veh.save()
+        # Continuamos con el flujo normal de CreateView
         return super().form_valid(form)
 
 class VehiculoUpdateView(UpdateView):
@@ -71,8 +81,12 @@ class MantenimientoCreateView(CreateView):
         return data
 
     def form_valid(self, form):
+        # Igual que en Vehiculo: asignamos siempre vehiculo
         if vehiculo_id := self.kwargs.get('vehiculo_id'):
             form.instance.vehiculo_id = vehiculo_id
+        else:
+            form.instance.vehiculo = form.cleaned_data.get('vehiculo')
+
         self.object = form.save()
         formset = self.get_context_data()['repuesto_formset']
         if formset.is_valid():
