@@ -29,27 +29,23 @@ class VehiculoCreateView(CreateView):
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
+        # Solo ocultar el campo si VIENE cliente_id en la URL
         cliente_id = self.kwargs.get('cliente_id')
         if cliente_id:
-            # Si se pasó el cliente_id, ocultar el campo para evitar doble selección
             form.fields['cliente'].widget = forms.HiddenInput()
+        else:
+            form.fields['cliente'].widget = forms.Select()
         return form
 
-def form_valid(self, form):
-    cliente_id = self.kwargs.get('cliente_id')
-    if not form.instance.cliente_id and not cliente_id:
-        # Asigna el primer cliente (temporal) si no se eligió nada
-        from clientes.models import Cliente
-        primer_cliente = Cliente.objects.first()
-        if primer_cliente:
-            form.instance.cliente = primer_cliente
-    if cliente_id:
-        form.instance.cliente_id = cliente_id
-    if not form.instance.cliente_id:
-        form.add_error('cliente', "Debes seleccionar un cliente.")
-        return self.form_invalid(form)
-    return super().form_valid(form)
-
+    def form_valid(self, form):
+        cliente_id = self.kwargs.get('cliente_id')
+        if cliente_id:
+            form.instance.cliente_id = cliente_id
+        # Validar de nuevo antes de guardar
+        if not form.instance.cliente_id:
+            form.add_error('cliente', "Debes seleccionar un cliente.")
+            return self.form_invalid(form)
+        return super().form_valid(form)
 
 class VehiculoUpdateView(UpdateView):
     model = Vehiculo
