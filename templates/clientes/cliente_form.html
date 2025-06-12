@@ -1,12 +1,33 @@
-{% extends "core/base.html" %}
+<!-- templates/clientes/cliente_form.html -->
+{% extends 'core/base.html' %}
 {% block title %}Formulario de Cliente{% endblock %}
-
 {% block content %}
-<h1>{{ form.instance.pk|yesno:"Editar Cliente,Nuevo Cliente" }}</h1>
-<form method="post" class="bg-dark p-4 rounded">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">Guardar</button>
-  <a href="{% url 'clientes:cliente-list' %}" class="btn btn-secondary me-3">Volver ver Clientes</a>
-</form>
+  <div class="container mt-4">
+    <h2 class="mb-4">Nuevo Cliente</h2>
+    <form method="post">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          {{ form.nombre.label_tag }} {{ form.nombre }}
+        </div>
+        <div class="col-md-6 mb-3">
+          {{ form.apellido.label_tag }} {{ form.apellido }}
+        </div>
+        <div class="col-md-6 mb-3">
+          {{ form.dui.label_tag }} {{ form.dui }}
+        </div>
+        <div class="col-md-6 mb-3">
+          {{ form.telefono.label_tag }} {{ form.telefono }}
+        </div>
+        <div class="col-md-6 mb-3">
+          {{ form.email.label_tag }} {{ form.email }}
+        </div>
+        <div class="col-md-12 mb-3">
+          {{ form.direccion.label_tag }} {{ form.direccion }}
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Guardar</button>
+      <a href="{% url 'clientes:cliente-list' %}" class="btn btn-secondary">Volver</a>
+    </form>
+  </div>
 {% endblock %}
