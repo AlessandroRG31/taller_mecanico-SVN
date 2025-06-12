@@ -4,38 +4,59 @@
 {% block title %}Buscar repuestos{% endblock %}
 
 {% block content %}
-<h1>Buscar repuestos</h1>
+<div class="container mt-4">
+  <div class="card shadow">
+    <div class="card-header bg-info text-white">
+      <h4 class="mb-0">Buscar Repuestos</h4>
+    </div>
+    <div class="card-body">
+      <form method="get" class="row g-3 mb-3">
+        <div class="col-md-6">
+          <input type="text" name="q" class="form-control" placeholder="Nombre del repuesto..." value="{{ request.GET.q }}">
+        </div>
+        <div class="col-md-4">
+          <select name="orden" id="orden" class="form-select">
+            <option value="precio" {% if orden == 'precio' %}selected{% endif %}>Precio ascendente</option>
+            <option value="-precio" {% if orden == '-precio' %}selected{% endif %}>Precio descendente</option>
+            <option value="stock" {% if orden == 'stock' %}selected{% endif %}>Stock ascendente</option>
+            <option value="-stock" {% if orden == '-stock' %}selected{% endif %}>Stock descendente</option>
+            <option value="nombre" {% if orden == 'nombre' %}selected{% endif %}>Nombre A–Z</option>
+            <option value="-nombre" {% if orden == '-nombre' %}selected{% endif %}>Nombre Z–A</option>
+          </select>
+        </div>
+        <div class="col-md-2 d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary w-100 me-1">Buscar</button>
+          <a href="{% url 'core:dashboard' %}" class="btn btn-outline-success w-100 ms-1">Regresar</a>
+        </div>
+      </form>
 
-<form method="get" class="mb-4">
-  <input type="text" name="q" class="form-control mb-2" placeholder="Nombre del repuesto..." value="{{ request.GET.q }}">
-  <label for="orden">Ordenar por:</label>
-  <select name="orden" id="orden" class="form-select mb-2">
-    <option value="precio" {% if orden == 'precio' %}selected{% endif %}>Precio ascendente</option>
-    <option value="-precio" {% if orden == '-precio' %}selected{% endif %}>Precio descendente</option>
-    <option value="stock" {% if orden == 'stock' %}selected{% endif %}>Stock ascendente</option>
-    <option value="-stock" {% if orden == '-stock' %}selected{% endif %}>Stock descendente</option>
-    <option value="nombre" {% if orden == 'nombre' %}selected{% endif %}>Nombre A–Z</option>
-    <option value="-nombre" {% if orden == '-nombre' %}selected{% endif %}>Nombre Z–A</option>
-  </select>
-  <button type="submit" class="btn btn-primary">Buscar</button>
-  <a href="{% url 'core:dashboard' %}" class="btn btn-outline-success">Regresar</a>
-</form>
-
-<table class="table table-striped">
-  <thead>
-    <tr><th>Empresa</th><th>Nombre</th><th>Precio</th><th>Stock</th></tr>
-  </thead>
-  <tbody>
-    {% for repuesto in repuestos %}
-    <tr>
-      <td>{{ repuesto.empresa.nombre }}</td>
-      <td>{{ repuesto.nombre }}</td>
-      <td>{{ repuesto.precio }}</td>
-      <td>{{ repuesto.stock }}</td>
-    </tr>
-    {% empty %}
-    <tr><td colspan="4">No se encontraron repuestos.</td></tr>
-    {% endfor %}
-  </tbody>
-</table>
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th>Empresa</th>
+              <th>Nombre</th>
+              <th>Precio ($)</th>
+              <th>Stock</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for repuesto in repuestos %}
+            <tr>
+              <td>{{ repuesto.empresa.nombre }}</td>
+              <td>{{ repuesto.nombre }}</td>
+              <td>{{ repuesto.precio }}</td>
+              <td>{{ repuesto.stock }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4" class="text-center text-muted">No se encontraron repuestos.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

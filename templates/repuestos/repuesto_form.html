@@ -1,11 +1,38 @@
 {% extends "core/base.html" %}
 {% block title %}{{ view.object|default_if_none:"Nuevo" }} Repuesto{% endblock %}
+
 {% block content %}
-<h1>{{ view.object|yesno:"Editar,Nuevo" }} Repuesto</h1>
-<form method="post">{% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-success">Guardar</button>
-  <a href="{% url 'repuestos:repuesto_list' %}" class="btn btn-secondary">Cancelar</a>
-  <a href="{% url 'repuestos:repuesto_list' %}" class="btn btn-secondary me-2">Vovler ver Repuestos</a>
-</form>
+<div class="container mt-5">
+  <div class="card shadow">
+    <div class="card-header bg-info text-white">
+      <h4 class="mb-0">{{ view.object|yesno:"Editar,Nuevo" }} Repuesto</h4>
+    </div>
+
+    <div class="card-body">
+      <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            {{ form.empresa.label_tag }} {{ form.empresa }}
+          </div>
+          <div class="col-md-6 mb-3">
+            {{ form.nombre.label_tag }} {{ form.nombre }}
+          </div>
+          <div class="col-md-6 mb-3">
+            {{ form.precio.label_tag }} {{ form.precio }}
+          </div>
+          <div class="col-md-6 mb-3">
+            {{ form.stock.label_tag }} {{ form.stock }}
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <button type="submit" class="btn btn-success me-2">Guardar</button>
+          <a href="{% url 'repuestos:repuesto_list' %}" class="btn btn-secondary me-2">Cancelar</a>
+          <a href="{% url 'repuestos:repuesto_list' %}" class="btn btn-outline-secondary">Volver ver Repuestos</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}

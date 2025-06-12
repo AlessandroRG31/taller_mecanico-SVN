@@ -11,7 +11,7 @@
     <div class="card-body">
       <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        
+
         <div class="row">
           <div class="col-md-6 mb-3">
             {{ form.vehiculo.label_tag }} {{ form.vehiculo }}
@@ -36,14 +36,17 @@
             {{ repuestos.management_form }}
             {% for formset_form in repuestos.forms %}
               <div class="row mb-3 border-bottom pb-2">
-                <div class="col-md-6">
+                <div class="col-md-5">
                   {{ formset_form.repuesto.label_tag }} {{ formset_form.repuesto }}
                 </div>
                 <div class="col-md-3">
                   {{ formset_form.cantidad.label_tag }} {{ formset_form.cantidad }}
                 </div>
-                <div class="col-md-3 d-flex align-items-end">
-                  {{ formset_form.DELETE }} {{ formset_form.DELETE.label_tag }}
+                <div class="col-md-4 d-flex align-items-end">
+                  <div class="form-check">
+                    {{ formset_form.DELETE }}
+                    <label class="form-check-label ms-2" for="{{ formset_form.DELETE.id_for_label }}">Eliminar</label>
+                  </div>
                 </div>
               </div>
             {% endfor %}

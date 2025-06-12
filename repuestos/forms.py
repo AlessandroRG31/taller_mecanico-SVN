@@ -14,9 +14,13 @@ class RepuestoForm(forms.ModelForm):
     class Meta:
         model = Repuesto
         fields = ['empresa', 'nombre', 'precio', 'stock']
-        labels = {
-            'empresa': 'Empresa vendedora',
-            'nombre': 'Nombre del repuesto',
-            'precio': 'Precio (S/.)',
-            'stock': 'Stock disponible',
+        widgets = {
+            'empresa': forms.Select(attrs={'class': 'form-select'}),
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'precio': forms.NumberInput(attrs={'class': 'form-control'}),
+            'stock': forms.NumberInput(attrs={'class': 'form-control'}),
         }
+
+
+
+
