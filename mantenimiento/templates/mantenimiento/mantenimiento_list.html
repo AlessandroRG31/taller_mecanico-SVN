@@ -1,50 +1,52 @@
-<!-- mantenimiento/templates/mantenimiento/mantenimiento_list.html -->
 {% extends "core/base.html" %}
 {% block title %}Mantenimientos realizados{% endblock %}
 
 {% block content %}
-  <h1 class="mb-4">Mantenimientos realizados</h1>
+<h1 class="mb-4 text-center">🛠️ Mantenimientos Realizados</h1>
 
-  <p>
-    <a href="{% url 'core:dashboard' %}" class="btn btn-outline-light">Regresar</a>
-    <a href="{% url 'mantenimiento:mantenimiento-create' %}" class="btn btn-success">Nuevo Mantenimiento</a>
-    <a href="{% url 'mantenimiento:vehiculo-list' %}" class="btn btn-primary">Ver Vehículos</a>
-  </p>
+<div class="d-flex justify-content-between mb-3">
+  <a href="{% url 'core:dashboard' %}" class="btn btn-outline-light">← Regresar</a>
+  <div>
+    <a href="{% url 'mantenimiento:mantenimiento-create' %}" class="btn btn-success me-2">➕ Nuevo</a>
+    <a href="{% url 'mantenimiento:vehiculo-list' %}" class="btn btn-primary">🚗 Ver Vehículos</a>
+  </div>
+</div>
 
-  <table class="table table-striped bg-light text-dark">
-    <thead>
+<table class="table table-dark table-striped table-bordered align-middle text-center">
+  <thead class="table-secondary text-dark">
+    <tr>
+      <th>Fecha</th>
+      <th>Vehículo</th>
+      <th>Tipo</th>
+      <th>Costo</th>
+      <th>Repuestos</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for mant in mantenimientos %}
       <tr>
-        <th>Fecha</th>
-        <th>Vehículo</th>
-        <th>Tipo</th>
-        <th>Costo</th>
-        <th>Repuestos</th>
-        <th>Acciones</th>
+        <td>{{ mant.fecha_mantenimiento|date:"d \d\e F \d\e Y" }}</td>
+        <td>{{ mant.vehiculo.placa }}</td>
+        <td>{{ mant.tipo_mantenimiento|title }}</td>
+        <td>${{ mant.costo }}</td>
+        <td>
+          {% for rep in mant.repuestos.all %}
+            <span class="badge bg-info text-dark">{{ rep.nombre }}</span>
+          {% empty %}
+            <span class="text-muted">—</span>
+          {% endfor %}
+        </td>
+        <td>
+          <a href="{% url 'mantenimiento:mantenimiento-update' mant.pk %}" class="btn btn-sm btn-warning">✏️ Editar</a>
+          <a href="{% url 'mantenimiento:mantenimiento-delete' mant.pk %}" class="btn btn-sm btn-danger">🗑️ Eliminar</a>
+        </td>
       </tr>
-    </thead>
-    <tbody>
-      {% for mant in mantenimientos %}
-        <tr>
-          <td>{{ mant.fecha_mantenimiento }}</td>
-          <td>{{ mant.vehiculo.placa }}</td>
-          <td>{{ mant.tipo_mantenimiento }}</td>
-          <td>{{ mant.costo }}</td>
-          <td>
-            {% for rep in mant.repuestos.all %}
-              {{ rep.nombre }}{% if not forloop.last %}, {% endif %}
-            {% empty %}
-              —
-            {% endfor %}
-          </td>
-          <td>
-            <!-- Aquí puedes añadir botones de editar/eliminar si los defines -->
-          </td>
-        </tr>
-      {% empty %}
-        <tr>
-          <td colspan="6" class="text-center">No hay registros de mantenimiento.</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+    {% empty %}
+      <tr>
+        <td colspan="6" class="text-center text-muted">No hay registros de mantenimiento.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

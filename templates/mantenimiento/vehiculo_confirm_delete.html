@@ -1,0 +1,19 @@
+{# taller_mecanico/templates/mantenimiento/vehiculo_confirm_delete.html #}
+{% extends 'core/base.html' %}
+
+{% block title %}Eliminar Vehículo{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">¿Estás seguro de que deseas eliminar este vehículo?</h2>
+  <p><strong>Placa:</strong> {{ object.placa }}</p>
+  <p><strong>Marca:</strong> {{ object.marca }}</p>
+  <p><strong>Modelo:</strong> {{ object.modelo }}</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <a href="{% url 'mantenimiento:vehiculo-list' %}" class="btn btn-secondary">Cancelar</a>
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+  </form>
+</div>
+{% endblock %}
