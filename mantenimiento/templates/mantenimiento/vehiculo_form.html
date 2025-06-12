@@ -21,38 +21,46 @@
           </div>
 
           <div class="col-md-6 mb-3">
-            {{ form.foto_placa.label_tag }} {{ form.foto_placa }}
-          </div>
-          <div class="col-md-6 mb-3">
             {{ form.marca.label_tag }} {{ form.marca }}
           </div>
-
           <div class="col-md-6 mb-3">
             {{ form.modelo.label_tag }} {{ form.modelo }}
           </div>
+
           <div class="col-md-6 mb-3">
             {{ form.anio.label_tag }} {{ form.anio }}
           </div>
-
           <div class="col-md-6 mb-3">
             {{ form.tipo.label_tag }} {{ form.tipo }}
           </div>
+
           <div class="col-md-6 mb-3">
             {{ form.costo.label_tag }} {{ form.costo }}
           </div>
+        </div>
 
-          <div class="col-md-6 mb-3">
-            {{ form.foto_frontal.label_tag }} {{ form.foto_frontal }}
+        <div class="card mt-4 border">
+          <div class="card-header bg-secondary text-white">
+            <strong>Fotos del Vehículo</strong>
           </div>
-          <div class="col-md-6 mb-3">
-            {{ form.foto_trasera.label_tag }} {{ form.foto_trasera }}
-          </div>
-
-          <div class="col-md-6 mb-3">
-            {{ form.foto_lateral1.label_tag }} {{ form.foto_lateral1 }}
-          </div>
-          <div class="col-md-6 mb-3">
-            {{ form.foto_lateral2.label_tag }} {{ form.foto_lateral2 }}
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                {{ form.foto_placa.label_tag }} {{ form.foto_placa }}
+              </div>
+              <div class="col-md-6 mb-3">
+                {{ form.foto_frontal.label_tag }} {{ form.foto_frontal }}
+              </div>
+              <div class="col-md-6 mb-3">
+                {{ form.foto_trasera.label_tag }} {{ form.foto_trasera }}
+              </div>
+              <div class="col-md-6 mb-3">
+                {{ form.foto_lateral1.label_tag }} {{ form.foto_lateral1 }}
+              </div>
+              <div class="col-md-6 mb-3">
+                {{ form.foto_lateral2.label_tag }} {{ form.foto_lateral2 }}
+              </div>
+            </div>
           </div>
         </div>
 
