@@ -25,24 +25,14 @@ class VehiculoCreateView(CreateView):
     success_url = reverse_lazy('mantenimiento:vehiculo-list')
 
     def get_initial(self):
-        """
-        Si la URL incluye cliente_id, lo preselecciona en el form igual que
-        en MantenimientoCreateView con vehiculo.
-        """
         initial = super().get_initial()
-        cliente_id = self.kwargs.get('cliente_id')
-        if cliente_id:
+        if cliente_id := self.kwargs.get('cliente_id'):
             initial['cliente'] = cliente_id
         return initial
 
     def form_valid(self, form):
-        """
-        Guardado idéntico al de MantenimientoCreateView: 
-        form.save() en bloque y luego redirección.
-        """
-        # 1) Salvamos la instancia con todos los campos (incluido cliente)
-        self.object = form.save()
-        # 2) Redirigimos al success_url
+        if cliente_id := self.kwargs.get('cliente_id'):
+            form.instance.cliente_id = cliente_id
         return super().form_valid(form)
 
 class VehiculoUpdateView(UpdateView):
@@ -71,8 +61,7 @@ class MantenimientoCreateView(CreateView):
 
     def get_initial(self):
         initial = super().get_initial()
-        vehiculo_id = self.kwargs.get('vehiculo_id')
-        if vehiculo_id:
+        if vehiculo_id := self.kwargs.get('vehiculo_id'):
             initial['vehiculo'] = vehiculo_id
         return initial
 
@@ -82,14 +71,14 @@ class MantenimientoCreateView(CreateView):
         return data
 
     def form_valid(self, form):
-        context = self.get_context_data()
-        formset = context['repuesto_formset']
+        if vehiculo_id := self.kwargs.get('vehiculo_id'):
+            form.instance.vehiculo_id = vehiculo_id
+        self.object = form.save()
+        formset = self.get_context_data()['repuesto_formset']
         if formset.is_valid():
-            self.object = form.save()
             formset.instance = self.object
             formset.save()
-            return super().form_valid(form)
-        return self.render_to_response(self.get_context_data(form=form))
+        return super().form_valid(form)
 
 class MantenimientoUpdateView(UpdateView):
     model = Mantenimiento
@@ -106,14 +95,12 @@ class MantenimientoUpdateView(UpdateView):
         return data
 
     def form_valid(self, form):
-        context = self.get_context_data()
-        formset = context['repuesto_formset']
+        self.object = form.save()
+        formset = self.get_context_data()['repuesto_formset']
         if formset.is_valid():
-            self.object = form.save()
             formset.instance = self.object
             formset.save()
-            return super().form_valid(form)
-        return self.render_to_response(self.get_context_data(form=form))
+        return super().form_valid(form)
 
 class MantenimientoDeleteView(DeleteView):
     model = Mantenimiento

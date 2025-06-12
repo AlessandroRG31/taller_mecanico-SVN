@@ -16,7 +16,7 @@
     <h2>Gestión de Mantenimientos</h2>
     <p>Registrar y consultar mantenimientos realizados.</p>
     <a href="{% url 'mantenimiento:mantenimiento-list' %}" class="btn btn-primary me-2">Ver Mantenimientos</a>
-    <a href="{% url 'mantenimiento:mantenimiento-create' %}" class="btn btn-outline-secondary">Nuevo Mantenimiento</a>
+    <a href="{% url 'mantenimiento:mantenimiento-create' vehiculo_id=0 %}" class="btn btn-outline-secondary">Nuevo Mantenimiento</a>
   </div>
 
   <div class="card col-md-4 p-3">
