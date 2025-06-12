@@ -16,7 +16,7 @@
     <h2>Gestión de Mantenimientos</h2>
     <p>Registrar y consultar mantenimientos realizados.</p>
     <a href="{% url 'mantenimiento:mantenimiento-list' %}" class="btn btn-primary me-2">Ver Mantenimientos</a>
-    <a href="{% url 'mantenimiento:mantenimiento-create' vehiculo_id=0 %}" class="btn btn-outline-secondary">Nuevo Mantenimiento</a>
+    <a href="{% url 'mantenimiento:mantenimiento-create' %}" class="btn btn-outline-secondary">Nuevo Mantenimiento</a>
   </div>
 
   <div class="card col-md-4 p-3">
@@ -29,18 +29,16 @@
   <div class="card col-md-4 p-3">
     <h2>Búsqueda de Repuestos</h2>
     <p>Buscar repuestos disponibles en empresas registradas.</p>
-    <a href="{% url 'repuestos:buscar_repuestos' %}" class="btn btn-info">Buscar repuesto</a>
-    <a href="{% url 'repuestos:repuesto_list' %}" class="btn btn-secondary me-2">Repuestos</a>
+    <a href="{% url 'repuestos:buscar_repuestos' %}" class="btn btn-info me-2">Buscar repuesto</a>
+    <a href="{% url 'repuestos:repuesto_list' %}" class="btn btn-secondary">Repuestos</a>
   </div>
 
   <div class="card col-md-4 p-3">
     <h2>Gestión de Empresas</h2>
-    <p>Registrar y listar Empresas</p>
-    <a href="{% url 'repuestos:empresa_nuevo' %}" class="btn btn-outline-success mt-2">Nueva Empresa</a>
-    <a href="{% url 'repuestos:empresa_list' %}" class="btn btn-secondary me-2">Empresas</a>
+    <p>Registrar y listar empresas proveedoras.</p>
+    <a href="{% url 'repuestos:empresa_nuevo' %}" class="btn btn-outline-success me-2">Nueva Empresa</a>
+    <a href="{% url 'repuestos:empresa_list' %}" class="btn btn-secondary">Empresas</a>
   </div>
 
 </div>
 {% endblock %}
-
-
