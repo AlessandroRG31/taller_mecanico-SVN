@@ -1,33 +1,40 @@
 <!-- templates/clientes/cliente_form.html -->
 {% extends 'core/base.html' %}
-{% block title %}Formulario de Cliente{% endblock %}
+{% block title %}Nuevo Cliente{% endblock %}
+
 {% block content %}
-  <div class="container mt-4">
-    <h2 class="mb-4">Nuevo Cliente</h2>
-    <form method="post">
-      {% csrf_token %}
-      <div class="row">
-        <div class="col-md-6 mb-3">
-          {{ form.nombre.label_tag }} {{ form.nombre }}
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-header bg-success text-white">
+      <h4>Formulario de Nuevo Cliente</h4>
+    </div>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            {{ form.nombre.label_tag }} {{ form.nombre }}
+          </div>
+          <div class="col-md-6 mb-3">
+            {{ form.apellido.label_tag }} {{ form.apellido }}
+          </div>
+          <div class="col-md-6 mb-3">
+            {{ form.dui.label_tag }} {{ form.dui }}
+          </div>
+          <div class="col-md-6 mb-3">
+            {{ form.telefono.label_tag }} {{ form.telefono }}
+          </div>
+          <div class="col-md-6 mb-3">
+            {{ form.email.label_tag }} {{ form.email }}
+          </div>
+          <div class="col-md-12 mb-3">
+            {{ form.direccion.label_tag }} {{ form.direccion }}
+          </div>
         </div>
-        <div class="col-md-6 mb-3">
-          {{ form.apellido.label_tag }} {{ form.apellido }}
-        </div>
-        <div class="col-md-6 mb-3">
-          {{ form.dui.label_tag }} {{ form.dui }}
-        </div>
-        <div class="col-md-6 mb-3">
-          {{ form.telefono.label_tag }} {{ form.telefono }}
-        </div>
-        <div class="col-md-6 mb-3">
-          {{ form.email.label_tag }} {{ form.email }}
-        </div>
-        <div class="col-md-12 mb-3">
-          {{ form.direccion.label_tag }} {{ form.direccion }}
-        </div>
-      </div>
-      <button type="submit" class="btn btn-primary">Guardar</button>
-      <a href="{% url 'clientes:cliente-list' %}" class="btn btn-secondary">Volver</a>
-    </form>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{% url 'clientes:cliente-list' %}" class="btn btn-secondary">Volver</a>
+      </form>
+    </div>
   </div>
+</div>
 {% endblock %}
