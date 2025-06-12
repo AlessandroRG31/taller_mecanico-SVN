@@ -39,9 +39,10 @@ class VehiculoCreateView(CreateView):
         form = super().get_form(form_class)
         cliente_id = self.kwargs.get('cliente_id')
         if cliente_id:
-            # Preselecciona el cliente y solo muestra ese cliente en el select
+            # Preselecciona y desactiva el campo cliente si viene por URL
             form.fields['cliente'].initial = cliente_id
             form.fields['cliente'].queryset = form.fields['cliente'].queryset.filter(id=cliente_id)
+            form.fields['cliente'].empty_label = None
         return form
 
     def form_valid(self, form):
@@ -49,10 +50,9 @@ class VehiculoCreateView(CreateView):
         Guardado idéntico al de MantenimientoCreateView: 
         form.save() en bloque y luego redirección.
         """
-        cliente_id = self.kwargs.get('cliente_id')
-        if cliente_id:
-            form.instance.cliente_id = cliente_id
+        # 1) Salvamos la instancia con todos los campos (incluido cliente)
         self.object = form.save()
+        # 2) Redirigimos al success_url
         return super().form_valid(form)
 
 class VehiculoUpdateView(UpdateView):
