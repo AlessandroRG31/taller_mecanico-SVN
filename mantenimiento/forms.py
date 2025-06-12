@@ -6,6 +6,7 @@ from datetime import date
 from .models import Vehiculo, Mantenimiento, RepuestoMantenimiento
 from clientes.models import Cliente
 
+
 class VehiculoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -14,11 +15,21 @@ class VehiculoForm(forms.ModelForm):
 
     class Meta:
         model = Vehiculo
-        fields = [
-            'cliente', 'placa', 'foto_placa',
-            'marca', 'modelo', 'anio', 'tipo', 'costo',
-            'foto_frente', 'foto_trasera', 'foto_lateral1', 'foto_lateral2',
-        ]
+        fields = '__all__'
+        widgets = {
+            'cliente': forms.Select(attrs={'class': 'form-select'}),
+            'placa': forms.TextInput(attrs={'class': 'form-control'}),
+            'marca': forms.TextInput(attrs={'class': 'form-control'}),
+            'modelo': forms.TextInput(attrs={'class': 'form-control'}),
+            'anio': forms.NumberInput(attrs={'class': 'form-control'}),
+            'tipo': forms.TextInput(attrs={'class': 'form-control'}),
+            'costo': forms.NumberInput(attrs={'class': 'form-control'}),
+            'foto_placa': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'foto_frontal': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'foto_trasera': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'foto_lateral1': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'foto_lateral2': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
 
     def clean_costo(self):
         costo = self.cleaned_data.get('costo')
@@ -26,12 +37,16 @@ class VehiculoForm(forms.ModelForm):
             raise ValidationError("El costo debe ser mayor que 0.")
         return costo
 
+
 class MantenimientoForm(forms.ModelForm):
     class Meta:
         model = Mantenimiento
         fields = ['vehiculo', 'tipo_mantenimiento', 'fecha_mantenimiento', 'costo']
         widgets = {
-            'fecha_mantenimiento': forms.DateInput(attrs={'type': 'date'}),
+            'vehiculo': forms.Select(attrs={'class': 'form-select'}),
+            'tipo_mantenimiento': forms.TextInput(attrs={'class': 'form-control'}),
+            'fecha_mantenimiento': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'costo': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
     def clean_costo(self):
@@ -40,6 +55,7 @@ class MantenimientoForm(forms.ModelForm):
             raise ValidationError("El costo del mantenimiento debe ser mayor que 0.")
         return costo
 
+
 RepuestoMantenimientoFormSet = inlineformset_factory(
     Mantenimiento,
     RepuestoMantenimiento,
@@ -47,6 +63,7 @@ RepuestoMantenimientoFormSet = inlineformset_factory(
     extra=1,
     can_delete=True,
     widgets={
-        'cantidad': forms.NumberInput(attrs={'min': 1}),
+        'cantidad': forms.NumberInput(attrs={'min': 1, 'class': 'form-control'}),
+        'repuesto': forms.Select(attrs={'class': 'form-select'}),
     }
 )
