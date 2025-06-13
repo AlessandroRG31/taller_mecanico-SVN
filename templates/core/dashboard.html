@@ -1,45 +1,70 @@
 {% extends "core/base.html" %}
+{% load static %}
+
 {% block title %}Panel de Control{% endblock %}
 
+{% block extra_head %}
+  <script src="https://unpkg.com/lucide@latest"></script>
+{% endblock %}
+
 {% block content %}
-<h1>Panel de Control</h1>
-<div class="dashboard-cards row g-3">
+<div class="dash-container">
 
-  <div class="card col-md-4 p-3">
-    <h2>Gestión de Vehículos</h2>
-    <p>Registrar y listar vehículos del taller.</p>
-    <a href="{% url 'mantenimiento:vehiculo-list' %}" class="btn btn-primary me-2">Ver Vehículos</a>
-    <a href="{% url 'mantenimiento:vehiculo-create' %}" class="btn btn-outline-secondary">Nuevo Vehículo</a>
+  <div class="dashboard-header">
+    <i data-lucide="layout-dashboard" class="lucide-icon"></i>
+    <h1 class="title-panel">
+      <span class="title-bold">Panel</span>
+      <span class="title-glow">de Control</span>
+    </h1>
   </div>
 
-  <div class="card col-md-4 p-3">
-    <h2>Gestión de Mantenimientos</h2>
-    <p>Registrar y consultar mantenimientos realizados.</p>
-    <a href="{% url 'mantenimiento:mantenimiento-list' %}" class="btn btn-primary me-2">Ver Mantenimientos</a>
-    <a href="{% url 'mantenimiento:mantenimiento-create' %}" class="btn btn-outline-secondary">Nuevo Mantenimiento</a>
-  </div>
+  <main class="dashboard-grid">
 
-  <div class="card col-md-4 p-3">
-    <h2>Gestión de Clientes</h2>
-    <p>Registrar y listar clientes.</p>
-    <a href="{% url 'clientes:cliente-list' %}" class="btn btn-primary me-2">Ver Clientes</a>
-    <a href="{% url 'clientes:cliente-create' %}" class="btn btn-outline-secondary">Nuevo Cliente</a>
-  </div>
+    <div class="card-option">
+      <i data-lucide="car" class="lucide-icon-card"></i>
+      <h3>Gestión de Vehículos</h3>
+      <p>Registrar y listar vehículos del taller.</p>
+      <a href="{% url 'mantenimiento:vehiculo-list' %}" class="btn">Ver Vehículos</a>
+      <a href="{% url 'mantenimiento:vehiculo-create' %}" class="btn">Nuevo Vehículo</a>
+    </div>
 
-  <div class="card col-md-4 p-3">
-    <h2>Búsqueda de Repuestos</h2>
-    <p>Buscar repuestos disponibles en empresas registradas.</p>
-    <a href="{% url 'repuestos:buscar_repuestos' %}" class="btn btn-info">Buscar repuesto</a>
-    <a href="{% url 'repuestos:repuesto_list' %}" class="btn btn-secondary me-2">Ver Repuestos</a>
-    <a href="{% url 'repuestos:repuesto_nuevo' %}" class="btn btn-secondary me-2">Nuevo Repuesto</a>
-  </div>
+    <div class="card-option">
+      <i data-lucide="wrench" class="lucide-icon-card"></i>
+      <h3>Gestión de Mantenimientos</h3>
+      <p>Consultar mantenimientos realizados.</p>
+      <a href="{% url 'mantenimiento:mantenimiento-list' %}" class="btn">Ver Mantenimientos</a>
+      <a href="{% url 'mantenimiento:mantenimiento-create' %}" class="btn">Nuevo Mantenimiento</a>
+    </div>
 
-<div class="card col-md-4 p-3">
-  <h2>Gestión de Empresas</h2>
-  <p>Registrar y listar Empresas</p>
-  <a href="{% url 'repuestos:empresa-create' %}" class="btn btn-outline-success mt-2">Nueva Empresa</a>
-  <a href="{% url 'repuestos:empresa-list' %}" class="btn btn-secondary me-2">Ver Empresas</a>
+    <div class="card-option">
+      <i data-lucide="user-round" class="lucide-icon-card"></i>
+      <h3>Gestión de Clientes</h3>
+      <p>Registrar y listar clientes del taller.</p>
+      <a href="{% url 'clientes:cliente-list' %}" class="btn">Ver Clientes</a>
+      <a href="{% url 'clientes:cliente-create' %}" class="btn">Nuevo Cliente</a>
+    </div>
+
+    <div class="card-option">
+      <i data-lucide="search-check" class="lucide-icon-card"></i>
+      <h3>Búsqueda de Repuestos</h3>
+      <p>Buscar repuestos en empresas registradas.</p>
+      <a href="{% url 'repuestos:buscar_repuestos' %}" class="btn">Buscar Repuesto</a>
+      <a href="{% url 'repuestos:repuesto_list' %}" class="btn">Ver Repuestos</a>
+      <a href="{% url 'repuestos:repuesto_nuevo' %}" class="btn">Nuevo Repuesto</a>
+    </div>
+
+    <div class="card-option">
+      <i data-lucide="store" class="lucide-icon-card"></i>
+      <h3>Gestión de Empresas</h3>
+      <p>Registrar y listar empresas proveedoras.</p>
+      <a href="{% url 'repuestos:empresa-list' %}" class="btn">Ver Empresas</a>
+      <a href="{% url 'repuestos:empresa-create' %}" class="btn">Nueva Empresa</a>
+    </div>
+
+  </main>
 </div>
 
-</div>
+<script>
+  lucide.createIcons();
+</script>
 {% endblock %}

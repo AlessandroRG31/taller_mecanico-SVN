@@ -1,15 +1,24 @@
 {% extends "core/base.html" %}
+{% load static %}
+
 {% block title %}{{ view.object|default_if_none:"Nuevo" }} Repuesto{% endblock %}
 
+{% block extra_head %}
+  <script src="https://unpkg.com/lucide@latest"></script>
+{% endblock %}
+
 {% block content %}
-<div class="container mt-5">
-  <div class="card shadow">
-    <div class="card-header bg-info text-white">
-      <h4 class="mb-0">{{ view.object|yesno:"Editar,Nuevo" }} Repuesto</h4>
+<div class="container mt-5 fade-in-up">
+  <div class="card shadow-lg border-0">
+    <div class="card-header bg-gradient text-white d-flex align-items-center justify-content-between" style="background: linear-gradient(90deg, #6a00ff, #a200ff);">
+      <h4 class="mb-0 d-flex align-items-center gap-2">
+        <i data-lucide="{{ view.object|yesno:'edit,plus' }}"></i>
+        {{ view.object|yesno:"Editar,Nuevo" }} Repuesto
+      </h4>
     </div>
 
     <div class="card-body">
-      <form method="post" novalidate>
+      <form method="post" novalidate autocomplete="off">
         {% csrf_token %}
         <div class="row">
           <div class="col-md-6 mb-3">
@@ -27,12 +36,19 @@
         </div>
 
         <div class="mt-4">
-          <button type="submit" class="btn btn-success me-2">Guardar</button>
-          <a href="{% url 'repuestos:repuesto_list' %}" class="btn btn-secondary me-2">Cancelar</a>
-          <a href="{% url 'repuestos:repuesto_list' %}" class="btn btn-outline-secondary">Volver ver Repuestos</a>
+          <button type="submit" class="btn btn-success me-2 d-inline-flex align-items-center gap-1">
+            <i data-lucide="save"></i> Guardar
+          </button>
+          <a href="{% url 'repuestos:repuesto_list' %}" class="btn btn-secondary d-inline-flex align-items-center gap-1">
+            <i data-lucide="x-circle"></i> Cancelar
+          </a>
         </div>
       </form>
     </div>
   </div>
 </div>
+
+<script>
+  lucide.createIcons();
+</script>
 {% endblock %}

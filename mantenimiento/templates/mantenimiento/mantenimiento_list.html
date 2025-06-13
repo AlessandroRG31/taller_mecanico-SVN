@@ -2,13 +2,13 @@
 {% block title %}Mantenimientos realizados{% endblock %}
 
 {% block content %}
-<h1 class="mb-4 text-center">🛠️ Mantenimientos Realizados</h1>
+<h1 class="mb-4 text-center">Mantenimientos Realizados</h1>
 
 <div class="d-flex justify-content-between mb-3">
-  <a href="{% url 'core:dashboard' %}" class="btn btn-outline-light">← Regresar</a>
+  <a href="{% url 'core:dashboard' %}" class="btn btn-outline-light">Regresar</a>
   <div>
-    <a href="{% url 'mantenimiento:mantenimiento-create' %}" class="btn btn-success me-2">➕ Nuevo</a>
-    <a href="{% url 'mantenimiento:vehiculo-list' %}" class="btn btn-primary">🚗 Ver Vehículos</a>
+    <a href="{% url 'mantenimiento:mantenimiento-create' %}" class="btn btn-success me-2">Nuevo</a>
+    <a href="{% url 'mantenimiento:vehiculo-list' %}" class="btn btn-primary">Ver Vehículos</a>
   </div>
 </div>
 
@@ -16,7 +16,7 @@
   <thead class="table-secondary text-dark">
     <tr>
       <th>Fecha</th>
-      <th>Vehículo</th>
+      <th>Vehículos</th>
       <th>Tipo</th>
       <th>Costo</th>
       <th>Repuestos</th>
@@ -34,12 +34,12 @@
           {% for rep in mant.repuestos.all %}
             <span class="badge bg-info text-dark">{{ rep.nombre }}</span>
           {% empty %}
-            <span class="text-muted">—</span>
+            <span class="text-muted">â€”</span>
           {% endfor %}
         </td>
         <td>
-          <a href="{% url 'mantenimiento:mantenimiento-update' mant.pk %}" class="btn btn-sm btn-warning">✏️ Editar</a>
-          <a href="{% url 'mantenimiento:mantenimiento-delete' mant.pk %}" class="btn btn-sm btn-danger">🗑️ Eliminar</a>
+          <a href="{% url 'mantenimiento:mantenimiento-update' mant.pk %}" class="btn btn-sm btn-warning">Editar</a>
+          <a href="{% url 'mantenimiento:mantenimiento-delete' mant.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
         </td>
       </tr>
     {% empty %}
