@@ -1,14 +1,26 @@
 {% extends "core/base.html" %}
+{% load static %}
+
 {% block title %}Mantenimientos realizados{% endblock %}
 
+{% block extra_head %}
+  <script src="https://unpkg.com/lucide@latest"></script>
+{% endblock %}
+
 {% block content %}
-<h1 class="mb-4 text-center">Mantenimientos Realizados</h1>
+<h1 class="mb-4 text-center title-glow">Mantenimientos Realizados</h1>
 
 <div class="d-flex justify-content-between mb-3">
-  <a href="{% url 'core:dashboard' %}" class="btn btn-outline-light">Regresar</a>
+  <a href="{% url 'core:dashboard' %}" class="btn btn-outline-light d-inline-flex align-items-center gap-1">
+    <i data-lucide="arrow-left"></i> Regresar
+  </a>
   <div>
-    <a href="{% url 'mantenimiento:mantenimiento-create' %}" class="btn btn-success me-2">Nuevo</a>
-    <a href="{% url 'mantenimiento:vehiculo-list' %}" class="btn btn-primary">Ver Vehículos</a>
+    <a href="{% url 'mantenimiento:mantenimiento-create' %}" class="btn btn-success me-2 d-inline-flex align-items-center gap-1">
+      <i data-lucide="plus-circle"></i> Nuevo
+    </a>
+    <a href="{% url 'mantenimiento:vehiculo-list' %}" class="btn btn-primary d-inline-flex align-items-center gap-1">
+      <i data-lucide="car"></i> Ver Vehículos
+    </a>
   </div>
 </div>
 
@@ -34,12 +46,16 @@
           {% for rep in mant.repuestos.all %}
             <span class="badge bg-info text-dark">{{ rep.nombre }}</span>
           {% empty %}
-            <span class="text-muted">â€”</span>
+            <span class="text-muted">&mdash;</span>
           {% endfor %}
         </td>
         <td>
-          <a href="{% url 'mantenimiento:mantenimiento-update' mant.pk %}" class="btn btn-sm btn-warning">Editar</a>
-          <a href="{% url 'mantenimiento:mantenimiento-delete' mant.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+          <a href="{% url 'mantenimiento:mantenimiento-update' mant.pk %}" class="btn btn-sm btn-warning d-inline-flex align-items-center gap-1">
+            <i data-lucide="edit-3" class="lucide-sm"></i> Editar
+          </a>
+          <a href="{% url 'mantenimiento:mantenimiento-delete' mant.pk %}" class="btn btn-sm btn-danger d-inline-flex align-items-center gap-1">
+            <i data-lucide="trash-2" class="lucide-sm"></i> Eliminar
+          </a>
         </td>
       </tr>
     {% empty %}
@@ -49,4 +65,8 @@
     {% endfor %}
   </tbody>
 </table>
+
+<script>
+  lucide.createIcons();
+</script>
 {% endblock %}

@@ -11,24 +11,36 @@
     <div class="card-header bg-primary text-white">Fotografías del vehículo</div>
     <div class="card-body">
       <div class="row g-3">
+        {% if vehiculo.foto_placa %}
         <div class="col-md-4">
           <img src="{{ vehiculo.foto_placa.url }}" class="img-fluid rounded border" alt="Placa">
         </div>
+        {% endif %}
+        {% if vehiculo.foto_frente %}
         <div class="col-md-4">
           <img src="{{ vehiculo.foto_frente.url }}" class="img-fluid rounded border" alt="Frente">
         </div>
+        {% endif %}
+        {% if vehiculo.foto_frontal %}
         <div class="col-md-4">
           <img src="{{ vehiculo.foto_frontal.url }}" class="img-fluid rounded border" alt="Frontal">
         </div>
+        {% endif %}
+        {% if vehiculo.foto_trasera %}
         <div class="col-md-4">
           <img src="{{ vehiculo.foto_trasera.url }}" class="img-fluid rounded border" alt="Trasera">
         </div>
+        {% endif %}
+        {% if vehiculo.foto_lateral1 %}
         <div class="col-md-6">
           <img src="{{ vehiculo.foto_lateral1.url }}" class="img-fluid rounded border" alt="Lateral 1">
         </div>
+        {% endif %}
+        {% if vehiculo.foto_lateral2 %}
         <div class="col-md-6">
           <img src="{{ vehiculo.foto_lateral2.url }}" class="img-fluid rounded border" alt="Lateral 2">
         </div>
+        {% endif %}
       </div>
     </div>
   </div>
